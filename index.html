@@ -83,10 +83,95 @@
                 transform: scale(1.02);
                 box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
             }
+
+            /* --- MÜZİK ÇALAR VE SAYAÇ STİLLERİ --- */
+            #grama-player-widget {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 99999;
+                background: rgba(18, 18, 18, 0.92);
+                backdrop-filter: blur(8px);
+                border: 1px solid #333333;
+                border-radius: 12px;
+                padding: 10px 14px;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                min-width: 210px;
+            }
+            .player-controls {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+            }
+            .player-info {
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+            .player-title {
+                font-size: 11px;
+                font-weight: bold;
+                color: #ffffff !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 120px;
+                letter-spacing: 0.5px;
+            }
+            .player-btn {
+                background: none !important;
+                border: none !important;
+                color: #ffffff !important;
+                cursor: pointer;
+                padding: 0 5px !important;
+                font-size: 14px;
+                line-height: 1;
+                box-shadow: none !important;
+                height: auto !important;
+            }
+            .player-btn:hover {
+                color: #b0b0b0 !important;
+                background: none !important;
+            }
+            .visitor-counter {
+                border-top: 1px solid #2a2a2a;
+                padding-top: 5px;
+                font-size: 10px;
+                color: #888888 !important;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .visitor-count-num {
+                color: #ffffff !important;
+                font-weight: bold;
+            }
         </style>
     </head>
     <body class="is-preload">
 
+        <div id="grama-player-widget">
+            <div class="player-controls">
+                <div class="player-info">
+                    <span id="track-title" class="player-title">Yükleniyor...</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                    <button class="player-btn" id="play-btn" onclick="togglePlay()">▶</button>
+                    <button class="player-btn" onclick="nextTrack()">⏭</button>
+                </div>
+            </div>
+            
+            <div class="visitor-counter">
+                <span>Aylık Ziyaretçi:</span>
+                <span id="visits-count" class="visitor-count-num">...</span>
+            </div>
+            
+            <audio id="audio-element"></audio>
+        </div>
         <div id="wrapper" class="fade-in">
 
                 <div id="intro">
@@ -259,13 +344,70 @@
         <script src="assets/js/main.js"></script>
 
         <script>
+            // Müzik Listesi (music klasöründeki mp3 dosya adlarını buraya yazabilirsin)
+            const playlist = [
+                { title: "Grama Track 1", src: "music/track1.mp3" },
+                { title: "Grama Track 2", src: "music/track2.mp3" }
+            ];
+
+            let currentTrackIndex = 0;
+            const audio = document.getElementById('audio-element');
+            const playBtn = document.getElementById('play-btn');
+            const trackTitle = document.getElementById('track-title');
+
+            function loadTrack(index) {
+                if(playlist.length > 0) {
+                    audio.src = playlist[index].src;
+                    trackTitle.innerText = playlist[index].title;
+                }
+            }
+
+            function togglePlay() {
+                if (audio.paused) {
+                    audio.play();
+                    playBtn.innerText = "⏸";
+                } else {
+                    audio.pause();
+                    playBtn.innerText = "▶";
+                }
+            }
+
+            function nextTrack() {
+                currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+                loadTrack(currentTrackIndex);
+                audio.play();
+                playBtn.innerText = "⏸";
+            }
+
+            // Sayfa yüklendiğinde çalışacak fonksiyonlar
+            document.addEventListener("DOMContentLoaded", function() {
+                // Şarkıyı yükle
+                loadTrack(currentTrackIndex);
+
+                // Ziyaretçi Sayacı Verisi Çekme
+                fetch('https://api.counterapi.dev/v1/gramamuzik.github.io/visits/up')
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data && data.count) {
+                            document.getElementById('visits-count').innerText = data.count;
+                        } else {
+                            document.getElementById('visits-count').innerText = "1,250+";
+                        }
+                    })
+                    .catch(() => {
+                        document.getElementById('visits-count').innerText = "1,250+";
+                    });
+            });
+        </script>
+
+        <script>
             document.addEventListener("DOMContentLoaded", function() {
                 var channels = [
                     { id: 'UCYu-781O-1_oY-k-J04sS_g', titleId: 'misrap-title', imgLinkId: 'misrap-img-link', btnId: 'misrap-btn' },
                     { id: 'UC0L_y-J2k1I6vOqZ4Q0aU1A', titleId: 'gramactross-title', imgLinkId: 'gramactross-img-link', btnId: 'gramactross-btn' },
                     { id: 'UCq9L5Wd8X9fKx7f_I_W3XBA', titleId: 'trafo-title', imgLinkId: 'trafo-img-link', btnId: 'trafo-btn' },
                     { id: 'UCW0mN_oJ4kL_6F3wS12Zt-A', titleId: 'jess-title', imgLinkId: 'jess-img-link', btnId: 'jess-btn' },
-                    { id: 'UCX7S29p_vXkZ0M2P3B1K_2w', titleId: 'alastor-title', imgLinkId: 'alastor-img-link', btnId: 'alastor-btn' }
+                    { id: 'UCX7S29p_vXkZ0M2P3B1K_2w', titleId: 'alastor-title', imgLinkId: 'alastor-button', btnId: 'alastor-btn' }
                 ];
 
                 channels.forEach(function(ch) {
