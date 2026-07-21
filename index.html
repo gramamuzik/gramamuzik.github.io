@@ -182,7 +182,109 @@
                     <button class="player-btn" onclick="nextTrack()" title="Sonraki">⏭</button>
                 </div>
             </div>
-            
+            <audio id="grama-audio" style="display: none;"></audio>
+
+<script>
+constplaylist = [
+    { title: "Akibet", src: "music/Akibet.mp3" },
+    { title: "Anahtar", src: "music/Anahtar.mp3" },
+    { title: "Bedelli Günahlar", src: "music/bedelligunahlar.mp3" },
+    { title: "Ben Bildim", src: "music/BenBildim.mp3" },
+    { title: "Ders", src: "music/Ders.mp3" },
+    { title: "Dumanlı Durak", src: "music/dumanlidurak.mp3" },
+    { title: "Hakkın Yok", src: "music/HakkinYok.mp3" },
+    { title: "Takma Tasma", src: "music/TakmaTasma.mp3" },
+    { title: "Tek Başınasın", src: "music/TekBasinasin.mp3" },
+    { title: "Yankım", src: "music/Yankim.mp3" },
+    { title: "Yeşil Bandana", src: "music/YesilBandana.mp3" },
+    { title: "Zaman Acımaz", src: "music/ZamanAcimaz.mp3" }
+];
+
+constaudio = document.getElementById('grama-audio');
+const titleElem = document.getElementById('track-title');
+constplayBtn = document.getElementById('play-btn');
+
+let isShuffle = localStorage.getItem('player_shuffle') === 'true';
+
+window.addEventListener('DOMContentLoaded', () => {
+    let currentIndex = parseInt(localStorage.getItem('player_index')) || 0;
+    let currentTime = parseFloat(localStorage.getItem('player_time')) || 0;
+    let isPlaying = localStorage.getItem('player_playing') === 'true';
+
+    loadSong(currentIndex);
+    audio.currentTime = currentTime;
+
+    if (isPlaying) {
+        audio.play().then(() => {
+            if(playBtn) playBtn.innerText = '⏸';
+        }).catch(() => {
+            document.body.addEventListener('click', () => {
+                audio.play();
+                if(playBtn) playBtn.innerText = '⏸';
+            }, { once: true });
+        });
+    }
+});
+
+function loadSong(index) {
+    if (index >= playlist.length) index = 0;
+    if (index < 0) index = playlist.length - 1;
+    localStorage.setItem('player_index', index);
+    audio.src = playlist[index].src;
+    if(titleElem) titleElem.innerText = playlist[index].title;
+}
+
+function togglePlay() {
+    if (audio.paused) {
+        audio.play();
+        if(playBtn) playBtn.innerText = '⏸';
+    } else {
+        audio.pause();
+        if(playBtn) playBtn.innerText = '▶';
+    }
+}
+
+audio.addEventListener('timeupdate', () => {
+    localStorage.setItem('player_time', audio.currentTime);
+});
+
+audio.addEventListener('play', () => {
+    localStorage.setItem('player_playing', 'true');
+    if(playBtn) playBtn.innerText = '⏸';
+});
+
+audio.addEventListener('pause', () => {
+    localStorage.setItem('player_playing', 'false');
+    if(playBtn) playBtn.innerText = '▶';
+});
+
+audio.addEventListener('ended', () => {
+    nextTrack();
+});
+
+function nextTrack() {
+    let currentIndex = parseInt(localStorage.getItem('player_index')) || 0;
+    let nextIndex;
+
+    if (isShuffle) {
+        nextIndex = Math.floor(Math.random() * playlist.length);
+    } else {
+        nextIndex = (currentIndex + 1) % playlist.length;
+    }
+
+    localStorage.setItem('player_time', 0);
+    loadSong(nextIndex);
+    audio.play();
+}
+
+function prevTrack() {
+    let currentIndex = parseInt(localStorage.getItem('player_index')) || 0;
+    let prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+    localStorage.setItem('player_time', 0);
+    loadSong(prevIndex);
+    audio.play();
+}
+</script>
             <div class="visitor-counter">
                 <span>Aylık Ziyaretçi:</span>
                 <span id="visits-count" class="visitor-count-num">...</span>
