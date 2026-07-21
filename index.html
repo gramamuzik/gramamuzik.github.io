@@ -84,7 +84,7 @@
                 box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
             }
 
-            /* --- MÜZİK ÇALAR TEMASI --- */
+            /* --- MÜZİK ÇALAR & SAYAÇ TEMİZLEME VE SIFIRLAMA --- */
             #grama-player-widget {
                 position: fixed;
                 top: 25px;
@@ -103,6 +103,7 @@
                 box-sizing: border-box !important;
             }
 
+            /* Şablonun buton ve kutu arkasında oluşturduğu ekstra Katman/Gölge Efektlerini Sil */
             #grama-player-widget *::before,
             #grama-player-widget *::after {
                 display: none !important;
@@ -179,6 +180,7 @@
                     <button class="player-btn" onclick="prevTrack()" title="Önceki">⏮</button>
                     <button class="player-btn" id="play-btn" onclick="togglePlay()" title="Oynat/Durdur">▶</button>
                     <button class="player-btn" onclick="nextTrack()" title="Sonraki">⏭</button>
+                    <button class="player-btn" id="shuffle-btn" onclick="toggleShuffle()" title="Karışık Çal" style="opacity: 0.5;">🔀</button>
                 </div>
             </div>
             
@@ -348,7 +350,7 @@
                     </footer>
 
                 <div id="copyright">
-                        <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li></ul>
+                        <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li>
                     </div>
 
             </div>
@@ -377,93 +379,84 @@
                 { title: "Zaman Acımaz", src: "music/ZamanAcimaz.mp3" }
             ];
 
+            let currentTrackIndex = 0;
+            let isShuffle = false;
+
             const audio = document.getElementById('audio-element');
             const playBtn = document.getElementById('play-btn');
+            const shuffleBtn = document.getElementById('shuffle-btn');
             const trackTitle = document.getElementById('track-title');
 
             function loadTrack(index) {
-                if (playlist.length > 0 && playlist[index]) {
-                    localStorage.setItem('player_index', index);
+                if(playlist.length > 0 && playlist[index]) {
                     audio.src = playlist[index].src;
-                    if (trackTitle) trackTitle.innerText = playlist[index].title;
+                    trackTitle.innerText = playlist[index].title;
                 }
             }
 
             function togglePlay() {
                 if (audio.paused) {
-                    audio.play().then(() => {
-                        if (playBtn) playBtn.innerText = "⏸";
-                    }).catch(error => {
-                        console.log("Oynatma engellendi veya dosya bulunamadı:", error);
-                    });
+                    var playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(_ => {
+                            playBtn.innerText = "⏸";
+                        }).catch(error => {
+                            console.log("Oynatma hatası:", error);
+                            alert("Şarkı çalınamadı. Lütfen music klasörünün GitHub'a tam yüklendiğinden emin ol.");
+                        });
+                    }
                 } else {
                     audio.pause();
-                    if (playBtn) playBtn.innerText = "▶";
+                    playBtn.innerText = "▶";
                 }
             }
 
             function nextTrack() {
-                let currentIndex = parseInt(localStorage.getItem('player_index')) || 0;
-                let nextIndex = (currentIndex + 1) % playlist.length;
-                localStorage.setItem('player_time', 0);
-                loadTrack(nextIndex);
-                audio.play().then(() => {
-                    if (playBtn) playBtn.innerText = "⏸";
-                });
+                if (isShuffle) {
+                    let randomIndex = Math.floor(Math.random() * playlist.length);
+                    if (playlist.length > 1 && randomIndex === currentTrackIndex) {
+                        randomIndex = (randomIndex + 1) % playlist.length;
+                    }
+                    currentTrackIndex = randomIndex;
+                } else {
+                    currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+                }
+                loadTrack(currentTrackIndex);
+                audio.play();
+                playBtn.innerText = "⏸";
             }
 
             function prevTrack() {
-                let currentIndex = parseInt(localStorage.getItem('player_index')) || 0;
-                let prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-                localStorage.setItem('player_time', 0);
-                loadTrack(prevIndex);
-                audio.play().then(() => {
-                    if (playBtn) playBtn.innerText = "⏸";
-                });
+                currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+                loadTrack(currentTrackIndex);
+                audio.play();
+                playBtn.innerText = "⏸";
             }
 
-            audio.addEventListener('timeupdate', () => {
-                localStorage.setItem('player_time', audio.currentTime);
-            });
+            function toggleShuffle() {
+                isShuffle = !isShuffle;
+                if (isShuffle) {
+                    shuffleBtn.style.color = "#00ff7f";
+                    shuffleBtn.style.opacity = "1";
+                } else {
+                    shuffleBtn.style.color = "#ffffff";
+                    shuffleBtn.style.opacity = "0.5";
+                }
+            }
 
-            audio.addEventListener('play', () => {
-                localStorage.setItem('player_playing', 'true');
-                if (playBtn) playBtn.innerText = "⏸";
-            });
-
-            audio.addEventListener('pause', () => {
-                localStorage.setItem('player_playing', 'false');
-                if (playBtn) playBtn.innerText = "▶";
-            });
-
+            /* OTOMATİK OYNATMA (Şarkı Bittiğinde Otomatik Geçiş) */
             audio.addEventListener('ended', function() {
                 nextTrack();
             });
 
             document.addEventListener("DOMContentLoaded", function() {
-                let savedIndex = parseInt(localStorage.getItem('player_index')) || 0;
-                let savedTime = parseFloat(localStorage.getItem('player_time')) || 0;
-                let wasPlaying = localStorage.getItem('player_playing') === 'true';
+                loadTrack(currentTrackIndex);
 
-                loadTrack(savedIndex);
-                audio.currentTime = savedTime;
-
-                if (wasPlaying) {
-                    audio.play().then(() => {
-                        if (playBtn) playBtn.innerText = "⏸";
-                    }).catch(() => {
-                        document.body.addEventListener('click', () => {
-                            audio.play();
-                            if (playBtn) playBtn.innerText = "⏸";
-                        }, { once: true });
-                    });
-                }
-
-                // Ziyaretçi Sayacı Fetch
+                // Ziyaretçi Sayacı
                 fetch('https://api.counterapi.dev/v1/gramamuzik.github.io/visits/up')
                     .then(res => res.json())
                     .then(data => {
-                        if (data && data.count) {
+                        if(data && data.count) {
                             document.getElementById('visits-count').innerText = data.count;
                         } else {
                             document.getElementById('visits-count').innerText = "1,250+";
