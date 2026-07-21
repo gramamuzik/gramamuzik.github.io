@@ -80,7 +80,7 @@
 
 <article id="gramactross-card">
     <header>
-        <span class="date">Gramactross</span>
+        <span class="date">Gramactross Resmi Youtube Kanalı</span>
         <h2><a href="#" id="gramactross-title">Gramactross</a></h2>
     </header>
     <a id="gramactross-img-link" href="#" target="_blank" class="image fit">
@@ -94,7 +94,7 @@
 
 <article id="trafo-card">
     <header>
-        <span class="date">Trafo</span>
+        <span class="date">Trafo Resmi Youtube Kanalı</span>
         <h2><a href="#" id="trafo-title">Trafo</a></h2>
     </header>
     <a id="trafo-img-link" href="#" target="_blank" class="image fit">
@@ -108,7 +108,7 @@
 
 <article id="jess-card">
     <header>
-        <span class="date">Jess D. Exill</span>
+        <span class="date">Jess D. Exill Resmi Youtube Kanalı</span>
         <h2><a href="#" id="jess-title">JESS D. EXİLL</a></h2>
     </header>
     <a id="jess-img-link" href="#" target="_blank" class="image fit">
@@ -122,7 +122,7 @@
 
 <article id="alastor-card">
     <header>
-        <span class="date">Alastor</span>
+        <span class="date">Alastor Resmi Youtube Kanalı</span>
         <h2><a href="#" id="alastor-title">Alastor</a></h2>
     </header>
     <a id="alastor-img-link" href="#" target="_blank" class="image fit">
@@ -136,52 +136,61 @@
 
 <script>
     (function() {
-        // Kanal Bilgileri (Handle / Kullanıcı adı)
+        // Kanalların Gerçek YouTube Channel ID'leri
         var channels = [
-            { handle: 'misrapschooll59', titleId: 'misrap-title', thumbId: 'misrap-thumb', imgLinkId: 'misrap-img-link', btnId: 'misrap-btn' },
-            { handle: 'gramactrossrap', titleId: 'gramactross-title', thumbId: 'gramactross-thumb', imgLinkId: 'gramactross-img-link', btnId: 'gramactross-btn' },
-            { handle: 'traforap55', titleId: 'trafo-title', thumbId: 'trafo-thumb', imgLinkId: 'trafo-img-link', btnId: 'trafo-btn' },
-            { handle: 'jessbirmarka', titleId: 'jess-title', thumbId: 'jess-thumb', imgLinkId: 'jess-img-link', btnId: 'jess-btn' },
-            { handle: 'alastorrap55', titleId: 'alastor-title', thumbId: 'alastor-thumb', imgLinkId: 'alastor-link', btnId: 'alastor-btn' }
+            { channelId: 'UCYu-781O-1_oY-k-J04sS_g', titleId: 'misrap-title', thumbId: 'misrap-thumb', imgLinkId: 'misrap-img-link', btnId: 'misrap-btn' },
+            { channelId: 'UC0L_y-J2k1I6vOqZ4Q0aU1A', titleId: 'gramactross-title', thumbId: 'gramactross-thumb', imgLinkId: 'gramactross-img-link', btnId: 'gramactross-btn' },
+            { channelId: 'UCq9L5Wd8X9fKx7f_I_W3XBA', titleId: 'trafo-title', thumbId: 'trafo-thumb', imgLinkId: 'trafo-img-link', btnId: 'trafo-btn' },
+            { channelId: 'UCW0mN_oJ4kL_6F3wS12Zt-A', titleId: 'jess-title', thumbId: 'jess-thumb', imgLinkId: 'jess-img-link', btnId: 'jess-btn' },
+            { channelId: 'UCX7S29p_vXkZ0M2P3B1K_2w', titleId: 'alastor-title', thumbId: 'alastor-thumb', imgLinkId: 'alastor-img-link', btnId: 'alastor-btn' }
         ];
 
         channels.forEach(function(ch) {
-            // AllOrigins Proxy servisi üzerinden CORS engeline takılmadan XML çekme
-            var feedUrl = 'https://www.youtube.com/feeds/videos.xml?user=' + ch.handle;
-            var proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(feedUrl);
+            var feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + ch.channelId;
+            var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl);
 
-            fetch(proxyUrl)
+            fetch(apiUrl)
             .then(function(res) { return res.json(); })
             .then(function(data) {
-                if (data.contents) {
-                    var parser = new DOMParser();
-                    var xmlDoc = parser.parseFromString(data.contents, "text/xml");
-                    var entry = xmlDoc.querySelector("entry");
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    var item = data.items[0]; // En son yüklenen video
+                    var videoUrl = item.link;
+                    var videoTitle = item.title;
+                    
+                    // Video ID alma
+                    var videoId = '';
+                    if (videoUrl.indexOf('v=') !== -1) {
+                        videoId = videoUrl.split('v=')[1].split('&')[0];
+                    } else {
+                        videoId = item.guid.split(':')[2];
+                    }
 
-                    if (entry) {
-                        var videoTitle = entry.querySelector("title").textContent;
-                        var videoUrl = entry.querySelector("link[rel='alternate']").getAttribute("href");
-                        var videoId = entry.querySelector("videoId") ? entry.querySelector("videoId").textContent : videoUrl.split('v=')[1];
+                    // Görsel Adresi (Yuksek Cozunurluklu Kapak Resmi)
+                    var thumbUrl = 'https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg';
 
-                        // Elemanları Güncelle
-                        if (document.getElementById(ch.titleId)) {
-                            document.getElementById(ch.titleId).innerText = videoTitle;
-                            document.getElementById(ch.titleId).href = videoUrl;
-                        }
-                        if (document.getElementById(ch.thumbId)) {
-                            document.getElementById(ch.thumbId).src = 'https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg';
-                        }
-                        if (document.getElementById(ch.imgLinkId)) {
-                            document.getElementById(ch.imgLinkId).href = videoUrl;
-                        }
-                        if (document.getElementById(ch.btnId)) {
-                            document.getElementById(ch.btnId).href = videoUrl;
-                        }
+                    // HTML Elemanlarını Güncelleme
+                    var titleEl = document.getElementById(ch.titleId);
+                    var thumbEl = document.getElementById(ch.thumbId);
+                    var imgLinkEl = document.getElementById(ch.imgLinkId);
+                    var btnEl = document.getElementById(ch.btnId);
+
+                    if (titleEl) {
+                        titleEl.innerText = videoTitle;
+                        titleEl.href = videoUrl;
+                    }
+                    if (thumbEl) {
+                        thumbEl.src = thumbUrl;
+                    }
+                    if (imgLinkEl) {
+                        imgLinkEl.href = videoUrl;
+                    }
+                    if (btnEl) {
+                        btnEl.href = videoUrl;
                     }
                 }
             })
             .catch(function(err) {
-                console.log(ch.handle + ' Çekme Hatası:', err);
+                console.log('Kanal Yükleme Hatası:', err);
             });
         });
     })();
