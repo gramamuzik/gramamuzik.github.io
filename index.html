@@ -84,7 +84,7 @@
                 box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
             }
 
-            /* --- MÜZİK ÇALAR & SAYAÇ TEMİZLEME VE SIFIRLAMA --- */
+            /* --- MÜZİK ÇALAR TEMASI --- */
             #grama-player-widget {
                 position: fixed;
                 top: 25px;
@@ -103,7 +103,6 @@
                 box-sizing: border-box !important;
             }
 
-            /* Şablonun buton ve kutu arkasında oluşturduğu ekstra Katman/Gölge Efektlerini Sil */
             #grama-player-widget *::before,
             #grama-player-widget *::after {
                 display: none !important;
@@ -182,109 +181,6 @@
                     <button class="player-btn" onclick="nextTrack()" title="Sonraki">⏭</button>
                 </div>
             </div>
-            <audio id="grama-audio" style="display: none;"></audio>
-
-<script>
-const playlist = [
-    { title: "Akibet", src: "music/Akibet.mp3" },
-    { title: "Anahtar", src: "music/Anahtar.mp3" },
-    { title: "Bedelli Günahlar", src: "music/bedelligunahlar.mp3" },
-    { title: "Ben Bildim", src: "music/BenBildim.mp3" },
-    { title: "Ders", src: "music/Ders.mp3" },
-    { title: "Dumanlı Durak", src: "music/dumanlidurak.mp3" },
-    { title: "Hakkın Yok", src: "music/HakkinYok.mp3" },
-    { title: "Takma Tasma", src: "music/TakmaTasma.mp3" },
-    { title: "Tek Başınasın", src: "music/TekBasinasin.mp3" },
-    { title: "Yankım", src: "music/Yankim.mp3" },
-    { title: "Yeşil Bandana", src: "music/YesilBandana.mp3" },
-    { title: "Zaman Acımaz", src: "music/ZamanAcimaz.mp3" }
-];
-
-constaudio = document.getElementById('grama-audio');
-const titleElem = document.getElementById('track-title');
-constplayBtn = document.getElementById('play-btn');
-
-let isShuffle = localStorage.getItem('player_shuffle') === 'true';
-
-window.addEventListener('DOMContentLoaded', () => {
-    let currentIndex = parseInt(localStorage.getItem('player_index')) || 0;
-    let currentTime = parseFloat(localStorage.getItem('player_time')) || 0;
-    let isPlaying = localStorage.getItem('player_playing') === 'true';
-
-    loadSong(currentIndex);
-    audio.currentTime = currentTime;
-
-    if (isPlaying) {
-        audio.play().then(() => {
-            if(playBtn) playBtn.innerText = '⏸';
-        }).catch(() => {
-            document.body.addEventListener('click', () => {
-                audio.play();
-                if(playBtn) playBtn.innerText = '⏸';
-            }, { once: true });
-        });
-    }
-});
-
-function loadSong(index) {
-    if (index >= playlist.length) index = 0;
-    if (index < 0) index = playlist.length - 1;
-    localStorage.setItem('player_index', index);
-    audio.src = playlist[index].src;
-    if(titleElem) titleElem.innerText = playlist[index].title;
-}
-
-function togglePlay() {
-    if (audio.paused) {
-        audio.play();
-        if(playBtn) playBtn.innerText = '⏸';
-    } else {
-        audio.pause();
-        if(playBtn) playBtn.innerText = '▶';
-    }
-}
-
-audio.addEventListener('timeupdate', () => {
-    localStorage.setItem('player_time', audio.currentTime);
-});
-
-audio.addEventListener('play', () => {
-    localStorage.setItem('player_playing', 'true');
-    if(playBtn) playBtn.innerText = '⏸';
-});
-
-audio.addEventListener('pause', () => {
-    localStorage.setItem('player_playing', 'false');
-    if(playBtn) playBtn.innerText = '▶';
-});
-
-audio.addEventListener('ended', () => {
-    nextTrack();
-});
-
-function nextTrack() {
-    let currentIndex = parseInt(localStorage.getItem('player_index')) || 0;
-    let nextIndex;
-
-    if (isShuffle) {
-        nextIndex = Math.floor(Math.random() * playlist.length);
-    } else {
-        nextIndex = (currentIndex + 1) % playlist.length;
-    }
-
-    localStorage.setItem('player_time', 0);
-    loadSong(nextIndex);
-    audio.play();
-}
-
-function prevTrack() {
-    let currentIndex = parseInt(localStorage.getItem('player_index')) || 0;
-    let prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-    localStorage.setItem('player_time', 0);
-    loadSong(prevIndex);
-    audio.play();
-}
-</script>
             
             <div class="visitor-counter">
                 <span>Aylık Ziyaretçi:</span>
@@ -452,8 +348,10 @@ function prevTrack() {
                     </footer>
 
                 <div id="copyright">
-                        <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li>
+                        <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li></ul>
                     </div>
+
+            </div>
 
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jquery.scrollex.min.js"></script>
@@ -462,6 +360,120 @@ function prevTrack() {
         <script src="assets/js/breakpoints.min.js"></script>
         <script src="assets/js/util.js"></script>
         <script src="assets/js/main.js"></script>
+
+        <script>
+            const playlist = [
+                { title: "Akibet", src: "music/Akibet.mp3" },
+                { title: "Anahtar", src: "music/Anahtar.mp3" },
+                { title: "Bedelli Günahlar", src: "music/bedelligunahlar.mp3" },
+                { title: "Ben Bildim", src: "music/BenBildim.mp3" },
+                { title: "Ders", src: "music/Ders.mp3" },
+                { title: "Dumanlı Durak", src: "music/dumanlidurak.mp3" },
+                { title: "Hakkın Yok", src: "music/HakkinYok.mp3" },
+                { title: "Takma Tasma", src: "music/TakmaTasma.mp3" },
+                { title: "Tek Başınasın", src: "music/TekBasinasin.mp3" },
+                { title: "Yankım", src: "music/Yankim.mp3" },
+                { title: "Yeşil Bandana", src: "music/YesilBandana.mp3" },
+                { title: "Zaman Acımaz", src: "music/ZamanAcimaz.mp3" }
+            ];
+
+            const audio = document.getElementById('audio-element');
+            const playBtn = document.getElementById('play-btn');
+            const trackTitle = document.getElementById('track-title');
+
+            function loadTrack(index) {
+                if (playlist.length > 0 && playlist[index]) {
+                    localStorage.setItem('player_index', index);
+                    audio.src = playlist[index].src;
+                    if (trackTitle) trackTitle.innerText = playlist[index].title;
+                }
+            }
+
+            function togglePlay() {
+                if (audio.paused) {
+                    audio.play().then(() => {
+                        if (playBtn) playBtn.innerText = "⏸";
+                    }).catch(error => {
+                        console.log("Oynatma engellendi veya dosya bulunamadı:", error);
+                    });
+                } else {
+                    audio.pause();
+                    if (playBtn) playBtn.innerText = "▶";
+                }
+            }
+
+            function nextTrack() {
+                let currentIndex = parseInt(localStorage.getItem('player_index')) || 0;
+                let nextIndex = (currentIndex + 1) % playlist.length;
+                localStorage.setItem('player_time', 0);
+                loadTrack(nextIndex);
+                audio.play().then(() => {
+                    if (playBtn) playBtn.innerText = "⏸";
+                });
+            }
+
+            function prevTrack() {
+                let currentIndex = parseInt(localStorage.getItem('player_index')) || 0;
+                let prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+                localStorage.setItem('player_time', 0);
+                loadTrack(prevIndex);
+                audio.play().then(() => {
+                    if (playBtn) playBtn.innerText = "⏸";
+                });
+            }
+
+            audio.addEventListener('timeupdate', () => {
+                localStorage.setItem('player_time', audio.currentTime);
+            });
+
+            audio.addEventListener('play', () => {
+                localStorage.setItem('player_playing', 'true');
+                if (playBtn) playBtn.innerText = "⏸";
+            });
+
+            audio.addEventListener('pause', () => {
+                localStorage.setItem('player_playing', 'false');
+                if (playBtn) playBtn.innerText = "▶";
+            });
+
+            audio.addEventListener('ended', function() {
+                nextTrack();
+            });
+
+            document.addEventListener("DOMContentLoaded", function() {
+                let savedIndex = parseInt(localStorage.getItem('player_index')) || 0;
+                let savedTime = parseFloat(localStorage.getItem('player_time')) || 0;
+                let wasPlaying = localStorage.getItem('player_playing') === 'true';
+
+                loadTrack(savedIndex);
+                audio.currentTime = savedTime;
+
+                if (wasPlaying) {
+                    audio.play().then(() => {
+                        if (playBtn) playBtn.innerText = "⏸";
+                    }).catch(() => {
+                        document.body.addEventListener('click', () => {
+                            audio.play();
+                            if (playBtn) playBtn.innerText = "⏸";
+                        }, { once: true });
+                    });
+                }
+
+                // Ziyaretçi Sayacı Fetch
+                fetch('https://api.counterapi.dev/v1/gramamuzik.github.io/visits/up')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && data.count) {
+                            document.getElementById('visits-count').innerText = data.count;
+                        } else {
+                            document.getElementById('visits-count').innerText = "1,250+";
+                        }
+                    })
+                    .catch(() => {
+                        document.getElementById('visits-count').innerText = "1,250+";
+                    });
+            });
+        </script>
 
         <script>
             document.addEventListener("DOMContentLoaded", function() {
