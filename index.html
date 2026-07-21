@@ -7,6 +7,69 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <link rel="stylesheet" href="assets/css/main.css" />
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+        <style>
+            /* Koyu Tema Ayarları */
+            body, #wrapper, #main, #header, #nav, #footer {
+                background-color: #121212 !important;
+                color: #e0e0e0 !important;
+            }
+            h1, h2, h3, h4, h5, h6, 
+            h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+                color: #ffffff !important;
+            }
+            #main > .posts > article,
+            #main > .post.featured {
+                background-color: #1e1e1e !important;
+                border-color: #2a2a2a !important;
+            }
+            p, .date, span {
+                color: #b0b0b0 !important;
+            }
+            .button, input[type="submit"], input[type="reset"], button {
+                background-color: transparent !important;
+                color: #ffffff !important;
+                border-color: #ffffff !important;
+            }
+            .button:hover, input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
+                background-color: #ffffff !important;
+                color: #121212 !important;
+            }
+            #nav {
+                background-color: #181818 !important;
+                border-bottom: 1px solid #2a2a2a !important;
+            }
+            #nav ul.links li a {
+                color: #cccccc !important;
+            }
+            #nav ul.links li.active a {
+                color: #ffffff !important;
+                background-color: #252525 !important;
+            }
+            input[type="text"], input[type="password"], input[type="email"], select, textarea {
+                background-color: #1e1e1e !important;
+                color: #ffffff !important;
+                border-color: #333333 !important;
+            }
+            #copyright {
+                color: #888888 !important;
+            }
+            #copyright a {
+                color: #aaaaaa !important;
+            }
+
+            /* Fotoğrafların Kenarlarını Yumuşatma & Çerçeve/Gölge Stili */
+            article img, .image.fit img, .image.main img {
+                border-radius: 14px !important;
+                border: 1px solid #333333 !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+                transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            }
+            article a.image:hover img {
+                transform: scale(1.02);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
+            }
+        </style>
     </head>
     <body class="is-preload">
 
