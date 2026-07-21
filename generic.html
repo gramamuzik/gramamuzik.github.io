@@ -1,109 +1,300 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>Gramamüzik Label</title>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/png" href="images/logo.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+    <head>
+        <title>Gramamüzik Label</title>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/png" href="images/logo.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
-		<div id="wrapper">
+        <style>
+            /* Koyu Tema Ayarları */
+            body, #wrapper, #main, #nav, #footer {
+                background-color: #121212 !important;
+                color: #e0e0e0 !important;
+            }
 
-				<header id="header">
-						<a href="index.html" class="logo">GRAMAMÜZİK</a>
-					</header>
+            /* Header (Siyah Şerit) Düzeltmesi */
+            #header {
+                background-color: transparent !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+            #header .logo {
+                background-color: transparent !important;
+                border: 2px solid #ffffff !important;
+                color: #ffffff !important;
+            }
 
-				<nav id="nav">
-						<ul class="links">
-							<li><a href="index.html">Ana Sayfa</a></li>
-							<li class="active"><a href="generic.html">Sanatçılar</a></li>
-							<li><a href="elements.html">İletişim</a></li>
-						</ul>
-						<ul class="icons">
-							<li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-							<li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
-						</ul>
-					</nav>
+            h1, h2, h3, h4, h5, h6, 
+            h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+                color: #ffffff !important;
+            }
+            #main > .posts > article,
+            #main > .post.featured {
+                background-color: #1e1e1e !important;
+                border-color: #2a2a2a !important;
+            }
+            p, .date, span {
+                color: #b0b0b0 !important;
+            }
+            .button, input[type="submit"], input[type="reset"], button {
+                background-color: transparent !important;
+                color: #ffffff !important;
+                border-color: #ffffff !important;
+            }
+            .button:hover, input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
+                background-color: #ffffff !important;
+                color: #121212 !important;
+            }
+            #nav {
+                background-color: #181818 !important;
+                border-bottom: 1px solid #2a2a2a !important;
+            }
+            #nav ul.links li a {
+                color: #cccccc !important;
+            }
+            #nav ul.links li.active a {
+                color: #ffffff !important;
+                background-color: #252525 !important;
+            }
+            input[type="text"], input[type="password"], input[type="email"], select, textarea {
+                background-color: #1e1e1e !important;
+                color: #ffffff !important;
+                border-color: #333333 !important;
+            }
+            #copyright {
+                color: #888888 !important;
+            }
+            #copyright a {
+                color: #aaaaaa !important;
+            }
 
-				<div id="main">
+            /* Fotoğrafların Kenarlarını Yumuşatma & Çerçeve/Gölge Stili */
+            article img, .image.fit img, .image.main img {
+                border-radius: 14px !important;
+                border: 1px solid #333333 !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+                transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            }
+            article a.image:hover img {
+                transform: scale(1.02);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
+            }
+        </style>
+    </head>
+    <body class="is-preload">
 
-						<section class="post">
-								<header class="major">
-									<span class="date">GRAMAMÜZİK LABEL</span>
-									<h1>SANATÇILARIMIZ</h1>
-									<p>Bünyemizdeki üreticiler, MC'ler ve prodüktörler.</p>
-								</header>
+        <div id="wrapper" class="fade-in">
 
-								<section class="posts">
-									<article>
-										<header>
-											<h2>Gramactross</h2>
-										</header>
-										<a href="#" class="image fit"><img src="images/gramactross.jpg" alt="Gramactross" /></a>
-										<p>Gramamüzik Label kurucusu, Mısrap Schooll Rap grubunun Kurucu üyesi, ve prodüktör Mc'miz melankolik altyapıları, özgün stili ve Underground Rap sahnesine kazandırdığı projelerle ekibin öncü isimlerinden.</p>
-									</article>
+                <div id="intro">
+                        <h1>Gramamüzik<br />
+                        2026</h1>
+                        <p>Türkiye'nin Oldschool Rap'inin Sesi | Gramamüzik Resmi Web Sitesi</p>
+                        <ul class="actions">
+                            <li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Devam Et</a></li>
+                        </ul>
+                    </div>
 
-									<article>
-										<header>
-											<h2>Alastor</h2>
-										</header>
-										<a href="#" class="image fit"><img src="images/alastor.jpg" alt="Alastor" /></a>
-										<p>Karanlık temaları ve derin lirik yapısıyla Mısrap Schooll ekibinin bir diğer prodüktörü, sokağın sert mc'si Alastor, grubun atmosferik rap tarzını temsil eden sanatçılardan biri.</p>
-									</article>
+                <header id="header">
+                        <a href="index.html" class="logo">GRAMAMÜZİK</a>
+                    </header>
 
-									<article>
-										<header>
-											<h2>Jess D. Exill</h2>
-										</header>
-										<a href="#" class="image fit"><img src="images/jess.jpg" alt="Jess D. Exill" /></a>
-										<p>Kendine has rhyme tekniği ve dinamik akışıyla ön plana çıkan Jess D. Exill, Gramamüzik çatısı altında üretimlerine devam ediyor.</p>
-									</article>
+                <nav id="nav">
+                        <ul class="links">
+                            <li class="active"><a href="index.html">Ana Sayfa</a></li>
+                            <li><a href="generic.html">Sanatçılar</a></li>
+                            <li><a href="elements.html">İletişim</a></li>
+                        </ul>
+                        <ul class="icons">
+                            <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram - Gramactross</span></a></li>
+                            <li><a href="https://instagram.com/misrapschooll59" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram - Mısrap Schooll</span></a></li>
+                            <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube - Gramactross</span></a></li>
+                            <li><a href="https://youtube.com/@misrapschooll59" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube - Mısrap Schooll</span></a></li>
+                        </ul>
+                    </nav>
 
-									<article>
-										<header>
-											<h2>Trafo</h2>
-										</header>
-										<a href="#" class="image fit"><img src="images/trafo.jpg" alt="Trafo" /></a>
-										<p>Yüksek enerjili parçaları ve sokak kültürünü doğrudan müziğine yansıtan tarzıyla ekibin dinamiğini yansıtan isimlerden.</p>
-									</article>
-								</section>
+                <div id="main">
 
-							</section>
+                        <article class="post featured">
+                                <header class="major">
+                                    <span class="date">ÖNE ÇIKAN</span>
+                                    <h2><a href="#">GRAMAMÜZİK LABEL<br />
+                                    BAĞIMSIZ SES</a></h2>
+                                    <p>Türkiye Underground Rap kültürünü destekleyen bağımsız plak şirketi ve sanatçı topluluğu.</p>
+                                </header>
+                                <a href="#" class="image main"><img src="images/pic01.jpg" alt="Gramamüzik" /></a>
+                            </article>
 
-					</div>
+                        <section class="posts">
 
-				<footer id="footer">
-						<section class="split contact">
-							<section>
-                            <h3>E-posta</h3>
-                            <p><a href="mailto:gramamuzikisetisim@gmail.com">gramamuzikiletisim@gmail.com</a></p>
+                            <article id="misrap-card">
+                                <header>
+                                    <span class="date">Mısrap Schooll Resmi Youtube Kanalı</span>
+                                    <h2><a href="https://youtube.com/@misrapschooll59" id="misrap-title" target="_blank">Mısrap Schooll Son Parça</a></h2>
+                                </header>
+                                <a id="misrap-img-link" href="https://youtube.com/@misrapschooll59" target="_blank" class="image fit">
+                                    <img id="misrap-thumb" src="images/misrapyoutube.jpg" alt="Mısrap Schooll" />
+                                </a>
+                                <p>Mısrap Schooll bünyesindeki en güncel Türkçe Rap & Oldschool parçalar burada.</p>
+                                <ul class="actions special">
+                                    <li><a id="misrap-btn" href="https://youtube.com/@misrapschooll59" class="button" target="_blank">Dinle</a></li>
+                                </ul>
+                            </article>
+
+                            <article id="gramactross-card">
+                                <header>
+                                    <span class="date">Gramactross Resmi Youtube Kanalı</span>
+                                    <h2><a href="https://youtube.com/@gramactrossrap" id="gramactross-title" target="_blank">Gramactross Son Parça</a></h2>
+                                </header>
+                                <a id="gramactross-img-link" href="https://youtube.com/@gramactrossrap" target="_blank" class="image fit">
+                                    <img id="gramactross-thumb" src="images/gramactrossyoutube.jpg" alt="Gramactross" />
+                                </a>
+                                <p>Gramactross'un Rap projeleri ve en yeni solo parçalar burada.</p>
+                                <ul class="actions special">
+                                    <li><a id="gramactross-btn" href="https://youtube.com/@gramactrossrap" class="button" target="_blank">Dinle</a></li>
+                                </ul>
+                            </article>
+
+                            <article id="trafo-card">
+                                <header>
+                                    <span class="date">Trafo Resmi Youtube Kanalı</span>
+                                    <h2><a href="https://youtube.com/@traforap55" id="trafo-title" target="_blank">Trafo Son Parça</a></h2>
+                                </header>
+                                <a id="trafo-img-link" href="https://youtube.com/@traforap55" target="_blank" class="image fit">
+                                    <img id="trafo-thumb" src="images/trafoyoutube.jpg" alt="Trafo" />
+                                </a>
+                                <p>Trafo kanalından çıkan en yeni Türkçe rap parçaları burada.</p>
+                                <ul class="actions special">
+                                    <li><a id="trafo-btn" href="https://youtube.com/@traforap55" class="button" target="_blank">Dinle</a></li>
+                                </ul>
+                            </article>
+
+                            <article id="jess-card">
+                                <header>
+                                    <span class="date">Jess D. Exill Resmi Youtube Kanalı</span>
+                                    <h2><a href="https://youtube.com/@jessbirmarka" id="jess-title" target="_blank">Jess D. Exill Son Parça</a></h2>
+                                </header>
+                                <a id="jess-img-link" href="https://youtube.com/@jessbirmarka" target="_blank" class="image fit">
+                                    <img id="jess-thumb" src="images/jessyoutube.jpg" alt="Jess D. Exill" />
+                                </a>
+                                <p>Jess D. Exill kanalında yayınlanan en yeni projeler ve parçalar burada.</p>
+                                <ul class="actions special">
+                                    <li><a id="jess-btn" href="https://youtube.com/@jessbirmarka" class="button" target="_blank">Dinle</a></li>
+                                </ul>
+                            </article>
+
+                            <article id="alastor-card">
+                                <header>
+                                    <span class="date">Alastor Resmi Youtube Kanalı</span>
+                                    <h2><a href="https://youtube.com/@alastorrap55" id="alastor-title" target="_blank">Alastor Son Parça</a></h2>
+                                </header>
+                                <a id="alastor-img-link" href="https://youtube.com/@alastorrap55" target="_blank" class="image fit">
+                                    <img id="alastor-thumb" src="images/alastoryoutube.jpg" alt="Alastor" />
+                                </a>
+                                <p>Alastor kanalında yayınlanan en son parçalar ve projeler burada.</p>
+                                <ul class="actions special">
+                                    <li><a id="alastor-btn" href="https://youtube.com/@alastorrap55" class="button" target="_blank">Dinle</a></li>
+                                </ul>
+                            </article>
+
+                        </section>
+
+                    </div>
+
+                <footer id="footer">
+                        <section>
+                            <form method="post" action="#">
+                                <div class="fields">
+                                    <div class="field">
+                                        <label for="name">İsim</label>
+                                        <input type="text" name="name" id="name" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="email">E-posta</label>
+                                        <input type="text" name="email" id="email" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="message">Mesajınız</label>
+                                        <textarea name="message" id="message" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <ul class="actions">
+                                    <li><input type="submit" value="Gönder" /></li>
+                                </ul>
+                            </form>
+                        </section>
+                        <section class="split contact">
+                            <section>
+                                <h3>E-posta</h3>
+                                <p><a href="mailto:gramamuzikiletisim@gmail.com">gramamuzikiletisim@gmail.com</a></p>
                             </section>
-							<section>
-								<h3>Sosyal Medya</h3>
-								<ul class="icons alt">
-									<li><a href="https://instagram.com/gramactross" class="icon brands alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-									<li><a href="https://youtube.com/@gramactrossrap" class="icon brands alt fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
-								</ul>
-							</section>
-						</section>
-					</footer>
+                            <section>
+                                <h3>Sosyal Medya</h3>
+                                <ul class="icons alt">
+                                    <li><a href="https://instagram.com/gramactross" class="icon brands alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                                    <li><a href="https://youtube.com/@gramactrossrap" class="icon brands alt fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
+                                </ul>
+                            </section>
+                        </section>
+                    </footer>
 
-				<div id="copyright">
-						<ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li><li>Tasarım: <a href="https://html5up.net">HTML5 UP</a></li></ul>
-					</div>
+                <div id="copyright">
+                        <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li><li>Tasarım: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+                    </div>
 
-			</div>
+            </div>
 
-		<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.scrollex.min.js"></script>
+        <script src="assets/js/jquery.scrolly.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
 
-	</body>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var channels = [
+                    { id: 'UCYu-781O-1_oY-k-J04sS_g', titleId: 'misrap-title', imgLinkId: 'misrap-img-link', btnId: 'misrap-btn' },
+                    { id: 'UC0L_y-J2k1I6vOqZ4Q0aU1A', titleId: 'gramactross-title', imgLinkId: 'gramactross-img-link', btnId: 'gramactross-btn' },
+                    { id: 'UCq9L5Wd8X9fKx7f_I_W3XBA', titleId: 'trafo-title', imgLinkId: 'trafo-img-link', btnId: 'trafo-btn' },
+                    { id: 'UCW0mN_oJ4kL_6F3wS12Zt-A', titleId: 'jess-title', imgLinkId: 'jess-img-link', btnId: 'jess-btn' },
+                    { id: 'UCX7S29p_vXkZ0M2P3B1K_2w', titleId: 'alastor-title', imgLinkId: 'alastor-img-link', btnId: 'alastor-btn' }
+                ];
+
+                channels.forEach(function(ch) {
+                    var feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + ch.id;
+                    var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl);
+
+                    fetch(apiUrl)
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        if (data && data.items && data.items.length > 0) {
+                            var item = data.items[0];
+                            var videoUrl = item.link;
+                            var videoTitle = item.title;
+
+                            if (document.getElementById(ch.titleId)) {
+                                document.getElementById(ch.titleId).innerText = videoTitle;
+                                document.getElementById(ch.titleId).setAttribute('href', videoUrl);
+                            }
+                            if (document.getElementById(ch.imgLinkId)) {
+                                document.getElementById(ch.imgLinkId).setAttribute('href', videoUrl);
+                            }
+                            if (document.getElementById(ch.btnId)) {
+                                document.getElementById(ch.btnId).setAttribute('href', videoUrl);
+                            }
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log('Video verisi çekilemedi:', err);
+                    });
+                });
+            });
+        </script>
+
+    </body>
 </html>
