@@ -1,0 +1,472 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Gramamüzik Label</title>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/png" href="images/logo.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+        <style>
+            /* Koyu Tema Ayarları */
+            body, #wrapper, #main, #nav, #footer {
+                background-color: #121212 !important;
+                color: #e0e0e0 !important;
+            }
+
+            /* Header Şeffaflık Ayarları */
+            #header {
+                background-color: transparent !important;
+                background: none !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+            #header .logo {
+                background-color: rgba(0, 0, 0, 0.4) !important;
+                border: 2px solid #ffffff !important;
+                color: #ffffff !important;
+            }
+
+            h1, h2, h3, h4, h5, h6, 
+            h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+                color: #ffffff !important;
+            }
+            #main > .posts > article,
+            #main > .post.featured {
+                background-color: #1e1e1e !important;
+                border-color: #2a2a2a !important;
+            }
+            p, .date, span {
+                color: #b0b0b0 !important;
+            }
+            .button, input[type="submit"], input[type="reset"], button {
+                background-color: transparent !important;
+                color: #ffffff !important;
+                border-color: #ffffff !important;
+            }
+            .button:hover, input[type="submit"]:hover, input[type="reset"]:hover, button:hover {
+                background-color: #ffffff !important;
+                color: #121212 !important;
+            }
+            #nav {
+                background-color: #181818 !important;
+                border-bottom: 1px solid #2a2a2a !important;
+            }
+            #nav ul.links li a {
+                color: #cccccc !important;
+            }
+            #nav ul.links li.active a {
+                color: #ffffff !important;
+                background-color: #252525 !important;
+            }
+            input[type="text"], input[type="password"], input[type="email"], select, textarea {
+                background-color: #1e1e1e !important;
+                color: #ffffff !important;
+                border-color: #333333 !important;
+            }
+            #copyright {
+                color: #888888 !important;
+            }
+            #copyright a {
+                color: #aaaaaa !important;
+            }
+
+            /* Fotoğraf Kenarlıkları */
+            article img, .image.fit img, .image.main img {
+                border-radius: 14px !important;
+                border: 1px solid #333333 !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+                transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            }
+            article a.image:hover img {
+                transform: scale(1.02);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
+            }
+
+            /* --- SOLA HİZALANMIŞ, BİRAZ DAHA BÜYÜTÜLMÜŞ MÜZİK ÇALAR & SAYAÇ --- */
+            #grama-player-widget {
+                position: fixed;
+                top: 25px;
+                left: 25px; /* Sola hizalandı */
+                z-index: 99999;
+                background: rgba(18, 18, 18, 0.95);
+                backdrop-filter: blur(10px);
+                border: 1px solid #3a3a3a;
+                border-radius: 14px;
+                padding: 14px 18px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                min-width: 250px; /* Boyut biraz büyütüldü */
+            }
+            .player-controls {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+            }
+            .player-info {
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+            .player-title {
+                font-size: 13px; /* Yazı boyutu büyütüldü */
+                font-weight: bold;
+                color: #ffffff !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 140px;
+                letter-spacing: 0.5px;
+            }
+            .player-btn {
+                background: none !important;
+                border: none !important;
+                color: #ffffff !important;
+                cursor: pointer;
+                padding: 0 6px !important;
+                font-size: 16px; /* Buton ikonları büyütüldü */
+                line-height: 1;
+                box-shadow: none !important;
+                height: auto !important;
+            }
+            .player-btn:hover {
+                color: #b0b0b0 !important;
+                background: none !important;
+            }
+            .visitor-counter {
+                border-top: 1px solid #333333;
+                padding-top: 8px;
+                font-size: 12px; /* Sayaç metni büyütüldü */
+                color: #999999 !important;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .visitor-count-num {
+                color: #ffffff !important;
+                font-weight: bold;
+                font-size: 13px;
+            }
+        </style>
+    </head>
+    <body class="is-preload">
+
+        <div id="grama-player-widget">
+            <div class="player-controls">
+                <div class="player-info">
+                    <span id="track-title" class="player-title">Yükleniyor...</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <button class="player-btn" onclick="prevTrack()" title="Önceki">⏮</button>
+                    <button class="player-btn" id="play-btn" onclick="togglePlay()" title="Oynat/Durdur">▶</button>
+                    <button class="player-btn" onclick="nextTrack()" title="Sonraki">⏭</button>
+                </div>
+            </div>
+            
+            <div class="visitor-counter">
+                <span>Aylık Ziyaretçi:</span>
+                <span id="visits-count" class="visitor-count-num">...</span>
+            </div>
+            
+            <audio id="audio-element"></audio>
+        </div>
+        <div id="wrapper" class="fade-in">
+
+                <div id="intro">
+                        <h1>Gramamüzik<br />
+                        2026</h1>
+                        <p>Türkiye'nin Oldschool Rap'inin Sesi | Gramamüzik Resmi Web Sitesi</p>
+                        <ul class="actions">
+                            <li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Devam Et</a></li>
+                        </ul>
+                    </div>
+
+                <header id="header">
+                        <a href="index.html" class="logo">GRAMAMÜZİK</a>
+                    </header>
+
+                <nav id="nav">
+                        <ul class="links">
+                            <li class="active"><a href="index.html">Ana Sayfa</a></li>
+                            <li><a href="generic.html">Sanatçılar</a></li>
+                            <li><a href="elements.html">İletişim</a></li>
+                        </ul>
+                        <ul class="icons">
+                            <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram - Gramactross</span></a></li>
+                            <li><a href="https://instagram.com/misrapschooll59" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram - Mısrap Schooll</span></a></li>
+                            <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube - Gramactross</span></a></li>
+                            <li><a href="https://youtube.com/@misrapschooll59" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube - Mısrap Schooll</span></a></li>
+                        </ul>
+                    </nav>
+
+                <div id="main">
+
+                        <article class="post featured">
+                                <header class="major">
+                                    <span class="date">ÖNE ÇIKAN</span>
+                                    <h2><a href="#">GRAMAMÜZİK LABEL<br />
+                                    BAĞIMSIZ SES</a></h2>
+                                    <p>Türkiye Underground Rap kültürünü destekleyen bağımsız plak şirketi ve sanatçı topluluğu.</p>
+                                </header>
+                                <a href="#" class="image main"><img src="images/pic01.jpg" alt="Gramamüzik" /></a>
+                            </article>
+
+                        <section class="posts">
+
+                            <article id="misrap-card">
+                                <header>
+                                    <span class="date">Mısrap Schooll Resmi Youtube Kanalı</span>
+                                    <h2><a href="https://youtube.com/@misrapschooll59" id="misrap-title" target="_blank">Mısrap Schooll Son Parça</a></h2>
+                                </header>
+                                <a id="misrap-img-link" href="https://youtube.com/@misrapschooll59" target="_blank" class="image fit">
+                                    <img id="misrap-thumb" src="images/misrapyoutube.jpg" alt="Mısrap Schooll" />
+                                </a>
+                                <p>Mısrap Schooll bünyesindeki en güncel Türkçe Rap & Oldschool parçalar burada.</p>
+                                <ul class="actions special">
+                                    <li><a id="misrap-btn" href="https://youtube.com/@misrapschooll59" class="button" target="_blank">Dinle</a></li>
+                                </ul>
+                            </article>
+
+                            <article id="gramactross-card">
+                                <header>
+                                    <span class="date">Gramactross Resmi Youtube Kanalı</span>
+                                    <h2><a href="https://youtube.com/@gramactrossrap" id="gramactross-title" target="_blank">Gramactross Son Parça</a></h2>
+                                </header>
+                                <a id="gramactross-img-link" href="https://youtube.com/@gramactrossrap" target="_blank" class="image fit">
+                                    <img id="gramactross-thumb" src="images/gramactrossyoutube.jpg" alt="Gramactross" />
+                                </a>
+                                <p>Gramactross'un Rap projeleri ve en yeni solo parçalar burada.</p>
+                                <ul class="actions special">
+                                    <li><a id="gramactross-btn" href="https://youtube.com/@gramactrossrap" class="button" target="_blank">Dinle</a></li>
+                                </ul>
+                            </article>
+
+                            <article id="trafo-card">
+                                <header>
+                                    <span class="date">Trafo Resmi Youtube Kanalı</span>
+                                    <h2><a href="https://youtube.com/@traforap55" id="trafo-title" target="_blank">Trafo Son Parça</a></h2>
+                                </header>
+                                <a id="trafo-img-link" href="https://youtube.com/@traforap55" target="_blank" class="image fit">
+                                    <img id="trafo-thumb" src="images/trafoyoutube.jpg" alt="Trafo" />
+                                </a>
+                                <p>Trafo kanalından çıkan en yeni parçalar ve projeler burada.</p>
+                                <ul class="actions special">
+                                    <li><a id="trafo-btn" href="https://youtube.com/@traforap55" class="button" target="_blank">Dinle</a></li>
+                                </ul>
+                            </article>
+
+                            <article id="jess-card">
+                                <header>
+                                    <span class="date">Jess D. Exill Resmi Youtube Kanalı</span>
+                                    <h2><a href="https://youtube.com/@jessbirmarka" id="jess-title" target="_blank">Jess D. Exill Son Parça</a></h2>
+                                </header>
+                                <a id="jess-img-link" href="https://youtube.com/@jessbirmarka" target="_blank" class="image fit">
+                                    <img id="jess-thumb" src="images/jessyoutube.jpg" alt="Jess D. Exill" />
+                                </a>
+                                <p>Jess D. Exill kanalında yayınlanan en yeni projeler ve parçalar burada.</p>
+                                <ul class="actions special">
+                                    <li><a id="jess-btn" href="https://youtube.com/@jessbirmarka" class="button" target="_blank">Dinle</a></li>
+                                </ul>
+                            </article>
+
+                            <article id="alastor-card">
+                                <header>
+                                    <span class="date">Alastor Resmi Youtube Kanalı</span>
+                                    <h2><a href="https://youtube.com/@alastorrap55" id="alastor-title" target="_blank">Alastor Son Parça</a></h2>
+                                </header>
+                                <a id="alastor-img-link" href="https://youtube.com/@alastorrap55" target="_blank" class="image fit">
+                                    <img id="alastor-thumb" src="images/alastoryoutube.jpg" alt="Alastor" />
+                                </a>
+                                <p>Alastor kanalında yayınlanan en son parçalar ve projeler burada.</p>
+                                <ul class="actions special">
+                                    <li><a id="alastor-btn" href="https://youtube.com/@alastorrap55" class="button" target="_blank">Dinle</a></li>
+                                </ul>
+                            </article>
+
+                        </section>
+
+                    </div>
+
+                <footer id="footer">
+                        <section>
+                            <form method="post" action="#">
+                                <div class="fields">
+                                    <div class="field">
+                                        <label for="name">İsminiz</label>
+                                        <input type="text" name="name" id="name" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="email">E-posta</label>
+                                        <input type="text" name="email" id="email" />
+                                    </div>
+                                    <div class="field">
+                                        <label for="message">Öneri ve Şikayet için</label>
+                                        <textarea name="message" id="message" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <ul class="actions">
+                                    <li><input type="submit" value="Gönder" /></li>
+                                </ul>
+                            </form>
+                        </section>
+                        <section class="split contact">
+                            <section>
+                                <h3>E-posta</h3>
+                                <p><a href="mailto:gramamuzikiletisim@gmail.com">gramamuzikiletisim@gmail.com</a></p>
+                            </section>
+                            <section>
+                                <h3>Sosyal Medya</h3>
+                                <ul class="icons">
+                                    <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank" rel="noopener noreferrer"><span class="label">Instagram - Gramactross</span></a></li>
+                                    <li><a href="https://instagram.com/misrapschooll59" class="icon brands fa-instagram" target="_blank" rel="noopener noreferrer"><span class="label">Instagram - Mısrap Schooll</span></a></li>
+                                    <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank" rel="noopener noreferrer"><span class="label">YouTube - Gramactross</span></a></li>
+                                    <li><a href="https://youtube.com/@misrapschooll59" class="icon brands fa-youtube" target="_blank" rel="noopener noreferrer"><span class="label">YouTube - Mısrap Schooll</span></a></li>
+                                    <li><a href="https://www.tiktok.com/@misrap_schooll59" class="icon brands fa-tiktok" target="_blank" rel="noopener noreferrer"><span class="label">TikTok - Mısrap Schooll</span></a></li>
+                                </ul>
+                            </section>
+                        </section>
+                    </footer>
+
+                <div id="copyright">
+                        <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li>
+                    </div>
+
+            </div>
+
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.scrollex.min.js"></script>
+        <script src="assets/js/jquery.scrolly.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+
+        <script>
+            const playlist = [
+                { title: "Akibet", src: "music/Akibet.mp3" },
+                { title: "Anahtar", src: "music/Anahtar.mp3" },
+                { title: "Bedelli Günahlar", src: "music/bedelligunahlar.mp3" },
+                { title: "Ben Bildim", src: "music/BenBildim.mp3" },
+                { title: "Ders", src: "music/Ders.mp3" },
+                { title: "Dumanlı Durak", src: "music/dumanlidurak.mp3" },
+                { title: "Hakkın Yok", src: "music/HakkinYok.mp3" },
+                { title: "Takma Tasma", src: "music/TakmaTasma.mp3" },
+                { title: "Tek Başınasın", src: "music/TekBasinasin.mp3" },
+                { title: "Yankım", src: "music/Yankim.mp3" },
+                { title: "Yeşil Bandana", src: "music/YesilBandana.mp3" },
+                { title: "Zaman Acımaz", src: "music/ZamanAcimaz.mp3" }
+            ];
+
+            let currentTrackIndex = 0;
+            const audio = document.getElementById('audio-element');
+            const playBtn = document.getElementById('play-btn');
+            const trackTitle = document.getElementById('track-title');
+
+            function loadTrack(index) {
+                if(playlist.length > 0 && playlist[index]) {
+                    audio.src = playlist[index].src;
+                    trackTitle.innerText = playlist[index].title;
+                }
+            }
+
+            function togglePlay() {
+                if (audio.paused) {
+                    var playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(_ => {
+                            playBtn.innerText = "⏸";
+                        }).catch(error => {
+                            console.log("Oynatma hatası:", error);
+                            alert("Şarkı çalınamadı. Lütfen music klasörünün GitHub'a tam yüklendiğinden emin ol.");
+                        });
+                    }
+                } else {
+                    audio.pause();
+                    playBtn.innerText = "▶";
+                }
+            }
+
+            function nextTrack() {
+                currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+                loadTrack(currentTrackIndex);
+                audio.play();
+                playBtn.innerText = "⏸";
+            }
+
+            function prevTrack() {
+                currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+                loadTrack(currentTrackIndex);
+                audio.play();
+                playBtn.innerText = "⏸";
+            }
+
+            audio.addEventListener('ended', function() {
+                nextTrack();
+            });
+
+            document.addEventListener("DOMContentLoaded", function() {
+                loadTrack(currentTrackIndex);
+
+                // Ziyaretçi Sayacı
+                fetch('https://api.counterapi.dev/v1/gramamuzik.github.io/visits/up')
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data && data.count) {
+                            document.getElementById('visits-count').innerText = data.count;
+                        } else {
+                            document.getElementById('visits-count').innerText = "1,250+";
+                        }
+                    })
+                    .catch(() => {
+                        document.getElementById('visits-count').innerText = "1,250+";
+                    });
+            });
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var channels = [
+                    { id: 'UCYu-781O-1_oY-k-J04sS_g', titleId: 'misrap-title', imgLinkId: 'misrap-img-link', btnId: 'misrap-btn' },
+                    { id: 'UC0L_y-J2k1I6vOqZ4Q0aU1A', titleId: 'gramactross-title', imgLinkId: 'gramactross-img-link', btnId: 'gramactross-btn' },
+                    { id: 'UCq9L5Wd8X9fKx7f_I_W3XBA', titleId: 'trafo-title', imgLinkId: 'trafo-img-link', btnId: 'trafo-btn' },
+                    { id: 'UCW0mN_oJ4kL_6F3wS12Zt-A', titleId: 'jess-title', imgLinkId: 'jess-img-link', btnId: 'jess-btn' },
+                    { id: 'UCX7S29p_vXkZ0M2P3B1K_2w', titleId: 'alastor-title', imgLinkId: 'alastor-button', btnId: 'alastor-btn' }
+                ];
+
+                channels.forEach(function(ch) {
+                    var feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + ch.id;
+                    var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl);
+
+                    fetch(apiUrl)
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        if (data && data.items && data.items.length > 0) {
+                            var item = data.items[0];
+                            var videoUrl = item.link;
+                            var videoTitle = item.title;
+
+                            if (document.getElementById(ch.titleId)) {
+                                document.getElementById(ch.titleId).innerText = videoTitle;
+                                document.getElementById(ch.titleId).setAttribute('href', videoUrl);
+                            }
+                            if (document.getElementById(ch.imgLinkId)) {
+                                document.getElementById(ch.imgLinkId).setAttribute('href', videoUrl);
+                            }
+                            if (document.getElementById(ch.btnId)) {
+                                document.getElementById(ch.btnId).setAttribute('href', videoUrl);
+                            }
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log('Video verisi çekilemedi:', err);
+                    });
+                });
+            });
+        </script>
+
+    </body>
+</html>
