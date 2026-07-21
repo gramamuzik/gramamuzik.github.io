@@ -84,7 +84,7 @@
                 box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
             }
 
-            /* --- MÜZİK ÇALAR & SAYAÇ TEMİZLEME VE SIFIRLAMA --- */
+            /* --- MÜZİK ÇALAR & SAYAÇ WIDGET'I --- */
             #grama-player-widget {
                 position: fixed;
                 top: 25px;
@@ -103,7 +103,7 @@
                 box-sizing: border-box !important;
             }
 
-            /* Şablonun buton ve kutu arkasında oluşturduğu ekstra Katman/Gölge Efektlerini Sil */
+            /* Şablon çakışmalarını engelleme */
             #grama-player-widget *::before,
             #grama-player-widget *::after {
                 display: none !important;
@@ -166,6 +166,17 @@
                 color: #ffffff !important;
                 font-weight: bold;
                 font-size: 13px;
+            }
+
+            /* Mobil Uyumlu Konumlandırma */
+            @media screen and (max-width: 736px) {
+                #grama-player-widget {
+                    top: auto !important;
+                    bottom: 15px !important;
+                    left: 15px !important;
+                    right: 15px !important;
+                    min-width: unset !important;
+                }
             }
         </style>
     </head>
@@ -398,11 +409,20 @@
                 }
             }
 
-            function loadTrack(index) {
+            function loadTrack(index, restoreTime = false) {
                 if(playlist.length > 0 && playlist[index]) {
                     audio.src = playlist[index].src;
                     trackTitle.innerText = playlist[index].title;
                     localStorage.setItem('grama_track_index', index);
+
+                    if (restoreTime) {
+                        let savedTime = parseFloat(localStorage.getItem('grama_track_time'));
+                        if (!isNaN(savedTime) && savedTime > 0) {
+                            audio.currentTime = savedTime;
+                        }
+                    } else {
+                        localStorage.setItem('grama_track_time', 0);
+                    }
                 }
             }
 
@@ -414,7 +434,6 @@
                             playBtn.innerText = "⏸";
                         }).catch(error => {
                             console.log("Oynatma hatası:", error);
-                            alert("Şarkı çalınamadı. Lütfen music klasörünün GitHub'a tam yüklendiğinden emin ol.");
                         });
                     }
                 } else {
@@ -433,14 +452,14 @@
                 } else {
                     currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
                 }
-                loadTrack(currentTrackIndex);
+                loadTrack(currentTrackIndex, false);
                 audio.play();
                 playBtn.innerText = "⏸";
             }
 
             function prevTrack() {
                 currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-                loadTrack(currentTrackIndex);
+                loadTrack(currentTrackIndex, false);
                 audio.play();
                 playBtn.innerText = "⏸";
             }
@@ -451,12 +470,20 @@
                 updateShuffleUI();
             }
 
+            // Oynatılan şarkının saniyesini anlık olarak kaydet
+            audio.addEventListener('timeupdate', function() {
+                if (audio.currentTime > 0) {
+                    localStorage.setItem('grama_track_time', audio.currentTime);
+                }
+            });
+
             audio.addEventListener('ended', function() {
                 nextTrack();
             });
 
             document.addEventListener("DOMContentLoaded", function() {
-                loadTrack(currentTrackIndex);
+                // Sayfa ilk yüklendiğinde hafızadaki şarkıyı ve saniyeyi getir
+                loadTrack(currentTrackIndex, true);
                 updateShuffleUI();
 
                 // Ziyaretçi Sayacı
