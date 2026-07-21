@@ -1,108 +1,179 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>Sanatçılarımız - Gramamüzik Label</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+    <head>
+        <title>Sanatçılarımız - Gramamüzik Label</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
-		<div id="wrapper">
+        <style>
+            /* Koyu Tema Genel Ayarlar */
+            body, #wrapper, #main, #nav, #footer {
+                background-color: #121212 !important;
+                color: #e0e0e0 !important;
+            }
 
-				<header id="header">
-						<a href="index.html" class="logo">GRAMAMÜZİK</a>
-					</header>
+            /* HEADER SİYAH ŞERİDİNİ ŞEFFAF YAPMA */
+            #header {
+                background-color: transparent !important;
+                background: none !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+            #header .logo {
+                background-color: rgba(0, 0, 0, 0.4) !important;
+                border: 2px solid #ffffff !important;
+                color: #ffffff !important;
+            }
 
-				<nav id="nav">
-						<ul class="links">
-							<li><a href="index.html">Ana Sayfa</a></li>
-							<li class="active"><a href="generic.html">Sanatçılar</a></li>
-							<li><a href="elements.html">İletişim</a></li>
-						</ul>
-						<ul class="icons">
-							<li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-							<li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
-						</ul>
-					</nav>
+            /* Metinler ve Başlıklar */
+            h1, h2, h3, h4, h5, h6, 
+            h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+                color: #ffffff !important;
+            }
+            p, .date, span {
+                color: #b0b0b0 !important;
+            }
 
-				<div id="main">
+            /* Kartlar ve Kapsayıcılar */
+            #main > section.post,
+            #main > .posts > article,
+            #main .posts article {
+                background-color: #1e1e1e !important;
+                border-color: #2a2a2a !important;
+            }
 
-						<section class="post">
-								<header class="major">
-									<span class="date">GRAMAMÜZİK LABEL</span>
-									<h1>SANATÇILARIMIZ</h1>
-									<p>Bünyemizdeki üreticiler, MC'ler ve prodüktörler.</p>
-								</header>
+            /* Navigasyon Menüsü */
+            #nav {
+                background-color: #181818 !important;
+                border-bottom: 1px solid #2a2a2a !important;
+            }
+            #nav ul.links li a {
+                color: #cccccc !important;
+            }
+            #nav ul.links li.active a {
+                color: #ffffff !important;
+                background-color: #252525 !important;
+            }
 
-								<section class="posts">
-									<article>
-										<header>
-											<h2>Gramactross</h2>
-										</header>
-										<a href="#" class="image fit"><img src="images/gramactross.jpg" alt="Gramactross" /></a>
-										<p>Gramamüzik Label kurucusu ve Mısrap Schooll'un kurucu üyesi melankolik altyapıları, özgün stili ve oldschool Rap sahnesine kazandırdığı projelerle ekibin öncü isimlerinden.</p>
-									</article>
+            /* Telif / Alt Alan */
+            #copyright {
+                color: #888888 !important;
+            }
+            #copyright a {
+                color: #aaaaaa !important;
+            }
 
-									<article>
-										<header>
-											<h2>Alastor</h2>
-										</header>
-										<a href="#" class="image fit"><img src="images/alastor.jpg" alt="Alastor" /></a>
-										<p>Karanlık temaları ve sert sokağı anlatan lirik yapısıyla dikkat çeken Alastor, grubun atmosferik rap tarzını temsil eden sanatçılardan biri.</p>
-									</article>
+            /* Fotoğrafların Kenarlarını Yumuşatma & Çerçeve Stili */
+            article img, .image.fit img, .image.main img {
+                border-radius: 14px !important;
+                border: 1px solid #333333 !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+                transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            }
+            article a.image:hover img {
+                transform: scale(1.02);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
+            }
+        </style>
+    </head>
+    <body class="is-preload">
 
-									<article>
-										<header>
-											<h2>Jess D. Exill</h2>
-										</header>
-										<a href="#" class="image fit"><img src="images/jess.jpg" alt="Jess D. Exill" /></a>
-										<p>Kendine has rhyme tekniği ve melankolik akışıyla ön plana çıkan Jess D. Exill, Gramamüzik çatısı altında üretimlerine devam ediyor.</p>
-									</article>
+        <div id="wrapper">
 
-									<article>
-										<header>
-											<h2>Trafo</h2>
-										</header>
-										<a href="#" class="image fit"><img src="images/trafo.jpg" alt="Trafo" /></a>
-										<p>Yüksek enerjili parçaları ve sokak kültürünü doğrudan müziğine yansıtan tarzıyla ekibin dinamiğini yansıtan isimlerden.</p>
-									</article>
-								</section>
+            <header id="header">
+                <a href="index.html" class="logo">GRAMAMÜZİK</a>
+            </header>
 
-							</section>
+            <nav id="nav">
+                <ul class="links">
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li class="active"><a href="generic.html">Sanatçılar</a></li>
+                    <li><a href="elements.html">İletişim</a></li>
+                </ul>
+                <ul class="icons">
+                    <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                    <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
+                </ul>
+            </nav>
 
-					</div>
+            <div id="main">
 
-				<footer id="footer">
-						<section class="split contact">
-							<section>
-								<h3>E-posta</h3>
-								<p><a href="mailto:gramamuzikiletisim@gmail.com">gramamuzikiletisim@gmail.com</a></p>
-							</section>
-							<section>
-								<h3>Sosyal Medya</h3>
-								<ul class="icons alt">
-									<li><a href="https://instagram.com/gramactross" class="icon brands alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-									<li><a href="https://youtube.com/@gramactrossrap" class="icon brands alt fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
-								</ul>
-							</section>
-						</section>
-					</footer>
+                <section class="post">
+                    <header class="major">
+                        <span class="date">GRAMAMÜZİK LABEL</span>
+                        <h1>SANATÇILARIMIZ</h1>
+                        <p>Bünyemizdeki üreticiler, MC'ler ve prodüktörler.</p>
+                    </header>
 
-				<div id="copyright">
-						<ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li>
-					</div>
+                    <section class="posts">
+                        <article>
+                            <header>
+                                <h2>Gramactross</h2>
+                            </header>
+                            <a href="#" class="image fit"><img src="images/gramactross.jpg" alt="Gramactross" /></a>
+                            <p>Gramamüzik Label kurucusu ve Mısrap Schooll'un kurucu üyesi melankolik altyapıları, özgün stili ve oldschool Rap sahnesine kazandırdığı projelerle ekibin öncü isimlerinden.</p>
+                        </article>
 
-			</div>
+                        <article>
+                            <header>
+                                <h2>Alastor</h2>
+                            </header>
+                            <a href="#" class="image fit"><img src="images/alastor.jpg" alt="Alastor" /></a>
+                            <p>Karanlık temaları ve sert sokağı anlatan lirik yapısıyla dikkat çeken Alastor, grubun atmosferik rap tarzını temsil eden sanatçılardan biri.</p>
+                        </article>
 
-		<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+                        <article>
+                            <header>
+                                <h2>Jess D. Exill</h2>
+                            </header>
+                            <a href="#" class="image fit"><img src="images/jess.jpg" alt="Jess D. Exill" /></a>
+                            <p>Kendine has rhyme tekniği ve melankolik akışıyla ön plana çıkan Jess D. Exill, Gramamüzik çatısı altında üretimlerine devam ediyor.</p>
+                        </article>
 
-	</body>
+                        <article>
+                            <header>
+                                <h2>Trafo</h2>
+                            </header>
+                            <a href="#" class="image fit"><img src="images/trafo.jpg" alt="Trafo" /></a>
+                            <p>Yüksek enerjili parçaları ve sokak kültürünü doğrudan müziğine yansıtan tarzıyla ekibin dinamiğini yansıtan isimlerden.</p>
+                        </article>
+                    </section>
+
+                </section>
+
+            </div>
+
+            <footer id="footer">
+                <section class="split contact" style="width: 100%;">
+                    <section>
+                        <h3>E-posta</h3>
+                        <p><a href="mailto:gramamuzikiletisim@gmail.com">gramamuzikiletisim@gmail.com</a></p>
+                    </section>
+                    <section>
+                        <h3>Sosyal Medya</h3>
+                        <ul class="icons alt">
+                            <li><a href="https://instagram.com/gramactross" class="icon brands alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                            <li><a href="https://youtube.com/@gramactrossrap" class="icon brands alt fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
+                        </ul>
+                    </section>
+                </section>
+            </footer>
+
+            <div id="copyright">
+                <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li></ul>
+            </div>
+
+        </div>
+
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.scrollex.min.js"></script>
+        <script src="assets/js/jquery.scrolly.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+
+    </body>
 </html>
