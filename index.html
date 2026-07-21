@@ -185,7 +185,7 @@
             <audio id="grama-audio" style="display: none;"></audio>
 
 <script>
-constplaylist = [
+const playlist = [
     { title: "Akibet", src: "music/Akibet.mp3" },
     { title: "Anahtar", src: "music/Anahtar.mp3" },
     { title: "Bedelli Günahlar", src: "music/bedelligunahlar.mp3" },
@@ -285,6 +285,7 @@ function prevTrack() {
     audio.play();
 }
 </script>
+            
             <div class="visitor-counter">
                 <span>Aylık Ziyaretçi:</span>
                 <span id="visits-count" class="visitor-count-num">...</span>
@@ -454,8 +455,6 @@ function prevTrack() {
                         <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li>
                     </div>
 
-            </div>
-
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jquery.scrollex.min.js"></script>
         <script src="assets/js/jquery.scrolly.min.js"></script>
@@ -463,88 +462,6 @@ function prevTrack() {
         <script src="assets/js/breakpoints.min.js"></script>
         <script src="assets/js/util.js"></script>
         <script src="assets/js/main.js"></script>
-
-        <script>
-            const playlist = [
-                { title: "Akibet", src: "music/Akibet.mp3" },
-                { title: "Anahtar", src: "music/Anahtar.mp3" },
-                { title: "Bedelli Günahlar", src: "music/bedelligunahlar.mp3" },
-                { title: "Ben Bildim", src: "music/BenBildim.mp3" },
-                { title: "Ders", src: "music/Ders.mp3" },
-                { title: "Dumanlı Durak", src: "music/dumanlidurak.mp3" },
-                { title: "Hakkın Yok", src: "music/HakkinYok.mp3" },
-                { title: "Takma Tasma", src: "music/TakmaTasma.mp3" },
-                { title: "Tek Başınasın", src: "music/TekBasinasin.mp3" },
-                { title: "Yankım", src: "music/Yankim.mp3" },
-                { title: "Yeşil Bandana", src: "music/YesilBandana.mp3" },
-                { title: "Zaman Acımaz", src: "music/ZamanAcimaz.mp3" }
-            ];
-
-            let currentTrackIndex = 0;
-            const audio = document.getElementById('audio-element');
-            const playBtn = document.getElementById('play-btn');
-            const trackTitle = document.getElementById('track-title');
-
-            function loadTrack(index) {
-                if(playlist.length > 0 && playlist[index]) {
-                    audio.src = playlist[index].src;
-                    trackTitle.innerText = playlist[index].title;
-                }
-            }
-
-            function togglePlay() {
-                if (audio.paused) {
-                    var playPromise = audio.play();
-                    if (playPromise !== undefined) {
-                        playPromise.then(_ => {
-                            playBtn.innerText = "⏸";
-                        }).catch(error => {
-                            console.log("Oynatma hatası:", error);
-                            alert("Şarkı çalınamadı. Lütfen music klasörünün GitHub'a tam yüklendiğinden emin ol.");
-                        });
-                    }
-                } else {
-                    audio.pause();
-                    playBtn.innerText = "▶";
-                }
-            }
-
-            function nextTrack() {
-                currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-                loadTrack(currentTrackIndex);
-                audio.play();
-                playBtn.innerText = "⏸";
-            }
-
-            function prevTrack() {
-                currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-                loadTrack(currentTrackIndex);
-                audio.play();
-                playBtn.innerText = "⏸";
-            }
-
-            audio.addEventListener('ended', function() {
-                nextTrack();
-            });
-
-            document.addEventListener("DOMContentLoaded", function() {
-                loadTrack(currentTrackIndex);
-
-                // Ziyaretçi Sayacı
-                fetch('https://api.counterapi.dev/v1/gramamuzik.github.io/visits/up')
-                    .then(res => res.json())
-                    .then(data => {
-                        if(data && data.count) {
-                            document.getElementById('visits-count').innerText = data.count;
-                        } else {
-                            document.getElementById('visits-count').innerText = "1,250+";
-                        }
-                    })
-                    .catch(() => {
-                        document.getElementById('visits-count').innerText = "1,250+";
-                    });
-            });
-        </script>
 
         <script>
             document.addEventListener("DOMContentLoaded", function() {
