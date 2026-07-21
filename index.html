@@ -72,7 +72,7 @@
                 color: #aaaaaa !important;
             }
 
-            /* Fotoğrafların Kenarlarını Yumuşatma & Çerçeve/Gölge Stili */
+            /* Fotoğraf Kenarlıkları */
             article img, .image.fit img, .image.main img {
                 border-radius: 14px !important;
                 border: 1px solid #333333 !important;
@@ -84,28 +84,28 @@
                 box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
             }
 
-            /* --- MÜZİK ÇALAR VE SAYAÇ STİLLERİ --- */
+            /* --- SOLA HİZALANMIŞ, BİRAZ DAHA BÜYÜTÜLMÜŞ MÜZİK ÇALAR & SAYAÇ --- */
             #grama-player-widget {
                 position: fixed;
-                top: 20px;
-                right: 20px;
+                top: 25px;
+                left: 25px; /* Sola hizalandı */
                 z-index: 99999;
-                background: rgba(18, 18, 18, 0.92);
-                backdrop-filter: blur(8px);
-                border: 1px solid #333333;
-                border-radius: 12px;
-                padding: 10px 14px;
-                box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+                background: rgba(18, 18, 18, 0.95);
+                backdrop-filter: blur(10px);
+                border: 1px solid #3a3a3a;
+                border-radius: 14px;
+                padding: 14px 18px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.8);
                 display: flex;
                 flex-direction: column;
-                gap: 6px;
-                min-width: 210px;
+                gap: 10px;
+                min-width: 250px; /* Boyut biraz büyütüldü */
             }
             .player-controls {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                gap: 10px;
+                gap: 12px;
             }
             .player-info {
                 display: flex;
@@ -113,13 +113,13 @@
                 overflow: hidden;
             }
             .player-title {
-                font-size: 11px;
+                font-size: 13px; /* Yazı boyutu büyütüldü */
                 font-weight: bold;
                 color: #ffffff !important;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                max-width: 120px;
+                max-width: 140px;
                 letter-spacing: 0.5px;
             }
             .player-btn {
@@ -127,8 +127,8 @@
                 border: none !important;
                 color: #ffffff !important;
                 cursor: pointer;
-                padding: 0 5px !important;
-                font-size: 14px;
+                padding: 0 6px !important;
+                font-size: 16px; /* Buton ikonları büyütüldü */
                 line-height: 1;
                 box-shadow: none !important;
                 height: auto !important;
@@ -138,10 +138,10 @@
                 background: none !important;
             }
             .visitor-counter {
-                border-top: 1px solid #2a2a2a;
-                padding-top: 5px;
-                font-size: 10px;
-                color: #888888 !important;
+                border-top: 1px solid #333333;
+                padding-top: 8px;
+                font-size: 12px; /* Sayaç metni büyütüldü */
+                color: #999999 !important;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -149,6 +149,7 @@
             .visitor-count-num {
                 color: #ffffff !important;
                 font-weight: bold;
+                font-size: 13px;
             }
         </style>
     </head>
@@ -159,9 +160,10 @@
                 <div class="player-info">
                     <span id="track-title" class="player-title">Yükleniyor...</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 4px;">
-                    <button class="player-btn" id="play-btn" onclick="togglePlay()">▶</button>
-                    <button class="player-btn" onclick="nextTrack()">⏭</button>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <button class="player-btn" onclick="prevTrack()" title="Önceki">⏮</button>
+                    <button class="player-btn" id="play-btn" onclick="togglePlay()" title="Oynat/Durdur">▶</button>
+                    <button class="player-btn" onclick="nextTrack()" title="Sonraki">⏭</button>
                 </div>
             </div>
             
@@ -319,12 +321,12 @@
                             <section>
                                 <h3>Sosyal Medya</h3>
                                 <ul class="icons">
-    <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank" rel="noopener noreferrer"><span class="label">Instagram - Gramactross</span></a></li>
-    <li><a href="https://instagram.com/misrapschooll59" class="icon brands fa-instagram" target="_blank" rel="noopener noreferrer"><span class="label">Instagram - Mısrap Schooll</span></a></li>
-    <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank" rel="noopener noreferrer"><span class="label">YouTube - Gramactross</span></a></li>
-    <li><a href="https://youtube.com/@misrapschooll59" class="icon brands fa-youtube" target="_blank" rel="noopener noreferrer"><span class="label">YouTube - Mısrap Schooll</span></a></li>
-    <li><a href="https://www.tiktok.com/@misrap_schooll59" class="icon brands fa-tiktok" target="_blank" rel="noopener noreferrer"><span class="label">TikTok - Mısrap Schooll</span></a></li>
-</ul>
+                                    <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank" rel="noopener noreferrer"><span class="label">Instagram - Gramactross</span></a></li>
+                                    <li><a href="https://instagram.com/misrapschooll59" class="icon brands fa-instagram" target="_blank" rel="noopener noreferrer"><span class="label">Instagram - Mısrap Schooll</span></a></li>
+                                    <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank" rel="noopener noreferrer"><span class="label">YouTube - Gramactross</span></a></li>
+                                    <li><a href="https://youtube.com/@misrapschooll59" class="icon brands fa-youtube" target="_blank" rel="noopener noreferrer"><span class="label">YouTube - Mısrap Schooll</span></a></li>
+                                    <li><a href="https://www.tiktok.com/@misrap_schooll59" class="icon brands fa-tiktok" target="_blank" rel="noopener noreferrer"><span class="label">TikTok - Mısrap Schooll</span></a></li>
+                                </ul>
                             </section>
                         </section>
                     </footer>
@@ -344,10 +346,19 @@
         <script src="assets/js/main.js"></script>
 
         <script>
-            // Müzik Listesi (music klasöründeki mp3 dosya adlarını buraya yazabilirsin)
             const playlist = [
-                { title: "Grama Track 1", src: "music/track1.mp3" },
-                { title: "Grama Track 2", src: "music/track2.mp3" }
+                { title: "Akibet", src: "music/Akibet.mp3" },
+                { title: "Anahtar", src: "music/Anahtar.mp3" },
+                { title: "Bedelli Günahlar", src: "music/bedelligunahlar.mp3" },
+                { title: "Ben Bildim", src: "music/BenBildim.mp3" },
+                { title: "Ders", src: "music/Ders.mp3" },
+                { title: "Dumanlı Durak", src: "music/dumanlidurak.mp3" },
+                { title: "Hakkın Yok", src: "music/HakkinYok.mp3" },
+                { title: "Takma Tasma", src: "music/TakmaTasma.mp3" },
+                { title: "Tek Başınasın", src: "music/TekBasinasin.mp3" },
+                { title: "Yankım", src: "music/Yankim.mp3" },
+                { title: "Yeşil Bandana", src: "music/YesilBandana.mp3" },
+                { title: "Zaman Acımaz", src: "music/ZamanAcimaz.mp3" }
             ];
 
             let currentTrackIndex = 0;
@@ -356,7 +367,7 @@
             const trackTitle = document.getElementById('track-title');
 
             function loadTrack(index) {
-                if(playlist.length > 0) {
+                if(playlist.length > 0 && playlist[index]) {
                     audio.src = playlist[index].src;
                     trackTitle.innerText = playlist[index].title;
                 }
@@ -364,8 +375,15 @@
 
             function togglePlay() {
                 if (audio.paused) {
-                    audio.play();
-                    playBtn.innerText = "⏸";
+                    var playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(_ => {
+                            playBtn.innerText = "⏸";
+                        }).catch(error => {
+                            console.log("Oynatma hatası:", error);
+                            alert("Şarkı çalınamadı. Lütfen music klasörünün GitHub'a tam yüklendiğinden emin ol.");
+                        });
+                    }
                 } else {
                     audio.pause();
                     playBtn.innerText = "▶";
@@ -379,12 +397,21 @@
                 playBtn.innerText = "⏸";
             }
 
-            // Sayfa yüklendiğinde çalışacak fonksiyonlar
+            function prevTrack() {
+                currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+                loadTrack(currentTrackIndex);
+                audio.play();
+                playBtn.innerText = "⏸";
+            }
+
+            audio.addEventListener('ended', function() {
+                nextTrack();
+            });
+
             document.addEventListener("DOMContentLoaded", function() {
-                // Şarkıyı yükle
                 loadTrack(currentTrackIndex);
 
-                // Ziyaretçi Sayacı Verisi Çekme
+                // Ziyaretçi Sayacı
                 fetch('https://api.counterapi.dev/v1/gramamuzik.github.io/visits/up')
                     .then(res => res.json())
                     .then(data => {
