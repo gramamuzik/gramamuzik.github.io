@@ -81,12 +81,12 @@
 <article id="gramactross-card">
     <header>
         <span class="date">Gramactross</span>
-        <h2><a href="#" id="gramactross-title">YÜKLENİYOR...</a></h2>
+        <h2><a href="#" id="gramactross-title">Gramactross</a></h2>
     </header>
     <a id="gramactross-img-link" href="#" target="_blank" class="image fit">
         <img id="gramactross-thumb" src="images/pic03.jpg" alt="Gramactross" />
     </a>
-    <p>Gramactross underground rap projeleri ve en yeni solo parçalar burada.</p>
+    <p>Gramactross'un Rap projeleri ve en yeni solo parçalar burada.</p>
     <ul class="actions special">
         <li><a id="gramactross-btn" href="#" class="button" target="_blank">Dinle</a></li>
     </ul>
@@ -95,12 +95,12 @@
 <article id="trafo-card">
     <header>
         <span class="date">Trafo</span>
-        <h2><a href="#" id="trafo-title">YÜKLENİYOR...</a></h2>
+        <h2><a href="#" id="trafo-title">Trafo</a></h2>
     </header>
     <a id="trafo-img-link" href="#" target="_blank" class="image fit">
         <img id="trafo-thumb" src="images/pic03.jpg" alt="Trafo" />
     </a>
-    <p>Trafo kanalından çıkan en yeni Türkçe rap ve sert underground parçalar burada.</p>
+    <p>Trafo kanalından çıkan en yeni Türkçe rap parçaları burada.</p>
     <ul class="actions special">
         <li><a id="trafo-btn" href="#" class="button" target="_blank">Dinle</a></li>
     </ul>
@@ -109,7 +109,7 @@
 <article id="jess-card">
     <header>
         <span class="date">Jess D. Exill</span>
-        <h2><a href="#" id="jess-title">YÜKLENİYOR...</a></h2>
+        <h2><a href="#" id="jess-title">JESS D. EXİLL</a></h2>
     </header>
     <a id="jess-img-link" href="#" target="_blank" class="image fit">
         <img id="jess-thumb" src="images/pic03.jpg" alt="Jess D. Exill" />
@@ -123,12 +123,12 @@
 <article id="alastor-card">
     <header>
         <span class="date">Alastor</span>
-        <h2><a href="#" id="alastor-title">YÜKLENİYOR...</a></h2>
+        <h2><a href="#" id="alastor-title">Alastor</a></h2>
     </header>
     <a id="alastor-img-link" href="#" target="_blank" class="image fit">
         <img id="alastor-thumb" src="images/pic03.jpg" alt="Alastor" />
     </a>
-    <p>Alastor kanalında yayınlanan en son parçalar ve underground projeler burada.</p>
+    <p>Alastor kanalında yayınlanan en son parçalar ve projeler burada.</p>
     <ul class="actions special">
         <li><a id="alastor-btn" href="#" class="button" target="_blank">Dinle</a></li>
     </ul>
@@ -136,28 +136,54 @@
 
 <script>
     (function() {
-        function updateCard(handle, titleId, thumbId, imgLinkId, btnId) {
-            var rssUrl = 'https://www.youtube.com/feeds/videos.xml?user=' + handle;
-            fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl))
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 'ok' && data.items.length > 0) {
-                    var item = data.items[0];
-                    var videoId = item.link.split('v=')[1];
-                    document.getElementById(titleId).innerText = item.title;
-                    document.getElementById(titleId).href = item.link;
-                    document.getElementById(thumbId).src = 'https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg';
-                    document.getElementById(imgLinkId).href = item.link;
-                    document.getElementById(btnId).href = item.link;
-                }
-            }).catch(err => console.log(handle + ' RSS Hatası:', err));
-        }
+        // Kanal Bilgileri (Handle / Kullanıcı adı)
+        var channels = [
+            { handle: 'misrapschooll59', titleId: 'misrap-title', thumbId: 'misrap-thumb', imgLinkId: 'misrap-img-link', btnId: 'misrap-btn' },
+            { handle: 'gramactrossrap', titleId: 'gramactross-title', thumbId: 'gramactross-thumb', imgLinkId: 'gramactross-img-link', btnId: 'gramactross-btn' },
+            { handle: 'traforap55', titleId: 'trafo-title', thumbId: 'trafo-thumb', imgLinkId: 'trafo-img-link', btnId: 'trafo-btn' },
+            { handle: 'jessbirmarka', titleId: 'jess-title', thumbId: 'jess-thumb', imgLinkId: 'jess-img-link', btnId: 'jess-btn' },
+            { handle: 'alastorrap55', titleId: 'alastor-title', thumbId: 'alastor-thumb', imgLinkId: 'alastor-link', btnId: 'alastor-btn' }
+        ];
 
-        updateCard('misrapschooll59', 'misrap-title', 'misrap-thumb', 'misrap-img-link', 'misrap-btn');
-        updateCard('gramactrossrap', 'gramactross-title', 'gramactross-thumb', 'gramactross-img-link', 'gramactross-btn');
-        updateCard('traforap55', 'trafo-title', 'trafo-thumb', 'trafo-img-link', 'trafo-btn');
-        updateCard('jessbirmarka', 'jess-title', 'jess-thumb', 'jess-img-link', 'jess-btn');
-        updateCard('alastorrap55', 'alastor-title', 'alastor-thumb', 'alastor-img-link', 'alastor-btn');
+        channels.forEach(function(ch) {
+            // AllOrigins Proxy servisi üzerinden CORS engeline takılmadan XML çekme
+            var feedUrl = 'https://www.youtube.com/feeds/videos.xml?user=' + ch.handle;
+            var proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(feedUrl);
+
+            fetch(proxyUrl)
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.contents) {
+                    var parser = new DOMParser();
+                    var xmlDoc = parser.parseFromString(data.contents, "text/xml");
+                    var entry = xmlDoc.querySelector("entry");
+
+                    if (entry) {
+                        var videoTitle = entry.querySelector("title").textContent;
+                        var videoUrl = entry.querySelector("link[rel='alternate']").getAttribute("href");
+                        var videoId = entry.querySelector("videoId") ? entry.querySelector("videoId").textContent : videoUrl.split('v=')[1];
+
+                        // Elemanları Güncelle
+                        if (document.getElementById(ch.titleId)) {
+                            document.getElementById(ch.titleId).innerText = videoTitle;
+                            document.getElementById(ch.titleId).href = videoUrl;
+                        }
+                        if (document.getElementById(ch.thumbId)) {
+                            document.getElementById(ch.thumbId).src = 'https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg';
+                        }
+                        if (document.getElementById(ch.imgLinkId)) {
+                            document.getElementById(ch.imgLinkId).href = videoUrl;
+                        }
+                        if (document.getElementById(ch.btnId)) {
+                            document.getElementById(ch.btnId).href = videoUrl;
+                        }
+                    }
+                }
+            })
+            .catch(function(err) {
+                console.log(ch.handle + ' Çekme Hatası:', err);
+            });
+        });
     })();
 </script>
                             </section>
