@@ -350,7 +350,7 @@
                     </footer>
 
                 <div id="copyright">
-                        <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li>
+                        <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li></ul>
                     </div>
 
             </div>
@@ -379,18 +379,30 @@
                 { title: "Zaman Acımaz", src: "music/ZamanAcimaz.mp3" }
             ];
 
-            let currentTrackIndex = 0;
-            let isShuffle = false;
+            let savedTrackIndex = parseInt(localStorage.getItem('grama_track_index'));
+            let currentTrackIndex = (!isNaN(savedTrackIndex) && savedTrackIndex < playlist.length) ? savedTrackIndex : 0;
+            let isShuffle = localStorage.getItem('grama_shuffle') === 'true';
 
             const audio = document.getElementById('audio-element');
             const playBtn = document.getElementById('play-btn');
             const shuffleBtn = document.getElementById('shuffle-btn');
             const trackTitle = document.getElementById('track-title');
 
+            function updateShuffleUI() {
+                if (isShuffle) {
+                    shuffleBtn.style.color = "#00ff7f";
+                    shuffleBtn.style.opacity = "1";
+                } else {
+                    shuffleBtn.style.color = "#ffffff";
+                    shuffleBtn.style.opacity = "0.5";
+                }
+            }
+
             function loadTrack(index) {
                 if(playlist.length > 0 && playlist[index]) {
                     audio.src = playlist[index].src;
                     trackTitle.innerText = playlist[index].title;
+                    localStorage.setItem('grama_track_index', index);
                 }
             }
 
@@ -435,22 +447,17 @@
 
             function toggleShuffle() {
                 isShuffle = !isShuffle;
-                if (isShuffle) {
-                    shuffleBtn.style.color = "#00ff7f";
-                    shuffleBtn.style.opacity = "1";
-                } else {
-                    shuffleBtn.style.color = "#ffffff";
-                    shuffleBtn.style.opacity = "0.5";
-                }
+                localStorage.setItem('grama_shuffle', isShuffle);
+                updateShuffleUI();
             }
 
-            /* OTOMATİK OYNATMA (Şarkı Bittiğinde Otomatik Geçiş) */
             audio.addEventListener('ended', function() {
                 nextTrack();
             });
 
             document.addEventListener("DOMContentLoaded", function() {
                 loadTrack(currentTrackIndex);
+                updateShuffleUI();
 
                 // Ziyaretçi Sayacı
                 fetch('https://api.counterapi.dev/v1/gramamuzik.github.io/visits/up')
@@ -465,47 +472,6 @@
                     .catch(() => {
                         document.getElementById('visits-count').innerText = "1,250+";
                     });
-            });
-        </script>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                var channels = [
-                    { id: 'UCYu-781O-1_oY-k-J04sS_g', titleId: 'misrap-title', imgLinkId: 'misrap-img-link', btnId: 'misrap-btn' },
-                    { id: 'UC0L_y-J2k1I6vOqZ4Q0aU1A', titleId: 'gramactross-title', imgLinkId: 'gramactross-img-link', btnId: 'gramactross-btn' },
-                    { id: 'UCq9L5Wd8X9fKx7f_I_W3XBA', titleId: 'trafo-title', imgLinkId: 'trafo-img-link', btnId: 'trafo-btn' },
-                    { id: 'UCW0mN_oJ4kL_6F3wS12Zt-A', titleId: 'jess-title', imgLinkId: 'jess-img-link', btnId: 'jess-btn' },
-                    { id: 'UCX7S29p_vXkZ0M2P3B1K_2w', titleId: 'alastor-title', imgLinkId: 'alastor-button', btnId: 'alastor-btn' }
-                ];
-
-                channels.forEach(function(ch) {
-                    var feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + ch.id;
-                    var apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl);
-
-                    fetch(apiUrl)
-                    .then(function(res) { return res.json(); })
-                    .then(function(data) {
-                        if (data && data.items && data.items.length > 0) {
-                            var item = data.items[0];
-                            var videoUrl = item.link;
-                            var videoTitle = item.title;
-
-                            if (document.getElementById(ch.titleId)) {
-                                document.getElementById(ch.titleId).innerText = videoTitle;
-                                document.getElementById(ch.titleId).setAttribute('href', videoUrl);
-                            }
-                            if (document.getElementById(ch.imgLinkId)) {
-                                document.getElementById(ch.imgLinkId).setAttribute('href', videoUrl);
-                            }
-                            if (document.getElementById(ch.btnId)) {
-                                document.getElementById(ch.btnId).setAttribute('href', videoUrl);
-                            }
-                        }
-                    })
-                    .catch(function(err) {
-                        console.log('Video verisi çekilemedi:', err);
-                    });
-                });
             });
         </script>
 
