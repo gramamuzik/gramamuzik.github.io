@@ -64,18 +64,102 @@
                                         <li><a href="https://youtu.be/TpmpTYTLmro" class="button" target="_blank">Dinle</a></li>
                                     </ul>
                                 </article>
-                                <article>
-                                    <header>
-                                        <span class="date">Gramactross</span>
-                                        <h2><a href="#">Underground<br />
-                                        Kültürü</a></h2>
-                                    </header>
-                                    <a href="#" class="image fit"><img src="images/pic03.jpg" alt="" /></a>
-                                    <p>Sokaktan gelen ritimler ve bağımsız rap müziğin en ham halleri.</p>
-                                    <ul class="actions special">
-                                        <li><a href="#" class="button">Detaylar</a></li>
-                                    </ul>
-                                </article>
+                                <article id="misrap-card">
+    <header>
+        <span class="date">Mısrap Schooll</span>
+        <h2><a href="#" id="misrap-title">YÜKLENİYOR...</a></h2>
+    </header>
+    <a id="misrap-img-link" href="#" target="_blank" class="image fit">
+        <img id="misrap-thumb" src="images/pic03.jpg" alt="Mısrap Schooll" />
+    </a>
+    <p>Mısrap Schooll bünyesindeki en güncel Türkçe Rap & Oldschool parçalar burada.</p>
+    <ul class="actions special">
+        <li><a id="misrap-btn" href="#" class="button" target="_blank">Dinle</a></li>
+    </ul>
+</article>
+
+<article id="gramactross-card">
+    <header>
+        <span class="date">Gramactross</span>
+        <h2><a href="#" id="gramactross-title">YÜKLENİYOR...</a></h2>
+    </header>
+    <a id="gramactross-img-link" href="#" target="_blank" class="image fit">
+        <img id="gramactross-thumb" src="images/pic03.jpg" alt="Gramactross" />
+    </a>
+    <p>Gramactross underground rap projeleri ve en yeni solo parçalar burada.</p>
+    <ul class="actions special">
+        <li><a id="gramactross-btn" href="#" class="button" target="_blank">Dinle</a></li>
+    </ul>
+</article>
+
+<article id="trafo-card">
+    <header>
+        <span class="date">Trafo</span>
+        <h2><a href="#" id="trafo-title">YÜKLENİYOR...</a></h2>
+    </header>
+    <a id="trafo-img-link" href="#" target="_blank" class="image fit">
+        <img id="trafo-thumb" src="images/pic03.jpg" alt="Trafo" />
+    </a>
+    <p>Trafo kanalından çıkan en yeni Türkçe rap ve sert underground parçalar burada.</p>
+    <ul class="actions special">
+        <li><a id="trafo-btn" href="#" class="button" target="_blank">Dinle</a></li>
+    </ul>
+</article>
+
+<article id="jess-card">
+    <header>
+        <span class="date">Jess D. Exill</span>
+        <h2><a href="#" id="jess-title">YÜKLENİYOR...</a></h2>
+    </header>
+    <a id="jess-img-link" href="#" target="_blank" class="image fit">
+        <img id="jess-thumb" src="images/pic03.jpg" alt="Jess D. Exill" />
+    </a>
+    <p>Jess D. Exill kanalında yayınlanan en yeni projeler ve parçalar burada.</p>
+    <ul class="actions special">
+        <li><a id="jess-btn" href="#" class="button" target="_blank">Dinle</a></li>
+    </ul>
+</article>
+
+<article id="alastor-card">
+    <header>
+        <span class="date">Alastor</span>
+        <h2><a href="#" id="alastor-title">YÜKLENİYOR...</a></h2>
+    </header>
+    <a id="alastor-img-link" href="#" target="_blank" class="image fit">
+        <img id="alastor-thumb" src="images/pic03.jpg" alt="Alastor" />
+    </a>
+    <p>Alastor kanalında yayınlanan en son parçalar ve underground projeler burada.</p>
+    <ul class="actions special">
+        <li><a id="alastor-btn" href="#" class="button" target="_blank">Dinle</a></li>
+    </ul>
+</article>
+
+<script>
+    (function() {
+        function updateCard(handle, titleId, thumbId, imgLinkId, btnId) {
+            var rssUrl = 'https://www.youtube.com/feeds/videos.xml?user=' + handle;
+            fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl))
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'ok' && data.items.length > 0) {
+                    var item = data.items[0];
+                    var videoId = item.link.split('v=')[1];
+                    document.getElementById(titleId).innerText = item.title;
+                    document.getElementById(titleId).href = item.link;
+                    document.getElementById(thumbId).src = 'https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg';
+                    document.getElementById(imgLinkId).href = item.link;
+                    document.getElementById(btnId).href = item.link;
+                }
+            }).catch(err => console.log(handle + ' RSS Hatası:', err));
+        }
+
+        updateCard('misrapschooll59', 'misrap-title', 'misrap-thumb', 'misrap-img-link', 'misrap-btn');
+        updateCard('gramactrossrap', 'gramactross-title', 'gramactross-thumb', 'gramactross-img-link', 'gramactross-btn');
+        updateCard('traforap55', 'trafo-title', 'trafo-thumb', 'trafo-img-link', 'trafo-btn');
+        updateCard('jessbirmarka', 'jess-title', 'jess-thumb', 'jess-img-link', 'jess-btn');
+        updateCard('alastorrap55', 'alastor-title', 'alastor-thumb', 'alastor-img-link', 'alastor-btn');
+    })();
+</script>
                             </section>
 
                     </div>
