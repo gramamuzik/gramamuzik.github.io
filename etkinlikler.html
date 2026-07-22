@@ -9,6 +9,11 @@
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
         <style>
+            /* main.css İÇİNDEKİ bg.jpg GÖRSELİNİ SADECE BU SAYFA İÇİN KALDIRMA */
+            body, body::before, body::after, #bg, #wrapper {
+                background-image: none !important;
+            }
+
             /* 1. SİNEMATİK ARKA PLAN VİDEOSU VE KARARTMA EFEKTİ (VIGNETTE) */
             #bg-video-container {
                 position: fixed;
@@ -214,7 +219,7 @@
     <body class="is-preload">
 
         <div id="bg-video-container">
-            <video autoplay loop muted playsinline poster="images/pic01.jpg">
+            <video autoplay loop muted playsinline>
                 <source src="images/bg.mp4" type="video/mp4">
             </video>
         </div>
