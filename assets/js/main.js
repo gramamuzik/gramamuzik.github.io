@@ -6,7 +6,7 @@
 
 (function($) {
 
-	var	$window = $(window),
+	var $window = $(window),
 		$body = $('body'),
 		$wrapper = $('#wrapper'),
 		$header = $('#header'),
@@ -31,7 +31,7 @@
 	 */
 	$.fn._parallax = function(intensity) {
 
-		var	$window = $(window),
+		var $window = $(window),
 			$this = $(this);
 
 		if (this.length == 0 || intensity === 0)
@@ -84,10 +84,10 @@
 			};
 
 			// Disable parallax on ..
-				if (browser.name == 'ie'			// IE
-				||	browser.name == 'edge'			// Edge
-				||	window.devicePixelRatio > 1		// Retina/HiDPI (= poor performance)
-				||	browser.mobile)					// Mobile devices
+				if (browser.name == 'ie'            // IE
+				||  browser.name == 'edge'          // Edge
+				||  window.devicePixelRatio > 1     // Retina/HiDPI (= poor performance)
+				||  browser.mobile)                 // Mobile devices
 					off();
 
 			// Enable everywhere else.
@@ -120,8 +120,10 @@
 	// Scrolly.
 		$('.scrolly').scrolly();
 
-	// Background.
-		$wrapper._parallax(0.925);
+	// Background (Sadece sayfada video yoksa sokak fotoğrafını yükler)
+		if ($('#video-wrap').length === 0) {
+			$wrapper._parallax(0.925);
+		}
 
 	// Nav Panel.
 
@@ -192,7 +194,7 @@
 
 			// Hack: Disable transitions on WP.
 				if (browser.os == 'wp'
-				&&	browser.osVersion < 10)
+				&&  browser.osVersion < 10)
 					$navPanel
 						.css('transition', 'none');
 
@@ -251,7 +253,7 @@
 						}
 					});
 
-			});
+				});
 
 		}
 
