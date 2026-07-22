@@ -9,53 +9,48 @@
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
         <style>
-            /* 1. SOKAK FOTOĞRAFINI (BG.JPG) SİLİP VİDEOYU HÂKİM KILAN KESİN CSS ENTEGRASYONU */
-            #bg {
+            /* 1. SOKAK FOTOĞRAFINI (BG.JPG) VE ŞABLONUN BG KATMANINI TAMAMEN BASTIRMA */
+            #bg, #bg::before, #bg::after,
+            body::before, body::after,
+            #wrapper::before, #wrapper::after {
+                display: none !important;
+                background: transparent !important;
+                background-image: none !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+            }
+
+            /* 2. SAYFA İÇERİĞİNİ VİDEONUN ÜSTÜNE ÇEKME */
+            body {
+                background-color: #0d0d0d !important;
+            }
+
+            #wrapper {
+                position: relative !important;
+                z-index: 10 !important; /* İçeriğin videonun önünde görünmesini sağlar */
+                background-color: transparent !important;
+            }
+
+            /* 3. ARKA PLAN VİDEO KATMANI (EN ARKA KATMAN) */
+            #bg-video-container {
                 position: fixed !important;
                 top: 0 !important;
                 left: 0 !important;
                 width: 100vw !important;
                 height: 100vh !important;
-                z-index: 1 !important; /* Massively wrapper z-index 2 olduğu için video arkada kalır */
-                opacity: 1 !important;
-                visibility: visible !important;
-                background: #000000 !important;
-                background-image: none !important;
+                z-index: -9999 !important; /* En arkaya sabitler */
                 overflow: hidden !important;
+                pointer-events: none !important;
             }
 
-            /* HTML5 UP'ın bg.jpg resmini bastığı katmanları tamamen yok ediyoruz */
-            #bg::before, 
-            #bg::after {
-                display: none !important;
-                content: "" !important;
-                background: none !important;
-                background-image: none !important;
+            #bg-video-container video {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+                filter: brightness(0.35) contrast(1.1); /* Okunabilirlik için sinematik karartma */
             }
 
-            /* Video Etiketi Ayarları */
-            #bg video {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                filter: brightness(0.35) contrast(1.1); /* Arka planı koyulaştırma */
-            }
-
-            /* Ana Gövde Şeffaflığı */
-            body, #wrapper {
-                background-color: transparent !important;
-                background-image: none !important;
-            }
-
-            body::before, body::after, 
-            #wrapper::before, #wrapper::after {
-                background-image: none !important;
-            }
-
-            /* 2. KOYU TEMA DÜZENLEMELERİ */
+            /* 4. KOYU TEMA DÜZENLEMELERİ */
             #header {
                 background-color: transparent !important;
                 background: none !important;
@@ -115,7 +110,7 @@
                 color: #888888 !important;
             }
 
-            /* 3. MÜZİK ÇALAR & SAYAÇ WIDGET'I */
+            /* 5. MÜZİK ÇALAR & SAYAÇ WIDGET'I */
             #grama-player-widget {
                 position: fixed;
                 top: 25px;
@@ -204,7 +199,6 @@
                 font-size: 13px;
             }
 
-            /* Not Kağıdı İçi Görseller */
             .note-img-box img {
                 border-radius: 8px !important;
                 border: 1px solid rgba(0,0,0,0.2) !important;
@@ -223,6 +217,12 @@
         </style>
     </head>
     <body class="is-preload">
+
+        <div id="bg-video-container">
+            <video autoplay loop muted playsinline preload="auto">
+                <source src="images/bg.mp4" type="video/mp4">
+            </video>
+        </div>
 
         <div id="grama-player-widget">
             <div class="player-controls">
@@ -395,12 +395,6 @@
                 </div>
 
             </div>
-
-        <div id="bg">
-            <video autoplay loop muted playsinline>
-                <source src="images/bg.mp4" type="video/mp4">
-            </video>
-        </div>
 
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jquery.scrollex.min.js"></script>
