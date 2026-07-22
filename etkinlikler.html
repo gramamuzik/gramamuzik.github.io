@@ -9,45 +9,47 @@
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
         <style>
-            /* 1. SOKAK FOTOĞRAFINI (BG.JPG) VE ŞABLONUN BG KATMANINI TAMAMEN BASTIRMA */
-            #bg, #bg::before, #bg::after,
+            /* 1. TÜM bg.jpg VE ARKA PLAN RESMİ ÇAĞRILARINI KESİN OLARAK SIFIRLAMA */
+            html, body, #wrapper, #bg,
+            html::before, html::after,
             body::before, body::after,
-            #wrapper::before, #wrapper::after {
-                display: none !important;
-                background: transparent !important;
+            #wrapper::before, #wrapper::after,
+            #bg::before, #bg::after {
                 background-image: none !important;
-                opacity: 0 !important;
-                visibility: hidden !important;
+                background: transparent !important;
             }
 
-            /* 2. SAYFA İÇERİĞİNİ VİDEONUN ÜSTÜNE ÇEKME */
             body {
                 background-color: #0d0d0d !important;
             }
 
-            #wrapper {
-                position: relative !important;
-                z-index: 10 !important; /* İçeriğin videonun önünde görünmesini sağlar */
-                background-color: transparent !important;
+            #bg {
+                display: none !important; /* Şablonun kendi bg katmanını tamamen kapatıyoruz */
             }
 
-            /* 3. ARKA PLAN VİDEO KATMANI (EN ARKA KATMAN) */
-            #bg-video-container {
+            /* 2. BAĞIMSIZ ARKA PLAN VİDEO KATMANI */
+            #custom-video-bg {
                 position: fixed !important;
                 top: 0 !important;
                 left: 0 !important;
                 width: 100vw !important;
                 height: 100vh !important;
-                z-index: -9999 !important; /* En arkaya sabitler */
+                z-index: 0 !important; /* Arka plan seviyesi */
                 overflow: hidden !important;
                 pointer-events: none !important;
             }
 
-            #bg-video-container video {
+            #custom-video-bg video {
                 width: 100% !important;
                 height: 100% !important;
                 object-fit: cover !important;
-                filter: brightness(0.35) contrast(1.1); /* Okunabilirlik için sinematik karartma */
+                filter: brightness(0.35) contrast(1.1); /* Okunabilirlik için karartma */
+            }
+
+            /* 3. İÇERİK KATMANINI VİDEONUN ÜSTÜNE YÜKSELTME */
+            #wrapper {
+                position: relative !important;
+                z-index: 2 !important;
             }
 
             /* 4. KOYU TEMA DÜZENLEMELERİ */
@@ -218,7 +220,7 @@
     </head>
     <body class="is-preload">
 
-        <div id="bg-video-container">
+        <div id="custom-video-bg">
             <video autoplay loop muted playsinline preload="auto">
                 <source src="images/bg.mp4" type="video/mp4">
             </video>
@@ -403,6 +405,12 @@
         <script src="assets/js/breakpoints.min.js"></script>
         <script src="assets/js/util.js"></script>
         <script src="assets/js/main.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#bg').remove(); // JS yüklenir yüklenmez eski bg elementini DOM'dan tamamen siler
+            });
+        </script>
 
         <script>
             const playlist = [
