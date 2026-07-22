@@ -1,0 +1,190 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Yaklaşan Etkinlikler - Gramamüzik Label</title>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/png" href="images/logo.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+        <style>
+            /* Şeffaf Header / Siyah Şeritsiz Tasarım */
+            #header {
+                background: transparent !important;
+                box-shadow: none !important;
+                border-bottom: none !important;
+            }
+            #header .logo {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+
+            /* Koyu Tema Stil Ayarları */
+            body, #wrapper, #main, .post, #footer {
+                background-color: #121212 !important;
+                color: #e0e0e0 !important;
+            }
+
+            h1, h2, h3, h4, h5, h6, strong, b, label {
+                color: #ffffff !important;
+            }
+
+            /* --- MÜZİK ÇALAR & SAYAÇ WIDGET'I --- */
+            #grama-player-widget {
+                position: fixed;
+                top: 25px;
+                left: 25px;
+                z-index: 999999 !important;
+                background: rgba(18, 18, 18, 0.95) !important;
+                backdrop-filter: blur(10px);
+                border: 1px solid #3a3a3a !important;
+                border-radius: 14px;
+                padding: 14px 18px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.8) !important;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                min-width: 250px;
+                box-sizing: border-box !important;
+            }
+
+            #grama-player-widget *::before,
+            #grama-player-widget *::after {
+                display: none !important;
+                content: none !important;
+            }
+
+            .player-controls {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                width: 100%;
+            }
+            .player-info {
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+            .player-title {
+                font-size: 13px;
+                font-weight: bold;
+                color: #ffffff !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 140px;
+                letter-spacing: 0.5px;
+            }
+            .player-btn {
+                background: transparent !important;
+                border: none !important;
+                outline: none !important;
+                box-shadow: none !important;
+                color: #ffffff !important;
+                cursor: pointer;
+                padding: 2px 6px !important;
+                font-size: 16px !important;
+                line-height: 1 !important;
+                height: auto !important;
+                min-width: 0 !important;
+                width: auto !important;
+                margin: 0 !important;
+                appearance: none !important;
+                -webkit-appearance: none !important;
+            }
+            .player-btn:hover {
+                color: #b0b0b0 !important;
+                background: transparent !important;
+            }
+            .visitor-counter {
+                border-top: 1px solid #333333;
+                padding-top: 8px;
+                font-size: 12px;
+                color: #999999 !important;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .visitor-count-num {
+                color: #ffffff !important;
+                font-weight: bold;
+                font-size: 13px;
+            }
+
+            /* Mobil Uyumlu Konumlandırma */
+            @media screen and (max-width: 736px) {
+                #grama-player-widget {
+                    top: auto !important;
+                    bottom: 15px !important;
+                    left: 15px !important;
+                    right: 15px !important;
+                    min-width: unset !important;
+                }
+            }
+        </style>
+    </head>
+    <body class="is-preload">
+
+        <div id="grama-player-widget">
+            <div class="player-controls">
+                <div class="player-info">
+                    <span id="track-title" class="player-title">Yükleniyor...</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <button class="player-btn" onclick="prevTrack()" title="Önceki">⏮</button>
+                    <button class="player-btn" id="play-btn" onclick="togglePlay()" title="Oynat/Durdur">▶</button>
+                    <button class="player-btn" onclick="nextTrack()" title="Sonraki">⏭</button>
+                    <button class="player-btn" id="shuffle-btn" onclick="toggleShuffle()" title="Karışık Çal" style="opacity: 0.5;">🔀</button>
+                </div>
+            </div>
+            
+            <div class="visitor-counter">
+                <span>Aylık Ziyaretçi:</span>
+                <span id="visits-count" class="visitor-count-num">...</span>
+            </div>
+            
+            <audio id="audio-element"></audio>
+        </div>
+
+        <div id="wrapper">
+
+                <header id="header">
+                        <a href="index.html" class="logo">GRAMAMÜZİK LABEL</a>
+                    </header>
+
+                <nav id="nav">
+                        <ul class="links">
+                            <li><a href="index.html">Ana Sayfa</a></li>
+                            <li><a href="generic.html">Sanatçılar</a></li>
+                            <li class="active"><a href="etkinlikler.html">Yaklaşan Etkinlikler</a></li>
+                            <li><a href="elements.html">Kurumsal &amp; İletişim</a></li>
+                        </ul>
+                        <ul class="icons">
+                            <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank" rel="noopener noreferrer"><span class="label">Instagram - Gramactross</span></a></li>
+                            <li><a href="https://instagram.com/misrapschooll59" class="icon brands fa-instagram" target="_blank" rel="noopener noreferrer"><span class="label">Instagram - Mısrap Schooll</span></a></li>
+                            <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank" rel="noopener noreferrer"><span class="label">YouTube - Gramactross</span></a></li>
+                            <li><a href="https://youtube.com/@misrapschooll59" class="icon brands fa-youtube" target="_blank" rel="noopener noreferrer"><span class="label">YouTube - Mısrap Schooll</span></a></li>
+                            <li><a href="https://www.tiktok.com/@misrap_schooll59" class="icon brands fa-tiktok" target="_blank" rel="noopener noreferrer"><span class="label">TikTok - Mısrap Schooll</span></a></li>
+                        </ul>
+                    </nav>
+
+                <div id="main" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; margin-bottom: 50px;">
+
+                    <header class="major" style="text-align: center; margin-bottom: 50px;">
+                        <h1 style="font-size: 60px; line-height: 1; color: #ffffff; text-shadow: 2px 2px 0 #000, 4px 4px 0 #333, -1px -1px 0 #000; letter-spacing: -2px; margin-bottom: 10px; font-family: 'Times New Roman', serif;">
+                            <i class="icon solid fa-fill-drip" style="font-size: 40px; vertical-align: middle; margin-right: 15px;"></i>
+                            MISRAP SCHOOLL
+                        </h1>
+                        <h2 style="font-size: 24px; color: #aaaaaa; letter-spacing: 2px; text-transform: uppercase;">
+                            Sanatçılarımızdan
+                        </h2>
+                    </header>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; justify-items: center;">
+
+                        <div style="background: #fff8b3; color: #333; width: 280px; min-height: 250px; padding: 25px; border-radius: 2px; box-shadow: 5px 5px 15px rgba(0,0,0,0.3); position: relative; transform: rotate(-2deg); font-family: 'Courier New', Courier, monospace;">
+                            <div style="width: 20px; height: 20px; background: #e74c3c; border-radius: 50%; position: absolute; top: 10px; left: 130px; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); border: 2px solid #c0392b;"></div>
+                            
+                            <h3 style="color: #c0392b; font-weight: bold; font-size:
