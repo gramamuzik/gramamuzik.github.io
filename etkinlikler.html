@@ -9,38 +9,53 @@
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
         <style>
-            /* 1. ŞABLONUN KENDİ SOKAK FOTOĞRAFINI KESİN OLARAK İPTAL ETME */
-            body > #bg, #bg {
-                display: none !important;
+            /* 1. KESİN VE NİHAİ ARKA PLAN SIFIRLAMASI */
+            html, body {
+                background-color: #000000 !important;
                 background-image: none !important;
-                opacity: 0 !important;
-                visibility: hidden !important;
             }
 
-            /* 2. YENİ VİDEO ARKA PLAN AYARLARI */
-            #my-video-bg {
+            /* Massively şablonunun zorla eklediği div'i görünmez yapar ve boyutunu sıfırlar */
+            #bg, div#bg, body > #bg {
+                display: none !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                width: 0 !important;
+                z-index: -99999 !important;
+            }
+
+            /* 2. VİDEO İÇİN ÖZEL KATMAN (Z-INDEX 1) */
+            #video-wrap {
                 position: fixed !important;
                 top: 0 !important;
                 left: 0 !important;
                 width: 100vw !important;
                 height: 100vh !important;
-                object-fit: cover !important;
-                z-index: -9999 !important;
+                z-index: 1 !important; /* Sayfanın zemininden üstte */
                 pointer-events: none !important;
-                filter: brightness(0.35) contrast(1.1); /* Videoyu karartır, yazılar net okunur */
+                overflow: hidden !important;
             }
 
-            /* 3. ANA SAYFA ZEMİNİNİ VİDEOYA AÇMA */
-            body, #wrapper {
-                background-color: transparent !important;
+            #video-wrap video {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+                filter: brightness(0.35) contrast(1.1); /* Okunabilirlik için videoyu karart */
             }
 
-            /* 4. FOOTER (E-POSTA/İLETİŞİM) KISMINI KARANLIK TEMA YAPMA (Beyazlamayı önler) */
+            /* 3. ANA İÇERİK KUTUSU (Z-INDEX 2 - VİDEONUN ÜSTÜNDE) */
+            #wrapper {
+                position: relative !important;
+                z-index: 2 !important; /* Videonun kesinlikle üstünde */
+                background: transparent !important; /* Arkadan videonun görünmesi için şeffaf */
+            }
+
+            /* 4. FOOTER (İLETİŞİM) KISMINI KARANLIK TEMAYA SABİTLEME */
             #footer {
-                background-color: rgba(18, 18, 18, 0.85) !important;
-                backdrop-filter: blur(12px) !important;
-                border-top: 1px solid #333 !important;
-                color: #cccccc !important;
+                background-color: #121212 !important;
+                border-top: 1px solid #333333 !important;
+                color: #dddddd !important;
                 padding: 40px !important;
                 border-radius: 20px 20px 0 0 !important;
             }
@@ -56,7 +71,7 @@
             #footer input[type="text"], 
             #footer input[type="email"], 
             #footer textarea {
-                background-color: #1a1a1a !important;
+                background-color: #1e1e1e !important;
                 color: #ffffff !important;
                 border: 1px solid #444444 !important;
                 border-radius: 5px !important;
@@ -83,6 +98,7 @@
             #copyright {
                 background-color: #0a0a0a !important;
                 color: #777777 !important;
+                border-top: 1px solid #222222 !important;
             }
 
             /* 5. ÜST KISIM (HEADER & NAV) KARANLIK TEMA AYARLARI */
@@ -92,16 +108,14 @@
             }
 
             #header .logo {
-                background-color: rgba(0, 0, 0, 0.7) !important;
+                background-color: rgba(0, 0, 0, 0.8) !important;
                 border: 2px solid #ffffff !important;
                 color: #ffffff !important;
-                backdrop-filter: blur(5px);
             }
 
             #nav {
-                background-color: rgba(20, 20, 20, 0.9) !important;
-                border-bottom: 1px solid #2a2a2a !important;
-                backdrop-filter: blur(8px);
+                background-color: rgba(20, 20, 20, 0.95) !important;
+                border-bottom: 1px solid #333333 !important;
             }
 
             #nav ul.links li a { color: #cccccc !important; }
@@ -166,9 +180,11 @@
     </head>
     <body class="is-preload">
 
-        <video id="my-video-bg" autoplay loop muted playsinline>
-            <source src="images/arkaplanvideo.mp4" type="video/mp4">
-        </video>
+        <div id="video-wrap">
+            <video autoplay loop muted playsinline>
+                <source src="images/arkaplanvideo.mp4" type="video/mp4">
+            </video>
+        </div>
 
         <div id="grama-player-widget">
             <div class="player-controls">
@@ -221,7 +237,7 @@
                     </ul>
                 </nav>
 
-                <div id="main" style="background: rgba(18, 18, 18, 0.7) !important; backdrop-filter: blur(12px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); padding: 40px 25px; margin-bottom: 50px;">
+                <div id="main" style="background: rgba(20, 20, 20, 0.75) !important; backdrop-filter: blur(8px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); padding: 40px 25px; margin-bottom: 50px;">
 
                     <header class="major" style="text-align: center; margin-bottom: 50px;">
                         <h1 style="font-size: clamp(32px, 5vw, 55px); line-height: 1.1; color: #ffffff; text-shadow: 3px 3px 0 #000, -2px -2px 0 #000; margin-bottom: 12px; font-family: 'Arial Black', Impact, sans-serif;">
@@ -313,12 +329,21 @@
         <script src="assets/js/browser.min.js"></script>
         <script src="assets/js/breakpoints.min.js"></script>
         <script src="assets/js/util.js"></script>
+        
+        <script>
+            // Massively main.js'nin arka plan yaratmasını durdurmak için
+            // body'ye id ataması yapacağız ki script "bg" id'sini bulamasın.
+        </script>
         <script src="assets/js/main.js"></script>
 
         <script>
-            $(window).on('load', function() {
-                $('#bg').remove();
-            });
+            setInterval(function(){
+                var bgEski = document.getElementById('bg');
+                if(bgEski) {
+                    bgEski.style.display = 'none';
+                    bgEski.style.opacity = '0';
+                }
+            }, 500);
         </script>
 
         <script>
