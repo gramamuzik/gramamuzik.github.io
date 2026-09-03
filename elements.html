@@ -413,23 +413,23 @@
                 <footer id="footer">
                         <section>
                             <h2>Demo Kayıtlarınız ve İşbirliği için Bize Ulaşın</h2>
-                            <form method="post" action="#">
+                            <form id="contact-form" onsubmit="sendToGmail(event)">
                                 <div class="fields">
                                     <div class="field">
                                         <label for="name">Adınız / Kurum</label>
-                                        <input type="text" name="name" id="name" placeholder="Ad Soyad" />
+                                        <input type="text" name="name" id="name" placeholder="Ad Soyad" required />
                                     </div>
                                     <div class="field">
                                         <label for="email">E-posta Adresiniz</label>
-                                        <input type="email" name="email" id="email" placeholder="ornek@email.com" />
+                                        <input type="email" name="email" id="email" placeholder="ornek@email.com" required />
                                     </div>
                                     <div class="field">
                                         <label for="message">Mesajınız / Demo / İşbirlikleri için </label>
-                                        <textarea name="message" id="message" rows="4" placeholder="Mesajınızı buraya yazabilirsiniz..."></textarea>
+                                        <textarea name="message" id="message" rows="4" placeholder="Mesajınızı buraya yazabilirsiniz..." required></textarea>
                                     </div>
                                 </div>
                                 <ul class="actions">
-                                    <li><input type="submit" value="Gönder" class="primary" /></li>
+                                    <li><input type="submit" value="Gmail ile Gönder" class="primary" /></li>
                                 </ul>
                             </form>
                         </section>
@@ -468,6 +468,21 @@
         <script src="assets/js/main.js"></script>
 
         <script>
+            function sendToGmail(event) {
+                event.preventDefault(); // Sayfanın yenilenmesini ve 405 hatasını engeller
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+
+                const recipient = "gramamuzikiletisim@gmail.com";
+                const subject = encodeURIComponent("Web Sitesi İletişim: " + name);
+                const body = encodeURIComponent("Gönderen Adı: " + name + "\nGönderen E-posta: " + email + "\n\nMesaj:\n" + message);
+
+                const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${subject}&body=${body}`;
+                window.open(gmailUrl, '_blank');
+            }
+
             const playlist = [
                 { title: "Akibet", src: "music/Akibet.mp3" },
                 { title: "Anahtar", src: "music/Anahtar.mp3" },
