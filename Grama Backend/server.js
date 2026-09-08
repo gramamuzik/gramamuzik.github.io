@@ -3,7 +3,6 @@ const { google } = require('googleapis');
 const axios = require('axios');
 const app = express();
 
-// CORS Ayarları
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
@@ -16,17 +15,28 @@ const youtube = google.youtube({
     auth: process.env.YOUTUBE_API_KEY
 });
 
-// Video Başlığından Temiz Şarkı / Sanatçı Adı Çıkarma
 function cleanTitle(title) {
     return title
-        .replace(/\[.*?\]|\(.*?\)/g, '') // Parantez ve köşeli parantez içlerini sil
+        .replace(/\[.*?\]|\(.*?\)/g, '')
         .replace(/(ft\.|feat\.|hd|4k|official|video|audio|vinyl|rip|sample|rare|remastered|lyrics|prod\.|by)/gi, '')
         .replace(/[-_]/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
 }
 
-// Discogs API - Yıl, Ülke ve Albüm Sorgulama
+function isWithinViewCountRange(views, filter) {
+    const num = parseInt(views, 10) || 0;
+    if (!filter || filter === 'all') return true;
+    if (filter === 'under1k') return num < 1000;
+    if (filter === '1k-5k') return num >= 1000 && num <= 5000;
+    if (filter === '5k-20k') return num >= 5000 && num <= 20000;
+    if (filter === '20k-100k') return num >= 20000 && num <= 100000;
+    if (filter === '100k-1m') return num >= 100000 && num <= 1000000;
+    if (filter === '1m-50m') return num >= 1000000 && num <= 50000000;
+    if (filter === 'over50m') return num > 50000000;
+    return true;
+}
+
 async function fetchDiscogsData(query) {
     if (!process.env.DISCOGS_TOKEN) return { year: 'Bilinmiyor', country: 'Global' };
 
@@ -54,7 +64,6 @@ async function fetchDiscogsData(query) {
     return { year: 'Bilinmiyor', country: 'Global' };
 }
 
-// GetSongBPM API - BPM ve Key Sorgulama
 async function fetchGetSongBpmData(query) {
     if (!process.env.GETSONGBPM_API_KEY) return { bpm: null, key: null };
 
@@ -81,21 +90,17 @@ async function fetchGetSongBpmData(query) {
     return { bpm: null, key: null };
 }
 
-// Metin Analiz Algoritması (Yedek Filtreleme)
 function parseSampleMetadata(title, description, tags = [], fallbackKey, fallbackBpm, fallbackMood) {
     const rawText = `${title} ${description} ${tags.join(' ')}`.toLowerCase();
 
-    // BPM Tespiti
     const bpmRegex = /\b([4-9][0-9]|1[0-9]{2}|2[0-0]{2})(?:\.[0-9])?\s*(?:bpm|tempo)?\b/i;
     const bpmMatch = rawText.match(bpmRegex);
     let bpm = bpmMatch ? `${bpmMatch[1]} BPM` : (fallbackBpm ? `${fallbackBpm} BPM` : 'Serbest');
 
-    // Ton (Key) Tespiti
     const keyRegex = /\b([a-g][b#]?(?:\s*(?:minor|major|min|maj|m))?)\b/i;
     const keyMatch = rawText.match(keyRegex);
     let key = keyMatch && keyMatch[1].length > 1 ? keyMatch[1].toUpperCase() : (fallbackKey && fallbackKey !== 'all' ? fallbackKey : 'Belirsiz');
 
-    // Tema / Duygu Tespiti
     const moodDictionary = {
         'Karanlık / Agresif': ['dark', 'evil', 'scary', 'karanlık', 'creepy', 'gothic', 'aggressive', 'angry', 'sert'],
         'Melankolik / Hüzünlü': ['sad', 'melancholic', 'emotional', 'hüzünlü', 'depressing', 'heartbreak', 'lonely'],
@@ -117,26 +122,34 @@ function parseSampleMetadata(title, description, tags = [], fallbackKey, fallbac
 
 app.get('/api/search-sample', async (req, res) => {
     try {
-        const { genre, key, bpm, mood, country, year } = req.query;
+        const { genre, key, bpm, mood, viewCount, country, year } = req.query;
 
-        let queryParts = [];
-        if (genre && genre !== 'all') queryParts.push(genre);
-        if (key && key !== 'all') queryParts.push(key);
-        if (bpm) queryParts.push(`${bpm} bpm`);
-        if (mood && mood !== 'all') queryParts.push(mood);
-        if (country && country !== 'all') queryParts.push(country);
-        if (year && year !== 'all') queryParts.push(year);
+        // Arama sorgusunu YouTube'u kilitlenmeyecek şekilde optimize ediyoruz
+        let mainQueryParts = [];
 
-        queryParts.push('rare sample vinyl rip');
-        const excludeParams = '-official -vevo -mv -video -lyrics -remastered -hd -tutorial -rehber -ders -yapımı';
+        if (genre && genre !== 'all') mainQueryParts.push(genre);
+        if (country && country !== 'all') mainQueryParts.push(country);
+        if (year && year !== 'all') mainQueryParts.push(year);
 
-        // 1. YouTube Arama
+        // Ana arama terimleri yoksa genel terimler kullanılır
+        if (mainQueryParts.length === 0) {
+            mainQueryParts.push('rare sample vinyl');
+        } else {
+            mainQueryParts.push('sample');
+        }
+
+        const searchQuery = mainQueryParts.join(' ');
+        const excludeParams = '-official -vevo -tutorial -ders -yapımı';
+
+        console.log(`[LOG] YouTube Arama Sorgusu: "${searchQuery}"`);
+
+        // 1. YouTube Havuzunu Geniş Tutuyoruz (50 Video)
         const searchResponse = await youtube.search.list({
             part: 'snippet',
-            q: `${queryParts.join(' ')} ${excludeParams}`,
+            q: `${searchQuery} ${excludeParams}`,
             type: 'video',
-            videoCategoryId: '10', // Sadece Müzik Kategorisi
-            maxResults: 10
+            videoCategoryId: '10',
+            maxResults: 50
         });
 
         if (!searchResponse.data.items || searchResponse.data.items.length === 0) {
@@ -145,28 +158,39 @@ app.get('/api/search-sample', async (req, res) => {
 
         const videoIds = searchResponse.data.items.map(item => item.id.videoId).join(',');
 
-        // 2. Videoların Detay/Etiket Bilgilerini Çekme
+        // 2. Videoların İstatistiklerini Çekme
         const videoDetailsResponse = await youtube.videos.list({
-            part: 'snippet',
+            part: 'snippet,statistics',
             id: videoIds
         });
 
-        // 3. Harici Veritabanları ve Analiz Algoritması ile Verileri Zenginleştirme
+        // 3. İzlenme Filtrelemesi
+        let matchedItems = videoDetailsResponse.data.items.filter(item => {
+            const views = item.statistics ? item.statistics.viewCount : 0;
+            return isWithinViewCountRange(views, viewCount);
+        });
+
+        // Seçilen izlenme aralığına uygun video çıkmazsa havuzdan rastgele devam et (Sistem kilitlenmesin)
+        if (matchedItems.length === 0) {
+            console.log('[LOG] İzlenme filtresine uyan sonuç bulunamadı, genel havuz kullanılıyor.');
+            matchedItems = videoDetailsResponse.data.items;
+        }
+
+        // 4. Verileri Zenginleştirme
         const processedItems = await Promise.all(
-            videoDetailsResponse.data.items.map(async (item) => {
+            matchedItems.map(async (item) => {
                 const title = item.snippet.title;
                 const description = item.snippet.description;
                 const tags = item.snippet.tags || [];
+                const viewNum = item.statistics ? parseInt(item.statistics.viewCount, 10) : 0;
 
                 const cleanedTerm = cleanTitle(title);
 
-                // Discogs ve GetSongBPM Servislerini Paralel Çağır
                 const [discogs, getsongbpm] = await Promise.all([
                     fetchDiscogsData(cleanedTerm),
                     fetchGetSongBpmData(cleanedTerm)
                 ]);
 
-                // Harici API verisi eksikse metin analiz algoritmasını devreye sok
                 const fallbackMeta = parseSampleMetadata(title, description, tags, key, bpm, mood);
 
                 return {
@@ -176,6 +200,7 @@ app.get('/api/search-sample', async (req, res) => {
                         genre: genre && genre !== 'all' ? genre : 'Karışık',
                         bpm: getsongbpm.bpm || fallbackMeta.bpm,
                         key: getsongbpm.key || fallbackMeta.key,
+                        views: viewNum.toLocaleString('tr-TR'),
                         year: discogs.year !== 'Bilinmiyor' ? discogs.year : (year && year !== 'all' ? year : 'Bilinmiyor'),
                         country: discogs.country !== 'Global' ? discogs.country : (country && country !== 'all' ? country : 'Global'),
                         mood: fallbackMeta.mood
@@ -187,12 +212,12 @@ app.get('/api/search-sample', async (req, res) => {
         res.json({ items: processedItems });
 
     } catch (error) {
-        console.error('API Ana Hatası:', error);
-        res.status(500).json({ error: 'Arama sırasında bir hata oluştu.' });
+        console.error('API Ana Hatası:', error.message || error);
+        res.status(500).json({ error: 'Arama sırasında bir hata oluştu.', details: error.message });
     }
 });
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-    console.log(`Grama Backend ${PORT} portunda başarıyla başlatıldı.`);
+    console.log(`Grama Backend ${PORT} portunda başlatıldı.`);
 });
