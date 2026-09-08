@@ -3,21 +3,23 @@
     <head>
         <title>Gramamüzik Label - Biz Kimiz? </title>
         <meta charset="utf-8" />
-        <link rel="icon" type="image/png" href="images/label.png" />
+        <link rel="icon" type="image/png" href="images/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <link rel="stylesheet" href="assets/css/main.css" />
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
         <style>
-            /* Şeffaf Header ve Logoların Hizalanması */
+            /* Header logolarını ve yazıyı yan yana (yatay) hizalama */
             #header {
                 display: flex !important;
+                flex-direction: row !important;
                 align-items: center !important;
                 justify-content: center !important;
-                gap: 20px !important;
+                gap: 15px !important;
                 background: transparent !important;
                 box-shadow: none !important;
                 border-bottom: none !important;
-                padding: 30px 0 10px 0 !important;
+                padding: 30px 10px !important;
+                flex-wrap: nowrap !important;
             }
             #header .logo {
                 background: transparent !important;
@@ -25,15 +27,18 @@
                 box-shadow: none !important;
                 position: static !important;
                 margin: 0 !important;
+                display: inline-block !important;
+                font-size: 1.4rem !important;
+                white-space: nowrap !important;
             }
             .header-side-logo {
-                height: 50px;
-                width: auto;
-                object-fit: contain;
-                display: block;
+                height: 45px !important;
+                width: auto !important;
+                object-fit: contain !important;
+                display: inline-block !important;
             }
 
-            /* --- MENÜ (NAV) VURGUSU VE GRİ RENK AYARI --- */
+            /* Menü (Nav) Vurgusu ve Gri Renk Ayarı */
             #nav {
                 background-color: rgba(25, 25, 25, 0.98) !important;
                 box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8) !important;
@@ -42,7 +47,7 @@
 
             #nav ul.links li.active a {
                 color: #ffffff !important;
-                background-color: #555555 !important; /* Şık gri tonu */
+                background-color: #555555 !important;
                 border-radius: 6px;
                 font-weight: bold;
             }
@@ -147,7 +152,7 @@
                 font-weight: 500;
             }
 
-            /* --- MÜZİK ÇALAR & SAYAÇ WIDGET'I --- */
+            /* Müzik Çalar & Sayaç Widget'ı */
             #grama-player-widget {
                 position: fixed;
                 top: 25px;
@@ -240,7 +245,10 @@
                     min-width: unset !important;
                 }
                 .header-side-logo {
-                    height: 35px !important;
+                    height: 30px !important;
+                }
+                #header .logo {
+                    font-size: 1rem !important;
                 }
             }
         </style>
@@ -271,9 +279,9 @@
         <div id="wrapper">
 
                 <header id="header">
-                    <a href="index.html"><img src="images/logo arkaplansız.png" alt="Sol Logo" class="header-side-logo" /></a>
+                    <a href="index.html"><img src="images/label.png" alt="Sol Logo" class="header-side-logo" /></a>
                     <a href="index.html" class="logo">GRAMAMÜZİK LABEL</a>
-                    <a href="index.html"><img src="images/logo arkaplansız.png" alt="Sağ Logo" class="header-side-logo" /></a>
+                    <a href="index.html"><img src="images/label.png" alt="Sağ Logo" class="header-side-logo" /></a>
                 </header>
 
                 <nav id="nav">
