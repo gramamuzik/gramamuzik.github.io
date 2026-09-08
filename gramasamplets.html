@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="tr">
     <head>
-        <title>GramaSamplets | Gramamüzik Sample Finder</title>
+        <title>GramaSamplets | Gramamüzik Sample Kütüphanesi</title>
         <meta charset="utf-8" />
         <link rel="icon" type="image/png" href="images/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -225,7 +225,7 @@
                     <h1 style="font-size: clamp(32px, 5vw, 50px); color: #ffffff; text-shadow: 2px 2px 0 #000;">
                         GRAMASAMPLETS
                     </h1>
-                    <p style="color: #cccccc; letter-spacing: 2px;">— Güvenli Backend Destekli YouTube Sample Keşif Motoru —</p>
+                    <p style="color: #cccccc; letter-spacing: 2px;">— GramaSamplets Sample Keşif Motoru —</p>
                 </header>
 
                 <div class="samplets-container">
@@ -256,7 +256,7 @@
                             </select>
                         </div>
 
-                        <!-- TON SEÇENEKLERİ -->
+                        <!-- Akor/Key -->
                         <div class="filter-box">
                             <label for="key">Ton (Key)</label>
                             <select id="key">
@@ -292,7 +292,7 @@
                             </select>
                         </div>
 
-                        <!-- BPM SEÇİCİ -->
+                        <!-- BPM -->
                         <div class="filter-box">
                             <label for="bpm">BPM (Tempo: 30 - 250)</label>
                             <input type="number" id="bpm" min="30" max="250" placeholder="Örn: 90, 140 vb." value="" />
@@ -350,7 +350,7 @@
                                 <h3 id="track-title" style="margin: 0; color: #fff; font-size: 1.1rem;">Kriterleri Seç ve Keşfet</h3>
                                 <p id="track-details" style="margin: 0; color: #aaa; font-size: 0.85rem;">İstekler güvenli yerel sunucunuz (Node.js) üzerinden YouTube API'ye iletilir.</p>
                             </div>
-                            <button class="btn-generate" id="find-btn">Yeni Sample Bul 🎲</button>
+                            <button class="btn-generate" id="find-btn">Sample Bul 🎲</button>
                         </div>
                     </main>
                 </div>
@@ -413,11 +413,11 @@
                 const detailsEl = document.getElementById('track-details');
                 const iframe = document.getElementById('yt-player');
 
-                titleEl.innerText = "Yerel sunucudan taranıyor...";
-                detailsEl.innerText = "YouTube verileri getiriliyor...";
+                titleEl.innerText = "Aranıyor...";
+                detailsEl.innerText = "Lütfen Bekleyin...";
 
                 try {
-                    const url = `http://localhost:3000/api/search-sample?genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&year=${encodeURIComponent(year)}`;
+                   const url = `https://grama-backend.onrender.com/api/search-sample?genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}`;
                     
                     const response = await fetch(url);
                     const data = await response.json();
@@ -438,7 +438,7 @@
                 } catch (error) {
                     console.error("Sunucu Bağlantı Hatası:", error);
                     titleEl.innerText = "Sunucu Hatası!";
-                    detailsEl.innerText = "Backend sunucusuna bağlanılamadı. Terminalde 'node server.js' komutunun çalıştığından emin olun.";
+                    detailsEl.innerText = "sunucuya bağlanılamadı.";
                 }
             }
 
