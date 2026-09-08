@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Sanatçılarımız - Gramamüzik Label</title>
+        <title>Yaklaşan Etkinlikler | Gramamüzik Label</title>
         <meta charset="utf-8" />
         <link rel="icon" type="image/png" href="images/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -9,102 +9,130 @@
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
         <style>
-            /* Tek ve Büyük Logo Alanı Ayarları */
-            #header {
-                display: flex !important;
-                flex-direction: row !important;
-                align-items: center !important;
-                justify-content: center !important;
-                background: transparent !important;
-                box-shadow: none !important;
-                border-bottom: none !important;
-                padding: 55px 10px !important;
-            }
-            #header a {
-                border-bottom: none !important;
-                text-decoration: none !important;
-                box-shadow: none !important;
-                background: transparent !important;
-            }
-            #header a:hover {
-                border-bottom: none !important;
-                background: transparent !important;
-            }
-            .header-main-logo {
-                height: 330px !important;
-                width: auto !important;
-                object-fit: contain !important;
-                display: block !important;
-                border: none !important;
-                box-shadow: none !important;
-                outline: none !important;
+            /* 1. KESİN VE NİHAİ ARKA PLAN SIFIRLAMASI */
+            html, body {
+                background-color: #000000 !important;
+                background-image: none !important;
             }
 
-            /* Navigasyon Menüsü (Şerit Tasarımı) */
-            #nav {
-                background-color: #181818 !important;
-                border-bottom: 1px solid #2a2a2a !important;
-            }
-            #nav ul.links li a {
-                color: #cccccc !important;
-            }
-            #nav ul.links li.active a {
-                color: #ffffff !important;
-                background-color: #252525 !important;
+            /* Massively şablonunun zorla eklediği div'i görünmez yapıp boyutunu sıfırlama */
+            #bg, div#bg, body > #bg {
+                display: none !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                width: 0 !important;
+                z-index: -99999 !important;
             }
 
-            /* Koyu Tema Genel Ayarlar */
-            body, #wrapper, #main, #footer {
+            /* 2. VİDEO İÇİN ÖZEL KATMAN (Z-INDEX 1) */
+            #video-wrap {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                z-index: 1 !important;
+                pointer-events: none !important;
+                overflow: hidden !important;
+            }
+
+            #video-wrap video {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+                filter: brightness(0.35) contrast(1.1);
+            }
+
+            /* 3. ANA İÇERİK KUTUSU (Z-INDEX 2) */
+            #wrapper {
+                position: relative !important;
+                z-index: 2 !important;
+                background: transparent !important;
+            }
+
+            /* 4. FOOTER KISMINI KARANLIK TEMAYA SABİTLEME */
+            #footer {
                 background-color: #121212 !important;
-                color: #e0e0e0 !important;
+                border-top: 1px solid #333333 !important;
+                color: #dddddd !important;
+                padding: 40px !important;
+                border-radius: 20px 20px 0 0 !important;
             }
 
-            /* Metinler ve Başlıklar */
-            h1, h2, h3, h4, h5, h6, 
-            h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+            #footer h3 {
                 color: #ffffff !important;
             }
-            p, .date, span {
-                color: #b0b0b0 !important;
-            }
 
-            /* Kartlar ve Kapsayıcılar */
-            #main > section.post,
-            #main > .posts > article,
-            #main .posts article {
-                background-color: #1e1e1e !important;
-                border-color: #2a2a2a !important;
-            }
-
-            /* Telif / Alt Alan */
-            #copyright {
-                color: #888888 !important;
-            }
-            #copyright a {
+            #footer label {
                 color: #aaaaaa !important;
             }
 
-            /* Fotoğrafların Kenarlarını Yumuşatma & Çerçeve Stili */
-            article img, .image.fit img, .image.main img {
-                border-radius: 14px !important;
-                border: 1px solid #333333 !important;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
-                transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-            }
-            article a.image:hover img {
-                transform: scale(1.02);
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
+            #footer input[type="text"], 
+            #footer input[type="email"], 
+            #footer textarea {
+                background-color: #1e1e1e !important;
+                color: #ffffff !important;
+                border: 1px solid #444444 !important;
+                border-radius: 5px !important;
             }
 
-            /* --- MÜZİK ÇALAR & SAYAÇ WIDGET'I --- */
+            #footer input[type="text"]:focus, 
+            #footer input[type="email"]:focus, 
+            #footer textarea:focus {
+                border-color: #e74c3c !important;
+                box-shadow: 0 0 5px rgba(231, 76, 60, 0.5) !important;
+            }
+            
+            #footer .button, #footer input[type="submit"] {
+                background-color: transparent !important;
+                color: #ffffff !important;
+                border: 2px solid #ffffff !important;
+            }
+
+            #footer .button:hover, #footer input[type="submit"]:hover {
+                background-color: #ffffff !important;
+                color: #121212 !important;
+            }
+
+            #copyright {
+                background-color: #0a0a0a !important;
+                color: #777777 !important;
+                border-top: 1px solid #222222 !important;
+            }
+
+            /* 5. ÜST KISIM (HEADER & NAV) KARANLIK TEMA AYARLARI */
+            #header {
+                background-color: transparent !important;
+                border: none !important;
+            }
+
+            #header .logo {
+                background-color: rgba(0, 0, 0, 0.8) !important;
+                border: 2px solid #ffffff !important;
+                color: #ffffff !important;
+            }
+
+            #nav {
+                background-color: rgba(20, 20, 20, 0.95) !important;
+                border-bottom: 1px solid #333333 !important;
+            }
+
+            #nav ul.links li a { color: #cccccc !important; }
+            #nav ul.links li.active a {
+                color: #ffffff !important;
+                background-color: rgba(40, 40, 40, 0.9) !important;
+            }
+
+            /* 6. MÜZİK ÇALAR & SAYAÇ WIDGET'I */
             #grama-player-widget {
                 position: fixed;
                 top: 25px;
                 left: 25px;
                 z-index: 999999 !important;
-                background: rgba(18, 18, 18, 0.95) !important;
-                backdrop-filter: blur(10px);
-                border: 1px solid #3a3a3a !important;
+                background: rgba(15, 15, 15, 0.92) !important;
+                backdrop-filter: blur(12px);
+                border: 1px solid #333 !important;
                 border-radius: 14px;
                 padding: 14px 18px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.8) !important;
@@ -116,88 +144,47 @@
             }
 
             #grama-player-widget *::before,
-            #grama-player-widget *::after {
-                display: none !important;
-                content: none !important;
-            }
+            #grama-player-widget *::after { display: none !important; content: none !important; }
 
             .player-controls {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 12px;
-                width: 100%;
-            }
-            .player-info {
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
-            }
-            .player-title {
-                font-size: 13px;
-                font-weight: bold;
-                color: #ffffff !important;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 140px;
-                letter-spacing: 0.5px;
-            }
-            .player-btn {
-                background: transparent !important;
-                border: none !important;
-                outline: none !important;
-                box-shadow: none !important;
-                color: #ffffff !important;
-                cursor: pointer;
-                padding: 2px 6px !important;
-                font-size: 16px !important;
-                line-height: 1 !important;
-                height: auto !important;
-                min-width: 0 !important;
-                width: auto !important;
-                margin: 0 !important;
-                appearance: none !important;
-                -webkit-appearance: none !important;
-            }
-            .player-btn:hover {
-                color: #b0b0b0 !important;
-                background: transparent !important;
-            }
-            .visitor-counter {
-                border-top: 1px solid #333333;
-                padding-top: 8px;
-                font-size: 12px;
-                color: #999999 !important;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .visitor-count-num {
-                color: #ffffff !important;
-                font-weight: bold;
-                font-size: 13px;
+                display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%;
             }
 
-            /* Mobil Uyumlu Konumlandırma */
+            .player-info { display: flex; flex-direction: column; overflow: hidden; }
+
+            .player-title {
+                font-size: 13px; font-weight: bold; color: #ffffff !important;
+                white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px;
+            }
+
+            .player-btn {
+                background: transparent !important; border: none !important; color: #ffffff !important;
+                cursor: pointer; padding: 2px 6px !important; font-size: 16px !important;
+            }
+
+            .player-btn:hover { color: #aaaaaa !important; }
+
+            .visitor-counter {
+                border-top: 1px solid #333; padding-top: 8px; font-size: 12px; color: #999 !important;
+                display: flex; justify-content: space-between; align-items: center;
+            }
+
+            .visitor-count-num { color: #ffffff !important; font-weight: bold; font-size: 13px; }
+
             @media screen and (max-width: 736px) {
                 #grama-player-widget {
-                    top: auto !important;
-                    bottom: 15px !important;
-                    left: 15px !important;
-                    right: 15px !important;
-                    min-width: unset !important;
-                }
-                .header-main-logo {
-                    height: 260px !important;
-                }
-                #header {
-                    padding: 20px 5px !important;
+                    top: auto !important; bottom: 15px !important; left: 15px !important; right: 15px !important; min-width: unset !important;
                 }
             }
         </style>
     </head>
     <body class="is-preload">
+
+        <div id="video-wrap">
+            <video autoplay loop muted playsinline>
+                <source src="images/arkaplanvideo.mp4" type="video/mp4">
+            </video>
+        </div>
 
         <div id="grama-player-widget">
             <div class="player-controls">
@@ -220,94 +207,94 @@
             <audio id="audio-element"></audio>
         </div>
 
-        <div id="wrapper">
+        <div id="wrapper" class="fade-in">
+
+            <div id="intro">
+                <h1 style="color: #ffffff;">Mısrap Schooll<br />Etkinlikler</h1>
+                <p style="color: #cccccc;">Türkiye'nin Oldschool Rap'inin Sesi | Gramamüzik Resmi Web Sitesi</p>
+                <ul class="actions">
+                    <li><a href="#header" class="button icon solid solo fa-arrow-down scrolly" style="border-color: #ffffff; color: #ffffff;">Devam Et</a></li>
+                </ul>
+            </div>
 
             <header id="header">
-                <a href="index.html"><img src="images/label.png" alt="Gramamüzik Label Logo" class="header-main-logo" /></a>
+                <a href="index.html" class="logo">GRAMAMÜZİK</a>
             </header>
 
             <nav id="nav">
                 <ul class="links">
                     <li><a href="index.html">Ana Sayfa</a></li>
-                    <li class="active"><a href="generic.html">Sanatçılar</a></li>
-                    <li><a href="etkinlikler.html">Yaklaşan Etkinlikler</a></li>
+                    <li><a href="generic.html">Sanatçılar</a></li>
+                    <li class="active"><a href="etkinlikler.html">Yaklaşan Etkinlikler</a></li>
                     <li><a href="gramasamplets.html">GramaSamplets</a></li>
                     <li><a href="elements.html">Biz Kimiz?</a></li>
                     <li><a href="privacypolicy.HTML">Gizlilik Politikası</a></li>
                 </ul>
+                <ul class="icons">
+                    <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                    <li><a href="https://instagram.com/misrapschooll59" class="icon brands alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                    <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
+                    <li><a href="https://youtube.com/@misrapschooll59" class="icon brands alt fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
+                    <li><a href="https://www.tiktok.com/@misrap_schooll59" class="icon brands fa-tiktok" target="_blank"><span class="label">TikTok</span></a></li>
+                </ul>
             </nav>
 
-            <div id="main">
+            <div id="main" style="background: rgba(20, 20, 20, 0.75) !important; backdrop-filter: blur(8px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); padding: 40px 25px; margin-bottom: 50px;">
 
-                <section class="post">
-                    <header class="major">
-                        <span class="date">GRAMAMÜZİK LABEL</span>
-                        <h1>SANATÇILARIMIZ</h1>
-                        <p>Bünyemizdeki üreticiler, MC'ler ve prodüktörler.</p>
-                    </header>
+                <header class="major" style="text-align: center; margin-bottom: 50px;">
+                    <img src="images/mslogo.png" alt="Mısrap Schooll Logo" style="max-width: 140px; height: auto; margin-bottom: 15px; display: inline-block;" />
+                    <h1 style="font-size: clamp(32px, 5vw, 55px); line-height: 1.1; color: #ffffff; text-shadow: 3px 3px 0 #000, -2px -2px 0 #000; margin-bottom: 12px; font-family: 'Arial Black', Impact, sans-serif;">
+                        MISRAP SCHOOLL
+                    </h1>
+                    <h2 style="font-size: 20px; color: #dddddd; letter-spacing: 3px; font-weight: 300;">— Sanatçılarımızdan —</h2>
+                </header>
 
-                    <section class="posts">
-                        <article>
-                            <header>
-                                <h2>Gramactross</h2>
-                            </header>
-                            <a href="#" class="image fit"><img src="images/gramactross.jpg" alt="Gramactross" /></a>
-                            <p>Gramamüzik Label kurucusu ve Mısrap Schooll'un kurucu üyesi melankolik altyapıları, özgün stili ve oldschool Rap sahnesine kazandırdığı projelerle ekibin öncü isimlerinden.</p>
-                        </article>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 35px; justify-items: center;">
 
-                        <article>
-                            <header>
-                                <h2>Alastor</h2>
-                            </header>
-                            <a href="#" class="image fit"><img src="images/alastor.jpg" alt="Alastor" /></a>
-                            <p>Karanlık temaları ve sert sokağı anlatan lirik yapısıyla dikkat çeken Alastor, grubun atmosferik rap tarzını temsil eden sanatçılardan biri.</p>
-                        </article>
+                    <div style="background: #fff8b3; color: #222; width: 100%; max-width: 310px; padding: 22px; border-radius: 3px; box-shadow: 0 12px 25px rgba(0,0,0,0.6); transform: rotate(-2deg); font-family: 'Courier New', Courier, monospace;">
+                        <div style="background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 13px; padding: 5px; margin-bottom: 12px; border-radius: 3px;">🗓️ TARİH BELİRTİLMEMİŞ</div>
+                        <img src="images/pic01.jpg" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 12px; border-radius: 8px;">
+                        <h3 style="color: #b71c1c; font-weight: bold; font-size: 17px; margin-bottom: 8px; border-bottom: 2px dashed #dcd088; padding-bottom: 4px;">[ CANLI PERFORMANS ]</h3>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>📍 Yer:</strong> Gramactross'un Stüdyosu</p>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>🎤 Sanatçı:</strong> Mısrap Schooll Üyeleri</p>
+                        <p style="margin-bottom: 0; font-size: 12px; font-style: italic; color: #444;">Tiktok Canlı Yayınında beat yapımı ve söz yazımı, vokal kayıt etkinliği</p>
+                    </div>
 
-                        <article>
-                            <header>
-                                <h2>Jess D. Exill</h2>
-                            </header>
-                            <a href="#" class="image fit"><img src="images/jess.jpg" alt="Jess D. Exill" /></a>
-                            <p>Kendine has rhyme tekniği ve melankolik akışıyla ön plana çıkan Jess D. Exill, Gramamüzik çatısı altında üretimlerine devam ediyor.</p>
-                        </article>
+                    <div style="background: #ffb3b3; color: #222; width: 100%; max-width: 310px; padding: 22px; border-radius: 3px; box-shadow: 0 12px 25px rgba(0,0,0,0.6); transform: rotate(2.5deg); font-family: 'Courier New', Courier, monospace;">
+                        <div style="background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 13px; padding: 5px; margin-bottom: 12px; border-radius: 3px;">🗓️ TARİH BELİRTİLMEMİŞ</div>
+                        <img src="images/acapella.png" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 12px; border-radius: 8px;">
+                        <h3 style="color: #1d6fa5; font-weight: bold; font-size: 17px; margin-bottom: 8px; border-bottom: 2px dashed #d9a0a0; padding-bottom: 4px;">Mix-tape & acapella </h3>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>📍 Yer:</strong> Gramactross'un Stüdyosu</p>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>🎤 Katılım:</strong> Alastor, Trafo, Jess D. Exill, Gramactross</p>
+                        <p style="margin-bottom: 0; font-size: 12px; font-style: italic; color: #444;">Mısrap Schooll Ekibinin doğaçlama mixtape projeleri ve acapella etkinliği</p>
+                    </div>
 
-                        <article>
-                            <header>
-                                <h2>Trafo</h2>
-                            </header>
-                            <a href="#" class="image fit"><img src="images/trafo.jpg" alt="Trafo" /></a>
-                            <p>Yüksek enerjili parçaları ve sokak kültürünü doğrudan müziğine yansıtan tarzıyla ekibin dinamiğini yansıtan isimlerden.</p>
-                        </article>
-                    </section>
+                    <div style="background: #b3ffb3; color: #222; width: 100%; max-width: 310px; padding: 22px; border-radius: 3px; box-shadow: 0 12px 25px rgba(0,0,0,0.6); transform: rotate(-1.5deg); font-family: 'Courier New', Courier, monospace;">
+                        <div style="background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 13px; padding: 5px; margin-bottom: 12px; border-radius: 3px;">🗓️ TARİH BELİRTİLMEMİŞ</div>
+                        <img src="images/alastoretk.png" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 12px; border-radius: 8px;">
+                        <h3 style="color: #1e8449; font-weight: bold; font-size: 17px; margin-bottom: 8px; border-bottom: 2px dashed #a0d9a0; padding-bottom: 4px;">[ ALASTOR'UN STÜDYOSU ]</h3>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>📍 Yer:</strong> Çerkezköy / Kumlugeçit</p>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>🎤 Yardımcı Prodüktör ve Editör:</strong> Gramactross</p>
+                        <p style="margin-bottom: 0; font-size: 12px; font-style: italic; color: #444;">Beat Projeleri</p>
+                    </div>
 
-                </section>
+                </div>
 
             </div>
 
+            <!-- FOOTER BAŞLANGICI -->
             <footer id="footer">
-                <section class="split contact" style="width: 100%;">
-                    <section>
-                        <h3>E-posta</h3>
-                        <p><a href="mailto:gramamuzikiletisim@gmail.com">gramamuzikiletisim@gmail.com</a></p>
-                    </section>
-                    <section>
-                        <h3>Sosyal Medya</h3>
-                        <ul class="icons alt">
-                            <li><a href="https://instagram.com/gramactross" class="icon brands alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-                            <li><a href="https://youtube.com/@gramactrossrap" class="icon brands alt fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
-                            <li><a href="https://instagram.com/ihsanakar_55" class="icon brands alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-                            <li><a href="https://instagram.com/t4yfun_59" class="icon brands alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-                            <li><a href="https://instagram.com/jessdexill" class="icon brands alt fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-                            <li><a href="https://www.tiktok.com/@gramactross" class="icon brands fa-tiktok" target="_blank" rel="noopener noreferrer"><span class="label">TikTok - gramactross</span></a></li>
-                            <li><a href="https://www.tiktok.com/@tayfun_59.55" class="icon brands fa-tiktok" target="_blank" rel="noopener noreferrer"><span class="label">TikTok - tayfun_59-55</span></a></li>
-                            <li><a href="https://www.tiktok.com/@misrap_schooll59" class="icon brands fa-tiktok" target="_blank" rel="noopener noreferrer"><span class="label">TikTok - </span></a></li>
-                            <li><a href="https://genius.com/artists/Gramactross" class="icon solid fa-headphones" target="_blank" rel="noopener noreferrer"><span class="label">Genius</span></a></li>
-                            <li><a href="https://genius.com/artists/Jess-d-exill" class="icon solid fa-headphones" target="_blank" rel="noopener noreferrer"><span class="label">Genius</span></a></li>
-                            <li><a href="https://genius.com/artists/Traforap" class="icon solid fa-headphones" target="_blank" rel="noopener noreferrer"><span class="label">Genius</span></a></li>
-                            <li><a href="https://genius.com/artists/Alastorap" class="icon solid fa-headphones" target="_blank" rel="noopener noreferrer"><span class="label">Genius</span></a></li>
-                            <li><a href="https://on.soundcloud.com/O4RtLVe7lzGZXSaTtJ" class="icon brands fa-soundcloud" target="_blank" rel="noopener noreferrer"><span class="label">SoundCloud</span></a></li>
-                        </ul>
-                    </section>
+                <section>
+                    <h3>E-posta</h3>
+                    <p><a href="mailto:gramamuzikiletisim@gmail.com" style="color: #e74c3c;">gramamuzikiletisim@gmail.com</a></p>
+                </section>
+                <section>
+                    <h3>Sosyal Medya</h3>
+                    <ul class="icons">
+                        <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                        <li><a href="https://instagram.com/misrapschooll59" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                        <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
+                    </ul>
                 </section>
             </footer>
 
@@ -324,6 +311,16 @@
         <script src="assets/js/breakpoints.min.js"></script>
         <script src="assets/js/util.js"></script>
         <script src="assets/js/main.js"></script>
+
+        <script>
+            setInterval(function(){
+                var bgEski = document.getElementById('bg');
+                if(bgEski) {
+                    bgEski.style.display = 'none';
+                    bgEski.style.opacity = '0';
+                }
+            }, 500);
+        </script>
 
         <script>
             const playlist = [
@@ -381,11 +378,7 @@
                 if (audio.paused) {
                     var playPromise = audio.play();
                     if (playPromise !== undefined) {
-                        playPromise.then(_ => {
-                            playBtn.innerText = "⏸";
-                        }).catch(error => {
-                            console.log("Oynatma hatası:", error);
-                        });
+                        playPromise.then(_ => { playBtn.innerText = "⏸"; }).catch(error => { console.log(error); });
                     }
                 } else {
                     audio.pause();
@@ -396,9 +389,7 @@
             function nextTrack() {
                 if (isShuffle) {
                     let randomIndex = Math.floor(Math.random() * playlist.length);
-                    if (playlist.length > 1 && randomIndex === currentTrackIndex) {
-                        randomIndex = (randomIndex + 1) % playlist.length;
-                    }
+                    if (playlist.length > 1 && randomIndex === currentTrackIndex) { randomIndex = (randomIndex + 1) % playlist.length; }
                     currentTrackIndex = randomIndex;
                 } else {
                     currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
@@ -422,14 +413,10 @@
             }
 
             audio.addEventListener('timeupdate', function() {
-                if (audio.currentTime > 0) {
-                    localStorage.setItem('grama_track_time', audio.currentTime);
-                }
+                if (audio.currentTime > 0) { localStorage.setItem('grama_track_time', audio.currentTime); }
             });
 
-            audio.addEventListener('ended', function() {
-                nextTrack();
-            });
+            audio.addEventListener('ended', function() { nextTrack(); });
 
             document.addEventListener("DOMContentLoaded", function() {
                 loadTrack(currentTrackIndex, true);
@@ -437,16 +424,8 @@
 
                 fetch('https://api.counterapi.dev/v1/gramamuzik.github.io/visits/up')
                     .then(res => res.json())
-                    .then(data => {
-                        if(data && data.count) {
-                            document.getElementById('visits-count').innerText = data.count;
-                        } else {
-                            document.getElementById('visits-count').innerText = "1,250+";
-                        }
-                    })
-                    .catch(() => {
-                        document.getElementById('visits-count').innerText = "1,250+";
-                    });
+                    .then(data => { document.getElementById('visits-count').innerText = data && data.count ? data.count : "1,250+"; })
+                    .catch(() => { document.getElementById('visits-count').innerText = "1,250+"; });
             });
         </script>
 
