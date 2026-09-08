@@ -3,28 +3,60 @@
     <head>
         <title>Sanatçılarımız - Gramamüzik Label</title>
         <meta charset="utf-8" />
+        <link rel="icon" type="image/png" href="images/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <link rel="stylesheet" href="assets/css/main.css" />
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
         <style>
-            /* Koyu Tema Genel Ayarlar */
-            body, #wrapper, #main, #nav, #footer {
-                background-color: #121212 !important;
-                color: #e0e0e0 !important;
-            }
-
-            /* HEADER SİYAH ŞERİDİNİ ŞEFFAF YAPMA */
+            /* Tek ve Büyük Logo Alanı Ayarları */
             #header {
-                background-color: transparent !important;
-                background: none !important;
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                border-bottom: none !important;
+                padding: 55px 10px !important;
+            }
+            #header a {
+                border-bottom: none !important;
+                text-decoration: none !important;
+                box-shadow: none !important;
+                background: transparent !important;
+            }
+            #header a:hover {
+                border-bottom: none !important;
+                background: transparent !important;
+            }
+            .header-main-logo {
+                height: 330px !important;
+                width: auto !important;
+                object-fit: contain !important;
+                display: block !important;
                 border: none !important;
                 box-shadow: none !important;
+                outline: none !important;
             }
-            #header .logo {
-                background-color: rgba(0, 0, 0, 0.4) !important;
-                border: 2px solid #ffffff !important;
+
+            /* Navigasyon Menüsü (Şerit Tasarımı) */
+            #nav {
+                background-color: #181818 !important;
+                border-bottom: 1px solid #2a2a2a !important;
+            }
+            #nav ul.links li a {
+                color: #cccccc !important;
+            }
+            #nav ul.links li.active a {
                 color: #ffffff !important;
+                background-color: #252525 !important;
+            }
+
+            /* Koyu Tema Genel Ayarlar */
+            body, #wrapper, #main, #footer {
+                background-color: #121212 !important;
+                color: #e0e0e0 !important;
             }
 
             /* Metinler ve Başlıklar */
@@ -42,19 +74,6 @@
             #main .posts article {
                 background-color: #1e1e1e !important;
                 border-color: #2a2a2a !important;
-            }
-
-            /* Navigasyon Menüsü */
-            #nav {
-                background-color: #181818 !important;
-                border-bottom: 1px solid #2a2a2a !important;
-            }
-            #nav ul.links li a {
-                color: #cccccc !important;
-            }
-            #nav ul.links li.active a {
-                color: #ffffff !important;
-                background-color: #252525 !important;
             }
 
             /* Telif / Alt Alan */
@@ -96,7 +115,6 @@
                 box-sizing: border-box !important;
             }
 
-            /* Şablon çakışmalarını engelleme */
             #grama-player-widget *::before,
             #grama-player-widget *::after {
                 display: none !important;
@@ -170,6 +188,12 @@
                     right: 15px !important;
                     min-width: unset !important;
                 }
+                .header-main-logo {
+                    height: 260px !important;
+                }
+                #header {
+                    padding: 20px 5px !important;
+                }
             }
         </style>
     </head>
@@ -199,22 +223,17 @@
         <div id="wrapper">
 
             <header id="header">
-                <a href="index.html" class="logo">GRAMAMÜZİK</a>
+                <a href="index.html"><img src="images/label.png" alt="Gramamüzik Label Logo" class="header-main-logo" /></a>
             </header>
 
             <nav id="nav">
-    <ul class="links">
-        <li><a href="index.html">Ana Sayfa</a></li>
-        <li class="active"><a href="generic.html">Sanatçılar</a></li>
-        <li><a href="etkinlikler.html">Yaklaşan Etkinlikler</a></li>
-        <li><a href="gramasamplets.html">GramaSamplets</a></li>
-        <li><a href="elements.html">Biz Kimiz?</a></li>
-        <li class="active"><a href="privacypolicy.HTML">Gizlilik Politikası</a></li>
-    </ul>
-</nav>
-                <ul class="icons">
-                    <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-                    <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
+                <ul class="links">
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li class="active"><a href="generic.html">Sanatçılar</a></li>
+                    <li><a href="etkinlikler.html">Yaklaşan Etkinlikler</a></li>
+                    <li><a href="gramasamplets.html">GramaSamplets</a></li>
+                    <li><a href="elements.html">Biz Kimiz?</a></li>
+                    <li><a href="privacypolicy.HTML">Gizlilik Politikası</a></li>
                 </ul>
             </nav>
 
@@ -287,6 +306,8 @@
                             <li><a href="https://genius.com/artists/Traforap" class="icon solid fa-headphones" target="_blank" rel="noopener noreferrer"><span class="label">Genius</span></a></li>
                             <li><a href="https://genius.com/artists/Alastorap" class="icon solid fa-headphones" target="_blank" rel="noopener noreferrer"><span class="label">Genius</span></a></li>
                             <li><a href="https://on.soundcloud.com/O4RtLVe7lzGZXSaTtJ" class="icon brands fa-soundcloud" target="_blank" rel="noopener noreferrer"><span class="label">SoundCloud</span></a></li>
+                        </ul>
+                    </section>
                 </section>
             </footer>
 
@@ -400,7 +421,6 @@
                 updateShuffleUI();
             }
 
-            // Oynatılan şarkının saniyesini anlık olarak kaydet
             audio.addEventListener('timeupdate', function() {
                 if (audio.currentTime > 0) {
                     localStorage.setItem('grama_track_time', audio.currentTime);
@@ -412,11 +432,9 @@
             });
 
             document.addEventListener("DOMContentLoaded", function() {
-                // Sayfa ilk yüklendiğinde hafızadaki şarkıyı ve saniyeyi getir
                 loadTrack(currentTrackIndex, true);
                 updateShuffleUI();
 
-                // Ziyaretçi Sayacı
                 fetch('https://api.counterapi.dev/v1/gramamuzik.github.io/visits/up')
                     .then(res => res.json())
                     .then(data => {
