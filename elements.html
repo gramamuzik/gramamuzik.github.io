@@ -8,18 +8,16 @@
         <link rel="stylesheet" href="assets/css/main.css" />
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
         <style>
-            /* Header logolarını ve yazıyı yan yana (yatay) hizalama, boyut ve çizgi sorununu giderme */
+            /* Tek ve Büyük Logo Alanı Ayarları */
             #header {
                 display: flex !important;
                 flex-direction: row !important;
                 align-items: center !important;
                 justify-content: center !important;
-                gap: 25px !important;
                 background: transparent !important;
                 box-shadow: none !important;
                 border-bottom: none !important;
-                padding: 40px 10px !important;
-                flex-wrap: nowrap !important;
+                padding: 35px 10px !important;
             }
             #header a {
                 border-bottom: none !important;
@@ -31,22 +29,11 @@
                 border-bottom: none !important;
                 background: transparent !important;
             }
-            #header .logo {
-                background: transparent !important;
-                border: none !important;
-                box-shadow: none !important;
-                position: static !important;
-                margin: 0 !important;
-                display: inline-block !important;
-                font-size: 1.8rem !important;
-                white-space: nowrap !important;
-                border-bottom: none !important;
-            }
-            .header-side-logo {
-                height: 75px !important;
+            .header-main-logo {
+                height: 110px !important;
                 width: auto !important;
                 object-fit: contain !important;
-                display: inline-block !important;
+                display: block !important;
                 border: none !important;
                 box-shadow: none !important;
                 outline: none !important;
@@ -258,14 +245,10 @@
                     right: 15px !important;
                     min-width: unset !important;
                 }
-                .header-side-logo {
-                    height: 40px !important;
-                }
-                #header .logo {
-                    font-size: 1.1rem !important;
+                .header-main-logo {
+                    height: 70px !important;
                 }
                 #header {
-                    gap: 10px !important;
                     padding: 20px 5px !important;
                 }
             }
@@ -297,9 +280,7 @@
         <div id="wrapper">
 
                 <header id="header">
-                    <a href="index.html"><img src="images/label.png" alt="Sol Logo" class="header-side-logo" /></a>
-                    <a href="index.html" class="logo">GRAMAMÜZİK LABEL</a>
-                    <a href="index.html"><img src="images/label.png" alt="Sağ Logo" class="header-side-logo" /></a>
+                    <a href="index.html"><img src="images/label.png" alt="Gramamüzik Label Logo" class="header-main-logo" /></a>
                 </header>
 
                 <nav id="nav">
