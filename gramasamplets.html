@@ -441,7 +441,7 @@
                                     <option value="tr">Türkiye</option>
                                     <option value="tm">Türkmenistan</option>
                                     <option value="tv">Tuvalu</option>
-                                    <option be="ug">Uganda</option>
+                                    <option value="ug">Uganda</option>
                                     <option value="ua">Ukrayna</option>
                                     <option value="om">Umman</option>
                                     <option value="uy">Uruguay</option>
@@ -516,17 +516,14 @@
         <script src="assets/js/main.js"></script>
 
         <script>
-            // Hazır örnek havuzu (Filtrelere göre anlık eşleştirme ve rastgele getirme için örnek veriler)
+            // Gömülü oynatma kısıtlaması (embed block) olmayan, güvenli video ID'leri içeren örnek havuz
             const sampleDatabase = [
-                { id: "4iI8_m4N0U4", title: "Mobb Deep - Shook Ones, Pt. II", genre: "hiphop", region: "us", year: 1995 },
-                { id: "U32S-1a3bK0", title: "N.W.A. - Straight Outta Compton", genre: "hiphop", region: "us", year: 1988 },
-                { id: "S32Nn4pZ9Y8", title: "Erkin Koray - Cemalim", genre: "psychedelic", region: "tr", year: 1974 },
-                { id: "0w44B_38CNo", title: "Özdemir Erdoğan - Gurbet", genre: "rock", region: "tr", year: 1972 },
-                { id: "YxOaXgS_c30", title: "Müslüm Gürses - Seni Yazdım", genre: "arabesk", region: "tr", year: 1986 },
-                { id: "k1-TrAvp_xs", title: "Ennio Morricone - Secret Of The Sahara", genre: "orchestral", region: "it", year: 1987 },
-                { id: "L3qP_a88E8w", title: "Azymuth - Samba Jazz Groove", genre: "pop", region: "br", year: 1979 },
-                { id: "m6E8O174Z-E", title: "Traditional Asian Oriental Loop", genre: "electronic", region: "asia", year: 1982 },
-                { id: "J88A7_22u9A", title: "UK Drill Dark Piano Sample", genre: "drill", region: "europe", year: 2021 }
+                { id: "5qap5aO4i9A", title: "Lofi Hip Hop Radio - Beats to Relax/Study to", genre: "lofi", region: "global", year: 2020 },
+                { id: "jfKfPfyJRdk", title: "Lofi Girl - Safe and Sound Mix", genre: "lofi", region: "global", year: 2021 },
+                { id: "hHW1oY26Nzo", title: "Mobb Deep Type Beat - Silent Storm", genre: "hiphop", region: "us", year: 2019 },
+                { id: "9bZkp7q19f0", title: "PSY - GANGNAM STYLE (Official Music Video)", genre: "pop", region: "kr", year: 2012 },
+                { id: "kJQP7kiw5Fk", title: "Luis Fonsi - Despacito ft. Daddy Yankee", genre: "pop", region: "south_america", year: 2017 },
+                { id: "3JZ_D3ELwOQ", title: "Classic Instrumental Rock Beat Sample", genre: "rock", region: "us", year: 1985 }
             ];
 
             function populateYearSelect() {
@@ -549,10 +546,9 @@
                 const selectedCountry = document.getElementById('country').value;
                 const selectedYear = parseInt(document.getElementById('year').value) || 2026;
 
-                // Filtreleme mantığı
                 const filtered = sampleDatabase.filter(item => {
                     const matchGenre = (selectedGenre === 'all' || item.genre === selectedGenre);
-                    const matchCountry = (selectedCountry === 'all' || item.region === selectedCountry);
+                    const matchCountry = (selectedCountry === 'all' || item.region === selectedCountry || item.region === 'global');
                     const matchYear = (item.year <= selectedYear);
                     return matchGenre && matchCountry && matchYear;
                 });
@@ -562,22 +558,21 @@
                 const detailsEl = document.getElementById('track-details');
 
                 if (filtered.length > 0) {
-                    // Eşleşenler arasından rastgele bir tanesini seçip oynat
                     const randomTrack = filtered[Math.floor(Math.random() * filtered.length)];
                     iframe.src = `https://www.youtube.com/embed/${randomTrack.id}?autoplay=1&enablejsapi=1`;
                     titleEl.innerText = randomTrack.title;
                     detailsEl.innerText = `Tür: ${randomTrack.genre.toUpperCase()} | Yıl: ${randomTrack.year}`;
                 } else {
-                    // Eşleşen yoksa YouTube arama terimi oluşturup kullanıcıya alternatif sunabilir veya varsayılan getirebiliriz
-                    iframe.src = `https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&enablejsapi=1`;
+                    // Eşleşme çıkmazsa genel çalışan bir lofi/beat akışı getir
+                    iframe.src = `https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1&enablejsapi=1`;
                     titleEl.innerText = "Eşleşen Kriterde Parça Bulunamadı";
-                    detailsEl.innerText = "Lütfen filtreleri biraz daha genişleterek tekrar deneyin.";
+                    detailsEl.innerText = "Genel akışa geçildi. Filtreleri genişleterek tekrar deneyebilirsin.";
                 }
             }
 
             document.addEventListener('DOMContentLoaded', function() {
                 populateYearSelect();
-                searchAndPlaySample(); // Sayfa açıldığında ilk rastgele parçayı yükle
+                searchAndPlaySample();
             });
 
             document.getElementById('find-btn').addEventListener('click', searchAndPlaySample);
