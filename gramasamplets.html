@@ -115,7 +115,7 @@
                 background: #000;
             }
 
-            .video-player-box iframe {
+            .video-player-box iframe, .video-player-box #yt-player {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -193,6 +193,9 @@
                 text-align: center;
             }
         </style>
+        
+        <!-- YouTube Iframe API SDK -->
+        <script src="https://www.youtube.com/iframe_api"></script>
     </head>
     <body class="is-preload">
 
@@ -342,13 +345,14 @@
                     <!-- İçerik Alanı -->
                     <main class="samplets-main">
                         <div class="video-player-box">
-                            <iframe id="yt-player" src="" allowfullscreen></iframe>
+                            <!-- JS SDK Oynatıcı Konteyneri -->
+                            <div id="yt-player"></div>
                         </div>
 
                         <div class="controls-bar">
                             <div>
                                 <h3 id="track-title" style="margin: 0; color: #fff; font-size: 1.1rem;">Kriterleri Seç ve Keşfet</h3>
-                                <p id="track-details" style="margin: 0; color: #aaa; font-size: 0.85rem;">İstekler güvenli yerel sunucunuz (Node.js) üzerinden YouTube API'ye iletilir.</p>
+                                <p id="track-details" style="margin: 0; color: #aaa; font-size: 0.85rem;">İstekler canlı bulut sunucunuz üzerinden YouTube, Discogs ve GetSongBPM veritabanlarına iletilir.</p>
                             </div>
                             <button class="btn-generate" id="find-btn">Sample Bul 🎲</button>
                         </div>
@@ -388,6 +392,29 @@
         <script src="assets/js/main.js"></script>
 
         <script>
+            let player;
+            let isPlayerReady = false;
+
+            // YouTube SDK Hazır Olduğunda Çağrılan Fonksiyon
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('yt-player', {
+                    height: '100%',
+                    width: '100%',
+                    playerVars: {
+                        'autoplay': 1,
+                        'controls': 1,
+                        'modestbranding': 1,
+                        'rel': 0,
+                        'fs': 1
+                    },
+                    events: {
+                        'onReady': function() {
+                            isPlayerReady = true;
+                        }
+                    }
+                });
+            }
+
             function populateYearSelect() {
                 const yearSelect = document.getElementById('year');
                 const currentYear = new Date().getFullYear();
@@ -411,13 +438,12 @@
 
                 const titleEl = document.getElementById('track-title');
                 const detailsEl = document.getElementById('track-details');
-                const iframe = document.getElementById('yt-player');
 
                 titleEl.innerText = "Aranıyor...";
-                detailsEl.innerText = "Lütfen Bekleyin...";
+                detailsEl.innerText = "Veritabanları taranıyor, lütfen bekleyin...";
 
                 try {
-                   const url = `https://grama-backend.onrender.com/api/search-sample?genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}`;
+                    const url = `https://grama-backend.onrender.com/api/search-sample?genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&year=${encodeURIComponent(year)}`;
                     
                     const response = await fetch(url);
                     const data = await response.json();
@@ -427,10 +453,18 @@
                         const selectedVideo = data.items[randomIndex];
                         const videoId = selectedVideo.id.videoId;
                         const videoTitle = selectedVideo.snippet.title;
+                        const info = selectedVideo.analyzedInfo;
 
-                        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+                        // YouTube JS SDK ile Oynatma
+                        if (isPlayerReady && player && player.loadVideoById) {
+                            player.loadVideoById(videoId);
+                        } else {
+                            const ytDiv = document.getElementById('yt-player');
+                            ytDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
+                        }
+
                         titleEl.innerText = videoTitle;
-                        detailsEl.innerText = `Tür: ${genre !== 'all' ? genre : 'Karışık'} | Ton: ${key !== 'all' ? key : 'Belirsiz'} | BPM: ${bpm ? bpm : 'Serbest'} | Duygu: ${mood !== 'all' ? mood : 'Tüm Duygular'}`;
+                        detailsEl.innerText = `Tür: ${info.genre} | Ton: ${info.key} | BPM: ${info.bpm} | Yıl: ${info.year} | Ülke: ${info.country} | Duygu: ${info.mood}`;
                     } else {
                         titleEl.innerText = "Bu kriterlere uygun video bulunamadı.";
                         detailsEl.innerText = "Filtreleri daha genel seçerek tekrar deneyin.";
@@ -438,13 +472,12 @@
                 } catch (error) {
                     console.error("Sunucu Bağlantı Hatası:", error);
                     titleEl.innerText = "Sunucu Hatası!";
-                    detailsEl.innerText = "sunucuya bağlanılamadı.";
+                    detailsEl.innerText = "Sunucuya bağlanılamadı veya işlem zaman aşımına uğradı.";
                 }
             }
 
             document.addEventListener('DOMContentLoaded', function() {
                 populateYearSelect();
-                searchAndPlaySample();
             });
 
             document.getElementById('find-btn').addEventListener('click', searchAndPlaySample);
