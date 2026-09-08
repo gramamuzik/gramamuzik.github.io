@@ -50,12 +50,22 @@
 
             .samplets-sidebar {
                 flex: 1;
-                min-width: 280px;
+                min-width: 300px;
                 background: rgba(15, 15, 15, 0.85);
                 backdrop-filter: blur(8px);
                 padding: 25px;
                 border-radius: 16px;
                 border: 1px solid rgba(255, 255, 255, 0.1);
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            .samplets-sidebar::-webkit-scrollbar {
+                width: 6px;
+            }
+            .samplets-sidebar::-webkit-scrollbar-thumb {
+                background: #444;
+                border-radius: 4px;
             }
 
             .samplets-sidebar h3 {
@@ -215,254 +225,116 @@
                     <h1 style="font-size: clamp(32px, 5vw, 50px); color: #ffffff; text-shadow: 2px 2px 0 #000;">
                         GRAMASAMPLETS
                     </h1>
-                    <p style="color: #cccccc; letter-spacing: 2px;">— YouTube Sample Keşif Aracı —</p>
+                    <p style="color: #cccccc; letter-spacing: 2px;">— Gelişmiş YouTube Sample Keşif Motoru —</p>
                 </header>
 
                 <div class="samplets-container">
                     <!-- Filtreler Sidebar -->
                     <aside class="samplets-sidebar">
-                        <h3>Filtre Seçenekleri</h3>
+                        <h3>Detaylı Filtreler</h3>
 
                         <div class="filter-box">
                             <label for="genre">Müzik Türü</label>
                             <select id="genre">
                                 <option value="all">Tüm Türler</option>
-                                <option value="hiphop">Hip-Hop / Rap</option>
-                                <option value="trap">Trap</option>
-                                <option value="drill">Drill</option>
-                                <option value="jazz">Jazz</option>
-                                <option value="soul">Soul</option>
-                                <option value="funk">Funk</option>
-                                <option value="rock">Rock</option>
-                                <option value="psychedelic">Psychedelic</option>
-                                <option value="classical">Klasik</option>
-                                <option value="orchestral">Orkestral</option>
-                                <option value="arabesk">Arabesk</option>
-                                <option value="pop">Pop</option>
-                                <option value="rnb">R&B</option>
-                                <option value="reggae">Reggae / Dub</option>
-                                <option value="electronic">Elektronik / Synthwave</option>
-                                <option value="lofi">Lo-Fi / Chillhop</option>
+                                <option value="Hip Hop Sample">Hip-Hop / Rap</option>
+                                <option value="Trap Sample">Trap</option>
+                                <option value="Drill Sample">Drill</option>
+                                <option value="Jazz Sample">Jazz</option>
+                                <option value="Soul Sample">Soul</option>
+                                <option value="Funk Sample">Funk</option>
+                                <option value="Rock Sample">Rock</option>
+                                <option value="Psychedelic Rock Sample">Psychedelic</option>
+                                <option value="Classical Music Sample">Klasik</option>
+                                <option value="Orchestral Sample">Orkestral</option>
+                                <option value="Arabesk Sample">Arabesk</option>
+                                <option value="Pop Sample">Pop</option>
+                                <option value="R&B Sample">R&B</option>
+                                <option value="Reggae Dub Sample">Reggae / Dub</option>
+                                <option value="Synthwave Electronic Sample">Elektronik / Synthwave</option>
+                                <option value="Lo-Fi Chillhop Sample">Lo-Fi / Chillhop</option>
+                            </select>
+                        </div>
+
+                        <!-- TON SEÇENEKLERİ (Tüm Major ve Minorler) -->
+                        <div class="filter-box">
+                            <label for="key">Ton (Key)</label>
+                            <select id="key">
+                                <option value="all">Tüm Tonlar</option>
+                                <optgroup label="--- MAJÖR (MAJOR) ---">
+                                    <option value="C Major">C Majör</option>
+                                    <option value="C# Major">C# / Db Majör</option>
+                                    <option value="D Major">D Majör</option>
+                                    <option value="D# Major">D# / Eb Majör</option>
+                                    <option value="E Major">E Majör</option>
+                                    <option value="F Major">F Majör</option>
+                                    <option value="F# Major">F# / Gb Majör</option>
+                                    <option value="G Major">G Majör</option>
+                                    <option value="G# Major">G# / Ab Majör</option>
+                                    <option value="A Major">A Majör</option>
+                                    <option value="A# Major">A# / Bb Majör</option>
+                                    <option value="B Major">B Majör</option>
+                                </optgroup>
+                                <optgroup label="--- MİNÖR (MINOR) ---">
+                                    <option value="C Minor">C Minör</option>
+                                    <option value="C# Minor">C# / Db Minör</option>
+                                    <option value="D Minor">D Minör</option>
+                                    <option value="D# Minor">D# / Eb Minör</option>
+                                    <option value="E Minor">E Minör</option>
+                                    <option value="F Minor">F Minör</option>
+                                    <option value="F# Minor">F# / Gb Minör</option>
+                                    <option value="G Minor">G Minör</option>
+                                    <option value="G# Minor">G# / Ab Minör</option>
+                                    <option value="A Minor">A Minör</option>
+                                    <option value="A# Minor">A# / Bb Minör</option>
+                                    <option value="B Minor">B Minör</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <!-- BPM SEÇİCİ (30 - 250) -->
+                        <div class="filter-box">
+                            <label for="bpm">BPM (Tempo: 30 - 250)</label>
+                            <input type="number" id="bpm" min="30" max="250" placeholder="Örn: 90, 140 vb." value="" />
+                        </div>
+
+                        <!-- TEMA / DUYGU KATEGORİLERİ -->
+                        <div class="filter-box">
+                            <label for="mood">Tema / Duygu</label>
+                            <select id="mood">
+                                <option value="all">Tüm Duygular / Temalar</option>
+                                <option value="Melancholic Sad">Melankolik / Hüzünlü</option>
+                                <option value="Dark Aggressive">Karanlık / Agresif</option>
+                                <option value="Energetic Hype">Enerjik / Coşkulu</option>
+                                <option value="Happy Uplifting">Mutlu / Neşeli</option>
+                                <option value="Nostalgic Vintage">Nostaljik / Retro</option>
+                                <option value="Romantic Love">Romantik / Duygusal</option>
+                                <option value="Peaceful Chill Relaxing">Huzurlu / Sakin / Chill</option>
+                                <option value="Mysterious Cinematic">Gizemli / Sinematik</option>
+                                <option value="Epic Dramatic">Epik / Dramatik</option>
+                                <option value="Angry Hard">Öfkeli / Sert</option>
+                                <option value="Dreamy Atmospheric">Rüya Gibi / Atmosferik</option>
                             </select>
                         </div>
 
                         <div class="filter-box">
                             <label for="country">Bölge / Ülke</label>
                             <select id="country">
-                                <option value="all">Tüm Bölgeler / Ülkeler (Global)</option>
-                                <optgroup label="--- KİTALAR ---">
-                                    <option value="europe">Avrupa</option>
-                                    <option value="north_america">Kuzey Amerika</option>
-                                    <option value="south_america">Güney Amerika</option>
-                                    <option value="asia">Asya</option>
-                                    <option value="middle_east">Orta Doğu</option>
-                                    <option value="africa">Afrika</option>
-                                    <option value="oceania">Okyanusya</option>
-                                </optgroup>
-                                <optgroup label="--- ÜLKELER ---">
-                                    <option value="af">Afganistan</option>
-                                    <option value="de">Almanya</option>
-                                    <option value="us">Amerika Birleşik Devletleri (ABD)</option>
-                                    <option value="ad">Andorra</option>
-                                    <option value="ao">Angola</option>
-                                    <option value="ag">Antigua ve Barbuda</option>
-                                    <option value="ar">Arjantin</option>
-                                    <option value="al">Arnavutluk</option>
-                                    <option value="au">Avustralya</option>
-                                    <option value="at">Avusturya</option>
-                                    <option value="az">Azerbaycan</option>
-                                    <option value="bs">Bahamalar</option>
-                                    <option value="bh">Bahreyn</option>
-                                    <option value="bd">Bangladeş</option>
-                                    <option value="bb">Barbados</option>
-                                    <option value="eh">Batı Sahra</option>
-                                    <option value="be">Belçika</option>
-                                    <option value="bz">Belize</option>
-                                    <option value="bj">Benin</option>
-                                    <option value="by">Beyaz Rusya (Belarus)</option>
-                                    <option value="bt">Bhutan</option>
-                                    <option value="ae">Birleşik Arap Emirlikleri (BAE)</option>
-                                    <option value="gb">Birleşik Krallık (İngiltere)</option>
-                                    <option value="bo">Bolivya</option>
-                                    <option value="ba">Bosna-Hersek</option>
-                                    <option value="bw">Botsvana</option>
-                                    <option value="br">Brezilya</option>
-                                    <option value="bn">Brunei</option>
-                                    <option value="bg">Bulgaristan</option>
-                                    <option value="bf">Burkina Faso</option>
-                                    <option value="bi">Burundi</option>
-                                    <option value="cv">Cabo Verde (Yeşil Burun)</option>
-                                    <option value="dz">Cezayir</option>
-                                    <option value="dj">Cibuti</option>
-                                    <option value="td">Çad</option>
-                                    <option value="cz">Çekya</option>
-                                    <option value="cn">Çin</option>
-                                    <option value="dk">Danimarka</option>
-                                    <option value="do">Dominik Cumhuriyeti</option>
-                                    <option value="dm">Dominika</option>
-                                    <option value="ec">Ekvador</option>
-                                    <option value="gq">Ekvator Ginesi</option>
-                                    <option value="sv">El Salvador</option>
-                                    <option value="id">Endonezya</option>
-                                    <option value="er">Eritre</option>
-                                    <option value="am">Ermenistan</option>
-                                    <option value="ee">Estonya</option>
-                                    <option value="et">Etiyopya</option>
-                                    <option value="ma">Fas</option>
-                                    <option value="fj">Fiji</option>
-                                    <option value="cv">Fildişi Sahili</option>
-                                    <option value="ph">Filipinler</option>
-                                    <option value="ps">Filistin</option>
-                                    <option value="fi">Finlandiya</option>
-                                    <option value="fr">Fransa</option>
-                                    <option value="ga">Gabon</option>
-                                    <option value="gm">Gambiya</option>
-                                    <option value="gh">Gana</option>
-                                    <option value="gn">Gine</option>
-                                    <option value="gw">Gine-Bissau</option>
-                                    <option value="gd">Grenada</option>
-                                    <option value="gt">Guatemala</option>
-                                    <option value="gy">Guyana</option>
-                                    <option value="za">Güney Afrika</option>
-                                    <option value="kr">Güney Kore</option>
-                                    <option value="ss">Güney Sudan</option>
-                                    <option value="ge">Gürcistan</option>
-                                    <option value="ht">Haiti</option>
-                                    <option value="in">Hindistan</option>
-                                    <option value="nl">Hollanda</option>
-                                    <option value="hn">Honduras</option>
-                                    <option value="iq">Irak</option>
-                                    <option value="ir">İran</option>
-                                    <option value="ie">İrlanda</option>
-                                    <option value="es">İspanya</option>
-                                    <option value="il">İsrail</option>
-                                    <option value="se">İsveç</option>
-                                    <option value="ch">İsviçre</option>
-                                    <option value="it">İtalya</option>
-                                    <option value="is">İzlanda</option>
-                                    <option value="jm">Jamaika</option>
-                                    <option value="jp">Japonya</option>
-                                    <option value="kh">Kamboçya</option>
-                                    <option value="cm">Kamerun</option>
-                                    <option value="ca">Kanada</option>
-                                    <option value="mne">Karadağ</option>
-                                    <option value="qa">Katar</option>
-                                    <option value="kz">Kazakistan</option>
-                                    <option value="ke">Kenya</option>
-                                    <option value="cy">Kıbrıs</option>
-                                    <option value="kg">Kırgızistan</option>
-                                    <option value="ki">Kiribati</option>
-                                    <option value="co">Kolombiya</option>
-                                    <option value="km">Komorlar</option>
-                                    <option value="cg">Kongo Cumhuriyeti</option>
-                                    <option value="cd">Kongo Demokratik Cumhuriyeti</option>
-                                    <option value="xk">Kosova</option>
-                                    <option value="cr">Kosta Rika</option>
-                                    <option value="kw">Kuveyt</option>
-                                    <option value="kp">Kuzey Kore</option>
-                                    <option value="mk">Kuzey Makedonya</option>
-                                    <option value="cu">Küba</option>
-                                    <option value="la">Laos</option>
-                                    <option value="ls">Lesotho</option>
-                                    <option value="lv">Letonya</option>
-                                    <option value="lr">Liberya</option>
-                                    <option value="ly">Libya</option>
-                                    <option value="li">Liechtenstein</option>
-                                    <option value="lt">Litvanya</option>
-                                    <option value="lu">Lüksemburg</option>
-                                    <option value="hu">Macaristan</option>
-                                    <option value="mg">Madagaskar</option>
-                                    <option value="mw">Malavi</option>
-                                    <option value="mv">Maldivler</option>
-                                    <option value="my">Malezya</option>
-                                    <option value="ml">Mali</option>
-                                    <option value="mt">Malta</option>
-                                    <option value="mhl">Marshall Adaları</option>
-                                    <option value="mrs">Mauritius</option>
-                                    <option value="mx">Meksika</option>
-                                    <option value="fm">Mikronezya</option>
-                                    <option value="eg">Mısır</option>
-                                    <option value="md">Moldova</option>
-                                    <option value="mc">Monako</option>
-                                    <option value="mn">Moğolistan</option>
-                                    <option value="mz">Mozambik</option>
-                                    <option value="mm">Myanmar (Birmanya)</option>
-                                    <option value="na">Namibya</option>
-                                    <option value="nr">Nauru</option>
-                                    <option value="np">Nepal</option>
-                                    <option value="ner">Nijer</option>
-                                    <option value="ng">Nijerya</option>
-                                    <option value="ni">Nikaragua</option>
-                                    <option value="no">Norveç</option>
-                                    <option value="cf">Orta Afrika Cumhuriyeti</option>
-                                    <option value="uz">Özbekistan</option>
-                                    <option value="pk">Pakistan</option>
-                                    <option value="pw">Palau</option>
-                                    <option value="pa">Panama</option>
-                                    <option value="pg">Papua Yeni Gine</option>
-                                    <option value="py">Paraguay</option>
-                                    <option value="pe">Peru</option>
-                                    <option value="pl">Polonya</option>
-                                    <option value="pt">Portekiz</option>
-                                    <option value="ro">Romanya</option>
-                                    <option value="rw">Ruanda</option>
-                                    <option value="ru">Rusya</option>
-                                    <option value="kn">Saint Kitts ve Nevis</option>
-                                    <option value="lc">Saint Lucia</option>
-                                    <option value="vc">Saint Vincent ve Grenadinler</option>
-                                    <option value="ws">Samoa</option>
-                                    <option value="sm">San Marino</option>
-                                    <option value="st">Sao Tome ve Principe</option>
-                                    <option value="sa">Suudi Arabistan</option>
-                                    <option value="sn">Senegal</option>
-                                    <option value="srb">Sırbistan</option>
-                                    <option value="sc">Seyşeller</option>
-                                    <option value="sl">Sierra Leone</option>
-                                    <option value="sg">Singapur</option>
-                                    <option value="sk">Slovakya</option>
-                                    <option value="si">Slovenya</option>
-                                    <option value="sb">Solomon Adaları</option>
-                                    <option value="so">Somali</option>
-                                    <option value="lk">Sri Lanka</option>
-                                    <option value="sd">Sudan</option>
-                                    <option value="sr">Surinam</option>
-                                    <option value="sy">Suriye</option>
-                                    <option value="sz">Esvatini (Swaziland)</option>
-                                    <option value="cl">Şili</option>
-                                    <option value="tj">Tacikistan</option>
-                                    <option value="tz">Tanzanya</option>
-                                    <option value="th">Tayland</option>
-                                    <option value="tw">Tayvan</option>
-                                    <option value="tl">Doğu Timor</option>
-                                    <option value="tg">Togo</option>
-                                    <option value="to">Tonga</option>
-                                    <option value="tt">Trinidad ve Tobago</option>
-                                    <option value="tn">Tunus</option>
-                                    <option value="tr">Türkiye</option>
-                                    <option value="tm">Türkmenistan</option>
-                                    <option value="tv">Tuvalu</option>
-                                    <option value="ug">Uganda</option>
-                                    <option value="ua">Ukrayna</option>
-                                    <option value="om">Umman</option>
-                                    <option value="uy">Uruguay</option>
-                                    <option value="jo">Ürdün</option>
-                                    <option value="vu">Vanuatu</option>
-                                    <option value="va">Vatikan</option>
-                                    <option value="ve">Venezuela</option>
-                                    <option value="vn">Vietnam</option>
-                                    <option value="ye">Yemen</option>
-                                    <option value="nz">Yeni Zelanda</option>
-                                    <option value="gr">Yunanistan</option>
-                                    <option value="zm">Zambiya</option>
-                                    <option value="zw">Zimbabve</option>
-                                </optgroup>
+                                <option value="all">Tüm Bölgeler (Global)</option>
+                                <option value="Turkish">Türkiye / Türkçe</option>
+                                <option value="American US">ABD / Amerika</option>
+                                <option value="European">Avrupa</option>
+                                <option value="Latin Brazilian">Latin / Brezilya</option>
+                                <option value="African">Afrika</option>
+                                <option value="Asian Oriental">Asya / Doğu</option>
                             </select>
                         </div>
 
                         <div class="filter-box">
                             <label for="year">Çıkış Yılı</label>
                             <select id="year">
-                                <!-- JavaScript ile doldurulacak -->
+                                <option value="all">Tüm Yıllar (Zaman Sınırı Yok)</option>
+                                <!-- JS ile doldurulacak -->
                             </select>
                         </div>
                     </aside>
@@ -475,8 +347,8 @@
 
                         <div class="controls-bar">
                             <div>
-                                <h3 id="track-title" style="margin: 0; color: #fff; font-size: 1.1rem;">Filtreleri Seç ve Keşfet</h3>
-                                <p id="track-details" style="margin: 0; color: #aaa; font-size: 0.85rem;">Seçtiğin kriterlere göre YouTube üzerinden parça getirilir.</p>
+                                <h3 id="track-title" style="margin: 0; color: #fff; font-size: 1.1rem;">Kriterleri Belirle ve Keşfet</h3>
+                                <p id="track-details" style="margin: 0; color: #aaa; font-size: 0.85rem;">Seçtiğin ton, bpm, duygu ve türe göre akıllı havuzdan parça taranır.</p>
                             </div>
                             <button class="btn-generate" id="find-btn">Yeni Sample Bul 🎲</button>
                         </div>
@@ -516,41 +388,56 @@
         <script src="assets/js/main.js"></script>
 
         <script>
-            // Gömülü oynatma kısıtlaması (embed block) olmayan, güvenli video ID'leri içeren örnek havuz
+            // Çeşitlendirilmiş ve gömülebilir (embed) havuz: Her parçanın kendi özellikleri, tonu, bpm'i ve teması var.
             const sampleDatabase = [
-                { id: "5qap5aO4i9A", title: "Lofi Hip Hop Radio - Beats to Relax/Study to", genre: "lofi", region: "global", year: 2020 },
-                { id: "jfKfPfyJRdk", title: "Lofi Girl - Safe and Sound Mix", genre: "lofi", region: "global", year: 2021 },
-                { id: "hHW1oY26Nzo", title: "Mobb Deep Type Beat - Silent Storm", genre: "hiphop", region: "us", year: 2019 },
-                { id: "9bZkp7q19f0", title: "PSY - GANGNAM STYLE (Official Music Video)", genre: "pop", region: "kr", year: 2012 },
-                { id: "kJQP7kiw5Fk", title: "Luis Fonsi - Despacito ft. Daddy Yankee", genre: "pop", region: "south_america", year: 2017 },
-                { id: "3JZ_D3ELwOQ", title: "Classic Instrumental Rock Beat Sample", genre: "rock", region: "us", year: 1985 }
+                { id: "5qap5aO4i9A", title: "Lofi Girl - Chill Study Beats", genre: "Lo-Fi Chillhop Sample", key: "C Major", bpm: 85, mood: "Peaceful Chill Relaxing", country: "Global", year: 2020 },
+                { id: "jfKfPfyJRdk", title: "Lofi Hip Hop Radio - Beats to Relax To", genre: "Lo-Fi Chillhop Sample", key: "A Minor", bpm: 80, mood: "Peaceful Chill Relaxing", country: "Global", year: 2021 },
+                { id: "hHW1oY26Nzo", title: "Mobb Deep Type Beat - Silent Storm", genre: "Hip Hop Sample", key: "D Minor", bpm: 92, mood: "Dark Aggressive", country: "American US", year: 2019 },
+                { id: "9bZkp7q19f0", title: "PSY - Gangnam Style (Global Hit)", genre: "Pop Sample", key: "B Major", bpm: 132, mood: "Energetic Hype", country: "Asian Oriental", year: 2012 },
+                { id: "kJQP7kiw5Fk", title: "Luis Fonsi - Despacito", genre: "Pop Sample", key: "D Major", bpm: 89, mood: "Romantic Love", country: "Latin Brazilian", year: 2017 },
+                { id: "3JZ_D3ELwOQ", title: "Classic Instrumental Rock Loop", genre: "Rock Sample", key: "E Minor", bpm: 120, mood: "Energetic Hype", country: "American US", year: 1985 },
+                { id: "S32Nn4pZ9Y8", title: "Anadolu Psychedelic Rock Sample Vibe", genre: "Psychedelic Rock Sample", key: "A Minor", bpm: 95, mood: "Nostalgic Vintage", country: "Turkish", year: 1974 },
+                { id: "0w44B_38CNo", title: "Turkish Classic弦乐 / Cinematic Arabesk", genre: "Arabesk Sample", key: "C# Minor", bpm: 75, mood: "Melancholic Sad", country: "Turkish", year: 1972 },
+                { id: "k1-TrAvp_xs", title: "Orchestral Dramatic Theme", genre: "Orchestral Sample", key: "F Minor", bpm: 110, mood: "Epic Dramatic", country: "European", year: 1987 }
             ];
 
             function populateYearSelect() {
                 const yearSelect = document.getElementById('year');
                 const currentYear = new Date().getFullYear();
-                const startYear = 1920;
+                const startYear = 1950;
 
-                yearSelect.innerHTML = '';
                 for (let yr = currentYear; yr >= startYear; yr--) {
                     const option = document.createElement('option');
                     option.value = yr;
                     option.text = yr;
                     yearSelect.appendChild(option);
                 }
-                yearSelect.value = 1995;
             }
 
             function searchAndPlaySample() {
                 const selectedGenre = document.getElementById('genre').value;
+                const selectedKey = document.getElementById('key').value;
+                const inputBpm = parseInt(document.getElementById('bpm').value);
+                const selectedMood = document.getElementById('mood').value;
                 const selectedCountry = document.getElementById('country').value;
-                const selectedYear = parseInt(document.getElementById('year').value) || 2026;
+                const selectedYear = document.getElementById('year').value;
 
+                // Akıllı Filtreleme Algoritması (Kriterlere uyanları puanlayarak veya filtreleyerek bulur)
                 const filtered = sampleDatabase.filter(item => {
-                    const matchGenre = (selectedGenre === 'all' || item.genre === selectedGenre);
-                    const matchCountry = (selectedCountry === 'all' || item.region === selectedCountry || item.region === 'global');
-                    const matchYear = (item.year <= selectedYear);
-                    return matchGenre && matchCountry && matchYear;
+                    let match = true;
+
+                    if (selectedGenre !== 'all' && item.genre !== selectedGenre) match = false;
+                    if (selectedKey !== 'all' && item.key !== selectedKey) match = false;
+                    if (selectedMood !== 'all' && item.mood !== selectedMood) match = false;
+                    if (selectedCountry !== 'all' && item.country !== selectedCountry) match = false;
+                    if (selectedYear !== 'all' && item.year > parseInt(selectedYear)) match = false;
+                    
+                    // Eğer BPM girildiyse, +/- 15 BPM toleransla esnek arama yapar
+                    if (!isNaN(inputBpm)) {
+                        if (Math.abs(item.bpm - inputBpm) > 15) match = false;
+                    }
+
+                    return match;
                 });
 
                 const iframe = document.getElementById('yt-player');
@@ -558,15 +445,17 @@
                 const detailsEl = document.getElementById('track-details');
 
                 if (filtered.length > 0) {
+                    // Tam eşleşenler arasından rastgele seç
                     const randomTrack = filtered[Math.floor(Math.random() * filtered.length)];
                     iframe.src = `https://www.youtube.com/embed/${randomTrack.id}?autoplay=1&enablejsapi=1`;
                     titleEl.innerText = randomTrack.title;
-                    detailsEl.innerText = `Tür: ${randomTrack.genre.toUpperCase()} | Yıl: ${randomTrack.year}`;
+                    detailsEl.innerText = `Tür: ${randomTrack.genre} | Ton: ${randomTrack.key} | BPM: ${randomTrack.bpm} | Duygu: ${randomTrack.mood}`;
                 } else {
-                    // Eşleşme çıkmazsa genel çalışan bir lofi/beat akışı getir
-                    iframe.src = `https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1&enablejsapi=1`;
-                    titleEl.innerText = "Eşleşen Kriterde Parça Bulunamadı";
-                    detailsEl.innerText = "Genel akışa geçildi. Filtreleri genişleterek tekrar deneyebilirsin.";
+                    // Kriterlere birebir uyan havuzda yoksa, veritabanından rastgele genel bir alternatif sunup bilgi verir
+                    const fallbackTrack = sampleDatabase[Math.floor(Math.random() * sampleDatabase.length)];
+                    iframe.src = `https://www.youtube.com/embed/${fallbackTrack.id}?autoplay=1&enablejsapi=1`;
+                    titleEl.innerText = "Seçtiğin Kriterlere Tam Uyan Parça Bulunamadı (Alternatif Gösteriliyor)";
+                    detailsEl.innerText = `Öneri -> Tür: ${fallbackTrack.genre} | Ton: ${fallbackTrack.key} | BPM: ${fallbackTrack.bpm}`;
                 }
             }
 
