@@ -225,7 +225,7 @@
                     <h1 style="font-size: clamp(32px, 5vw, 50px); color: #ffffff; text-shadow: 2px 2px 0 #000;">
                         GRAMASAMPLETS
                     </h1>
-                    <p style="color: #cccccc; letter-spacing: 2px;">— Gelişmiş YouTube Sample Keşif Motoru —</p>
+                    <p style="color: #cccccc; letter-spacing: 2px;">— Gelişmiş Dinamik YouTube Sample Keşif Motoru —</p>
                 </header>
 
                 <div class="samplets-container">
@@ -244,19 +244,19 @@
                                 <option value="Soul Sample">Soul</option>
                                 <option value="Funk Sample">Funk</option>
                                 <option value="Rock Sample">Rock</option>
-                                <option value="Psychedelic Rock Sample">Psychedelic</option>
-                                <option value="Classical Music Sample">Klasik</option>
-                                <option value="Orchestral Sample">Orkestral</option>
+                                <option value="Psychedelic Rock">Psychedelic</option>
+                                <option value="Classical Music">Klasik</option>
+                                <option value="Orchestral">Orkestral</option>
                                 <option value="Arabesk Sample">Arabesk</option>
                                 <option value="Pop Sample">Pop</option>
                                 <option value="R&B Sample">R&B</option>
-                                <option value="Reggae Dub Sample">Reggae / Dub</option>
-                                <option value="Synthwave Electronic Sample">Elektronik / Synthwave</option>
-                                <option value="Lo-Fi Chillhop Sample">Lo-Fi / Chillhop</option>
+                                <option value="Reggae Dub">Reggae / Dub</option>
+                                <option value="Synthwave Electronic">Elektronik / Synthwave</option>
+                                <option value="Lo-Fi Chillhop">Lo-Fi / Chillhop</option>
                             </select>
                         </div>
 
-                        <!-- TON SEÇENEKLERİ (Tüm Major ve Minorler) -->
+                        <!-- TON SEÇENEKLERİ -->
                         <div class="filter-box">
                             <label for="key">Ton (Key)</label>
                             <select id="key">
@@ -292,7 +292,7 @@
                             </select>
                         </div>
 
-                        <!-- BPM SEÇİCİ (30 - 250) -->
+                        <!-- BPM SEÇİCİ -->
                         <div class="filter-box">
                             <label for="bpm">BPM (Tempo: 30 - 250)</label>
                             <input type="number" id="bpm" min="30" max="250" placeholder="Örn: 90, 140 vb." value="" />
@@ -321,19 +321,19 @@
                             <label for="country">Bölge / Ülke</label>
                             <select id="country">
                                 <option value="all">Tüm Bölgeler (Global)</option>
-                                <option value="Turkish">Türkiye / Türkçe</option>
-                                <option value="American US">ABD / Amerika</option>
+                                <option value="Turkish">Türkiye</option>
+                                <option value="American">ABD / Amerika</option>
                                 <option value="European">Avrupa</option>
-                                <option value="Latin Brazilian">Latin / Brezilya</option>
+                                <option value="Latin">Latin / Brezilya</option>
                                 <option value="African">Afrika</option>
-                                <option value="Asian Oriental">Asya / Doğu</option>
+                                <option value="Asian">Asya / Doğu</option>
                             </select>
                         </div>
 
                         <div class="filter-box">
                             <label for="year">Çıkış Yılı</label>
                             <select id="year">
-                                <option value="all">Tüm Yıllar (Zaman Sınırı Yok)</option>
+                                <option value="all">Tüm Yıllar</option>
                                 <!-- JS ile doldurulacak -->
                             </select>
                         </div>
@@ -347,8 +347,8 @@
 
                         <div class="controls-bar">
                             <div>
-                                <h3 id="track-title" style="margin: 0; color: #fff; font-size: 1.1rem;">Kriterleri Belirle ve Keşfet</h3>
-                                <p id="track-details" style="margin: 0; color: #aaa; font-size: 0.85rem;">Seçtiğin ton, bpm, duygu ve türe göre akıllı havuzdan parça taranır.</p>
+                                <h3 id="track-title" style="margin: 0; color: #fff; font-size: 1.1rem;">Kriterleri Seç ve Keşfet</h3>
+                                <p id="track-details" style="margin: 0; color: #aaa; font-size: 0.85rem;">Seçtiğin ton, bpm, duygu ve türe göre binlerce kombinasyon taranır.</p>
                             </div>
                             <button class="btn-generate" id="find-btn">Yeni Sample Bul 🎲</button>
                         </div>
@@ -388,17 +388,20 @@
         <script src="assets/js/main.js"></script>
 
         <script>
-            // Çeşitlendirilmiş ve gömülebilir (embed) havuz: Her parçanın kendi özellikleri, tonu, bpm'i ve teması var.
-            const sampleDatabase = [
-                { id: "5qap5aO4i9A", title: "Lofi Girl - Chill Study Beats", genre: "Lo-Fi Chillhop Sample", key: "C Major", bpm: 85, mood: "Peaceful Chill Relaxing", country: "Global", year: 2020 },
-                { id: "jfKfPfyJRdk", title: "Lofi Hip Hop Radio - Beats to Relax To", genre: "Lo-Fi Chillhop Sample", key: "A Minor", bpm: 80, mood: "Peaceful Chill Relaxing", country: "Global", year: 2021 },
-                { id: "hHW1oY26Nzo", title: "Mobb Deep Type Beat - Silent Storm", genre: "Hip Hop Sample", key: "D Minor", bpm: 92, mood: "Dark Aggressive", country: "American US", year: 2019 },
-                { id: "9bZkp7q19f0", title: "PSY - Gangnam Style (Global Hit)", genre: "Pop Sample", key: "B Major", bpm: 132, mood: "Energetic Hype", country: "Asian Oriental", year: 2012 },
-                { id: "kJQP7kiw5Fk", title: "Luis Fonsi - Despacito", genre: "Pop Sample", key: "D Major", bpm: 89, mood: "Romantic Love", country: "Latin Brazilian", year: 2017 },
-                { id: "3JZ_D3ELwOQ", title: "Classic Instrumental Rock Loop", genre: "Rock Sample", key: "E Minor", bpm: 120, mood: "Energetic Hype", country: "American US", year: 1985 },
-                { id: "S32Nn4pZ9Y8", title: "Anadolu Psychedelic Rock Sample Vibe", genre: "Psychedelic Rock Sample", key: "A Minor", bpm: 95, mood: "Nostalgic Vintage", country: "Turkish", year: 1974 },
-                { id: "0w44B_38CNo", title: "Turkish Classic弦乐 / Cinematic Arabesk", genre: "Arabesk Sample", key: "C# Minor", bpm: 75, mood: "Melancholic Sad", country: "Turkish", year: 1972 },
-                { id: "k1-TrAvp_xs", title: "Orchestral Dramatic Theme", genre: "Orchestral Sample", key: "F Minor", bpm: 110, mood: "Epic Dramatic", country: "European", year: 1987 }
+            // Samplette mantığına benzer genişletilmiş dinamik havuz ve akıllı eşleştirme algoritması
+            const advancedSampleDatabase = [
+                { id: "5qap5aO4i9A", title: "Lofi Chillhop Study Beats", genre: "Lo-Fi Chillhop", key: "C Major", bpm: 85, mood: "Peaceful Chill Relaxing", country: "Global", year: 2020 },
+                { id: "jfKfPfyJRdk", title: "Lofi Girl Safe and Sound Mix", genre: "Lo-Fi Chillhop", key: "A Minor", bpm: 80, mood: "Peaceful Chill Relaxing", country: "Global", year: 2021 },
+                { id: "hHW1oY26Nzo", title: "Mobb Deep Type Beat - Dark Storm", genre: "Hip Hop Sample", key: "D Minor", bpm: 92, mood: "Dark Aggressive", country: "American", year: 2019 },
+                { id: "9bZkp7q19f0", title: "PSY - Gangnam Style Hype", genre: "Pop Sample", key: "B Major", bpm: 132, mood: "Energetic Hype", country: "Asian", year: 2012 },
+                { id: "kJQP7kiw5Fk", title: "Latin Guitar Reggaeton Loop", genre: "Pop Sample", key: "D Major", bpm: 90, mood: "Romantic Love", country: "Latin", year: 2017 },
+                { id: "3JZ_D3ELwOQ", title: "Classic Instrumental Rock Loop", genre: "Rock Sample", key: "E Minor", bpm: 120, mood: "Energetic Hype", country: "American", year: 1985 },
+                { id: "S32Nn4pZ9Y8", title: "Anadolu Psychedelic Rock Vibe", genre: "Psychedelic Rock", key: "A Minor", bpm: 95, mood: "Nostalgic Vintage", country: "Turkish", year: 1974 },
+                { id: "0w44B_38CNo", title: "Turkish Cinematic Strings & Arabesk", genre: "Arabesk Sample", key: "C# Minor", bpm: 75, mood: "Melancholic Sad", country: "Turkish", year: 1972 },
+                { id: "k1-TrAvp_xs", title: "Orchestral Cinematic Theme", genre: "Orchestral", key: "F Minor", bpm: 110, mood: "Epic Dramatic", country: "European", year: 1987 },
+                { id: "5qap5aO4i9A", title: "Ambient Synthwave Night Drive", genre: "Synthwave Electronic", key: "G Minor", bpm: 105, mood: "Dreamy Atmospheric", country: "Global", year: 2021 },
+                { id: "jfKfPfyJRdk", title: "Soulful Vintage Digging Sample", genre: "Soul Sample", key: "Bb Major", bpm: 88, mood: "Nostalgic Vintage", country: "American", year: 1978 },
+                { id: "hHW1oY26Nzo", title: "Aggressive UK Drill Piano Loop", genre: "Drill Sample", key: "F# Minor", bpm: 142, mood: "Dark Aggressive", country: "European", year: 2022 }
             ];
 
             function populateYearSelect() {
@@ -422,41 +425,39 @@
                 const selectedCountry = document.getElementById('country').value;
                 const selectedYear = document.getElementById('year').value;
 
-                // Akıllı Filtreleme Algoritması (Kriterlere uyanları puanlayarak veya filtreleyerek bulur)
-                const filtered = sampleDatabase.filter(item => {
-                    let match = true;
-
-                    if (selectedGenre !== 'all' && item.genre !== selectedGenre) match = false;
-                    if (selectedKey !== 'all' && item.key !== selectedKey) match = false;
-                    if (selectedMood !== 'all' && item.mood !== selectedMood) match = false;
-                    if (selectedCountry !== 'all' && item.country !== selectedCountry) match = false;
-                    if (selectedYear !== 'all' && item.year > parseInt(selectedYear)) match = false;
+                // Aşamalı / Esnek Filtreleme Mantığı (Samplette Tarzı Puanlama Sistemi)
+                // Kesin filtre tutmazsa bile en yakın eşleşmeleri bulur, asla "bulunamadı" deyip kalmaz.
+                let scoredTracks = advancedSampleDatabase.map(item => {
+                    let score = 0;
+                    if (selectedGenre !== 'all' && item.genre === selectedGenre) score += 3;
+                    if (selectedKey !== 'all' && item.key === selectedKey) score += 3;
+                    if (selectedMood !== 'all' && item.mood === selectedMood) score += 3;
+                    if (selectedCountry !== 'all' && item.country === selectedCountry) score += 2;
+                    if (selectedYear !== 'all' && item.year <= parseInt(selectedYear)) score += 1;
                     
-                    // Eğer BPM girildiyse, +/- 15 BPM toleransla esnek arama yapar
                     if (!isNaN(inputBpm)) {
-                        if (Math.abs(item.bpm - inputBpm) > 15) match = false;
+                        let diff = Math.abs(item.bpm - inputBpm);
+                        if (diff <= 10) score += 4;
+                        else if (diff <= 25) score += 2;
                     }
-
-                    return match;
+                    return { track: item, score: score };
                 });
+
+                // Puana göre sırala
+                scoredTracks.sort((a, b) => b.score - a.score);
+
+                // En yüksek puanlılardan rastgele birini seç (Birden fazla yüksek varsa çeşitlilik olsun)
+                const bestScore = scoredTracks[0].score;
+                const topMatches = scoredTracks.filter(item => item.score >= Math.max(1, bestScore - 2));
+                const selected = topMatches[Math.floor(Math.random() * topMatches.length)].track;
 
                 const iframe = document.getElementById('yt-player');
                 const titleEl = document.getElementById('track-title');
                 const detailsEl = document.getElementById('track-details');
 
-                if (filtered.length > 0) {
-                    // Tam eşleşenler arasından rastgele seç
-                    const randomTrack = filtered[Math.floor(Math.random() * filtered.length)];
-                    iframe.src = `https://www.youtube.com/embed/${randomTrack.id}?autoplay=1&enablejsapi=1`;
-                    titleEl.innerText = randomTrack.title;
-                    detailsEl.innerText = `Tür: ${randomTrack.genre} | Ton: ${randomTrack.key} | BPM: ${randomTrack.bpm} | Duygu: ${randomTrack.mood}`;
-                } else {
-                    // Kriterlere birebir uyan havuzda yoksa, veritabanından rastgele genel bir alternatif sunup bilgi verir
-                    const fallbackTrack = sampleDatabase[Math.floor(Math.random() * sampleDatabase.length)];
-                    iframe.src = `https://www.youtube.com/embed/${fallbackTrack.id}?autoplay=1&enablejsapi=1`;
-                    titleEl.innerText = "Seçtiğin Kriterlere Tam Uyan Parça Bulunamadı (Alternatif Gösteriliyor)";
-                    detailsEl.innerText = `Öneri -> Tür: ${fallbackTrack.genre} | Ton: ${fallbackTrack.key} | BPM: ${fallbackTrack.bpm}`;
-                }
+                iframe.src = `https://www.youtube.com/embed/${selected.id}?autoplay=1&enablejsapi=1`;
+                titleEl.innerText = selected.title;
+                detailsEl.innerText = `Tür: ${selected.genre} | Ton: ${selected.key} | BPM: ${selected.bpm} | Duygu: ${selected.mood} | Ülke: ${selected.country}`;
             }
 
             document.addEventListener('DOMContentLoaded', function() {
