@@ -225,7 +225,7 @@
                     <h1 style="font-size: clamp(32px, 5vw, 50px); color: #ffffff; text-shadow: 2px 2px 0 #000;">
                         GRAMASAMPLETS
                     </h1>
-                    <p style="color: #cccccc; letter-spacing: 2px;">— Gelişmiş Dinamik YouTube Sample Keşif Motoru —</p>
+                    <p style="color: #cccccc; letter-spacing: 2px;">— Güvenli Backend Destekli YouTube Sample Keşif Motoru —</p>
                 </header>
 
                 <div class="samplets-container">
@@ -348,7 +348,7 @@
                         <div class="controls-bar">
                             <div>
                                 <h3 id="track-title" style="margin: 0; color: #fff; font-size: 1.1rem;">Kriterleri Seç ve Keşfet</h3>
-                                <p id="track-details" style="margin: 0; color: #aaa; font-size: 0.85rem;">Seçtiğin ton, bpm, duygu ve türe göre binlerce kombinasyon taranır.</p>
+                                <p id="track-details" style="margin: 0; color: #aaa; font-size: 0.85rem;">İstekler güvenli yerel sunucunuz (Node.js) üzerinden YouTube API'ye iletilir.</p>
                             </div>
                             <button class="btn-generate" id="find-btn">Yeni Sample Bul 🎲</button>
                         </div>
@@ -388,22 +388,6 @@
         <script src="assets/js/main.js"></script>
 
         <script>
-            // Samplette mantığına benzer genişletilmiş dinamik havuz ve akıllı eşleştirme algoritması
-            const advancedSampleDatabase = [
-                { id: "5qap5aO4i9A", title: "Lofi Chillhop Study Beats", genre: "Lo-Fi Chillhop", key: "C Major", bpm: 85, mood: "Peaceful Chill Relaxing", country: "Global", year: 2020 },
-                { id: "jfKfPfyJRdk", title: "Lofi Girl Safe and Sound Mix", genre: "Lo-Fi Chillhop", key: "A Minor", bpm: 80, mood: "Peaceful Chill Relaxing", country: "Global", year: 2021 },
-                { id: "hHW1oY26Nzo", title: "Mobb Deep Type Beat - Dark Storm", genre: "Hip Hop Sample", key: "D Minor", bpm: 92, mood: "Dark Aggressive", country: "American", year: 2019 },
-                { id: "9bZkp7q19f0", title: "PSY - Gangnam Style Hype", genre: "Pop Sample", key: "B Major", bpm: 132, mood: "Energetic Hype", country: "Asian", year: 2012 },
-                { id: "kJQP7kiw5Fk", title: "Latin Guitar Reggaeton Loop", genre: "Pop Sample", key: "D Major", bpm: 90, mood: "Romantic Love", country: "Latin", year: 2017 },
-                { id: "3JZ_D3ELwOQ", title: "Classic Instrumental Rock Loop", genre: "Rock Sample", key: "E Minor", bpm: 120, mood: "Energetic Hype", country: "American", year: 1985 },
-                { id: "S32Nn4pZ9Y8", title: "Anadolu Psychedelic Rock Vibe", genre: "Psychedelic Rock", key: "A Minor", bpm: 95, mood: "Nostalgic Vintage", country: "Turkish", year: 1974 },
-                { id: "0w44B_38CNo", title: "Turkish Cinematic Strings & Arabesk", genre: "Arabesk Sample", key: "C# Minor", bpm: 75, mood: "Melancholic Sad", country: "Turkish", year: 1972 },
-                { id: "k1-TrAvp_xs", title: "Orchestral Cinematic Theme", genre: "Orchestral", key: "F Minor", bpm: 110, mood: "Epic Dramatic", country: "European", year: 1987 },
-                { id: "5qap5aO4i9A", title: "Ambient Synthwave Night Drive", genre: "Synthwave Electronic", key: "G Minor", bpm: 105, mood: "Dreamy Atmospheric", country: "Global", year: 2021 },
-                { id: "jfKfPfyJRdk", title: "Soulful Vintage Digging Sample", genre: "Soul Sample", key: "Bb Major", bpm: 88, mood: "Nostalgic Vintage", country: "American", year: 1978 },
-                { id: "hHW1oY26Nzo", title: "Aggressive UK Drill Piano Loop", genre: "Drill Sample", key: "F# Minor", bpm: 142, mood: "Dark Aggressive", country: "European", year: 2022 }
-            ];
-
             function populateYearSelect() {
                 const yearSelect = document.getElementById('year');
                 const currentYear = new Date().getFullYear();
@@ -417,47 +401,45 @@
                 }
             }
 
-            function searchAndPlaySample() {
-                const selectedGenre = document.getElementById('genre').value;
-                const selectedKey = document.getElementById('key').value;
-                const inputBpm = parseInt(document.getElementById('bpm').value);
-                const selectedMood = document.getElementById('mood').value;
-                const selectedCountry = document.getElementById('country').value;
-                const selectedYear = document.getElementById('year').value;
+            async function searchAndPlaySample() {
+                const genre = document.getElementById('genre').value;
+                const key = document.getElementById('key').value;
+                const bpm = document.getElementById('bpm').value;
+                const mood = document.getElementById('mood').value;
+                const country = document.getElementById('country').value;
+                const year = document.getElementById('year').value;
 
-                // Aşamalı / Esnek Filtreleme Mantığı (Samplette Tarzı Puanlama Sistemi)
-                // Kesin filtre tutmazsa bile en yakın eşleşmeleri bulur, asla "bulunamadı" deyip kalmaz.
-                let scoredTracks = advancedSampleDatabase.map(item => {
-                    let score = 0;
-                    if (selectedGenre !== 'all' && item.genre === selectedGenre) score += 3;
-                    if (selectedKey !== 'all' && item.key === selectedKey) score += 3;
-                    if (selectedMood !== 'all' && item.mood === selectedMood) score += 3;
-                    if (selectedCountry !== 'all' && item.country === selectedCountry) score += 2;
-                    if (selectedYear !== 'all' && item.year <= parseInt(selectedYear)) score += 1;
-                    
-                    if (!isNaN(inputBpm)) {
-                        let diff = Math.abs(item.bpm - inputBpm);
-                        if (diff <= 10) score += 4;
-                        else if (diff <= 25) score += 2;
-                    }
-                    return { track: item, score: score };
-                });
-
-                // Puana göre sırala
-                scoredTracks.sort((a, b) => b.score - a.score);
-
-                // En yüksek puanlılardan rastgele birini seç (Birden fazla yüksek varsa çeşitlilik olsun)
-                const bestScore = scoredTracks[0].score;
-                const topMatches = scoredTracks.filter(item => item.score >= Math.max(1, bestScore - 2));
-                const selected = topMatches[Math.floor(Math.random() * topMatches.length)].track;
-
-                const iframe = document.getElementById('yt-player');
                 const titleEl = document.getElementById('track-title');
                 const detailsEl = document.getElementById('track-details');
+                const iframe = document.getElementById('yt-player');
 
-                iframe.src = `https://www.youtube.com/embed/${selected.id}?autoplay=1&enablejsapi=1`;
-                titleEl.innerText = selected.title;
-                detailsEl.innerText = `Tür: ${selected.genre} | Ton: ${selected.key} | BPM: ${selected.bpm} | Duygu: ${selected.mood} | Ülke: ${selected.country}`;
+                titleEl.innerText = "Yerel sunucudan taranıyor...";
+                detailsEl.innerText = "YouTube verileri getiriliyor...";
+
+                try {
+                    const url = `http://localhost:3000/api/search-sample?genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&year=${encodeURIComponent(year)}`;
+                    
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    if (data.items && data.items.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * data.items.length);
+                        const selectedVideo = data.items[randomIndex];
+                        const videoId = selectedVideo.id.videoId;
+                        const videoTitle = selectedVideo.snippet.title;
+
+                        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+                        titleEl.innerText = videoTitle;
+                        detailsEl.innerText = `Tür: ${genre !== 'all' ? genre : 'Karışık'} | Ton: ${key !== 'all' ? key : 'Belirsiz'} | BPM: ${bpm ? bpm : 'Serbest'} | Duygu: ${mood !== 'all' ? mood : 'Tüm Duygular'}`;
+                    } else {
+                        titleEl.innerText = "Bu kriterlere uygun video bulunamadı.";
+                        detailsEl.innerText = "Filtreleri daha genel seçerek tekrar deneyin.";
+                    }
+                } catch (error) {
+                    console.error("Sunucu Bağlantı Hatası:", error);
+                    titleEl.innerText = "Sunucu Hatası!";
+                    detailsEl.innerText = "Backend sunucusuna bağlanılamadı. Terminalde 'node server.js' komutunun çalıştığından emin olun.";
+                }
             }
 
             document.addEventListener('DOMContentLoaded', function() {
