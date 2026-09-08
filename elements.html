@@ -20,6 +20,23 @@
                 box-shadow: none !important;
             }
 
+            /* --- YENİ EKLENEN MENÜ (NAV) VURGUSU VE RENK AYARLARI --- */
+            /* Menü şeridini daha vurgulu yapma (Hafif gölge ve kontrast) */
+            #nav {
+                background-color: rgba(25, 25, 25, 0.98) !important;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8) !important;
+                border-bottom: 1px solid #333 !important;
+            }
+
+            /* Sadece bu sayfaya özel menü vurgu rengini (beyaz yerine kırmızı tonu) değiştirme */
+            #nav ul.links li.active a {
+                color: #ffffff !important;
+                background-color: #e74c3c !important; /* Gramamüzik kırmızısı */
+                border-radius: 6px;
+                font-weight: bold;
+            }
+            /* ----------------------------------------------------------- */
+
             /* Koyu Tema Stil Ayarları */
             body, #wrapper, #main, .post, #footer {
                 background-color: #121212 !important;
