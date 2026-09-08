@@ -137,6 +137,35 @@
                 gap: 15px;
             }
 
+            /* METADATA ETİKETLERİ TASARIMI */
+            #track-details-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 8px;
+            }
+
+            .meta-badge {
+                background: rgba(231, 76, 60, 0.15);
+                border: 1px solid rgba(231, 76, 60, 0.4);
+                color: #ff6b6b;
+                padding: 5px 12px;
+                border-radius: 20px;
+                font-size: 0.78rem;
+                font-weight: 500;
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                backdrop-filter: blur(4px);
+                transition: all 0.2s ease;
+            }
+
+            .meta-badge:hover {
+                background: rgba(231, 76, 60, 0.3);
+                border-color: #e74c3c;
+                color: #ffffff;
+            }
+
             .btn-generate {
                 background-color: #e74c3c !important;
                 color: #ffffff !important;
@@ -350,9 +379,12 @@
                         </div>
 
                         <div class="controls-bar">
-                            <div>
-                                <h3 id="track-title" style="margin: 0; color: #fff; font-size: 1.1rem;">Kriterleri Seç ve Keşfet</h3>
-                                <p id="track-details" style="margin: 0; color: #aaa; font-size: 0.85rem;">İstekler canlı bulut sunucunuz üzerinden YouTube, Discogs ve GetSongBPM veritabanlarına iletilir.</p>
+                            <div style="flex: 1; min-width: 250px;">
+                                <h3 id="track-title" style="margin: 0 0 6px 0; color: #fff; font-size: 1.1rem;">Kriterleri Seç ve Keşfet</h3>
+                                <!-- Oval etiketlerin basılacağı alan -->
+                                <div id="track-details-container">
+                                    <span class="meta-badge">🎵 Veritabanı Bekleniyor</span>
+                                </div>
                             </div>
                             <button class="btn-generate" id="find-btn">Sample Bul 🎲</button>
                         </div>
@@ -437,10 +469,10 @@
                 const year = document.getElementById('year').value;
 
                 const titleEl = document.getElementById('track-title');
-                const detailsEl = document.getElementById('track-details');
+                const detailsContainer = document.getElementById('track-details-container');
 
                 titleEl.innerText = "Aranıyor...";
-                detailsEl.innerText = "Veritabanları taranıyor, lütfen bekleyin...";
+                detailsContainer.innerHTML = `<span class="meta-badge">⏳ Veritabanları taranıyor...</span>`;
 
                 try {
                     const url = `https://grama-backend.onrender.com/api/search-sample?genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&year=${encodeURIComponent(year)}`;
@@ -464,15 +496,25 @@
                         }
 
                         titleEl.innerText = videoTitle;
-                        detailsEl.innerText = `Tür: ${info.genre} | Ton: ${info.key} | BPM: ${info.bpm} | Yıl: ${info.year} | Ülke: ${info.country} | Duygu: ${info.mood}`;
+
+                        // Oval kırmızı etiketlerle bilgileri dolduruyoruz
+                        detailsContainer.innerHTML = `
+                            <span class="meta-badge">🎸 Tür: ${info.genre}</span>
+                            <span class="meta-badge">🎹 Ton: ${info.key}</span>
+                            <span class="meta-badge">⚡ BPM: ${info.bpm}</span>
+                            <span class="meta-badge">👁️ İzlenme: ${info.views}</span>
+                            <span class="meta-badge">📅 Yıl: ${info.year}</span>
+                            <span class="meta-badge">🌍 Ülke: ${info.country}</span>
+                            <span class="meta-badge">🎭 Tema: ${info.mood}</span>
+                        `;
                     } else {
                         titleEl.innerText = "Bu kriterlere uygun video bulunamadı.";
-                        detailsEl.innerText = "Filtreleri daha genel seçerek tekrar deneyin.";
+                        detailsContainer.innerHTML = `<span class="meta-badge">⚠️ Filtreleri daha genel seçerek tekrar deneyin.</span>`;
                     }
                 } catch (error) {
                     console.error("Sunucu Bağlantı Hatası:", error);
                     titleEl.innerText = "Sunucu Hatası!";
-                    detailsEl.innerText = "Sunucuya bağlanılamadı veya işlem zaman aşımına uğradı.";
+                    detailsContainer.innerHTML = `<span class="meta-badge">❌ Sunucuya bağlanılamadı.</span>`;
                 }
             }
 
