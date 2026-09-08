@@ -10,38 +10,34 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/api/search-sample', async (req, res) => {
-    const { genre, key, bpm, mood, country, year } = req.query;
-
-    let queryParts = ["sample loop", "instrumental"];
-    if (genre && genre !== 'all') queryParts.push(genre);
-    if (key && key !== 'all') queryParts.push(key);
-    if (bpm) queryParts.push(bpm + " bpm");
-    if (mood && mood !== 'all') queryParts.push(mood);
-    if (country && country !== 'all') queryParts.push(country);
-    if (year && year !== 'all') queryParts.push(year);
-
-    const searchQuery = queryParts.join(" ");
-
     try {
-        const youtubeUrl = `https://www.googleapis.com/youtube/v3/search`;
-        const response = await axios.get(youtubeUrl, {
-            params: {
-                part: 'snippet',
-                type: 'video',
-                maxResults: 25,
-                q: searchQuery,
-                key: process.env.YOUTUBE_API_KEY
-            }
+        const { genre, key, bpm } = req.query;
+
+        // 1. Nadir ve amatör yüklemeleri hedefleyen anahtar kelimeler
+        let queryParts = [];
+        if (genre && genre !== 'all') queryParts.push(genre);
+        if (key && key !== 'all') queryParts.push(key);
+        if (bpm) queryParts.push(`${bpm} bpm`);
+
+        // Arama teriminin sonuna plak/nadir sample belirteçleri ekliyoruz
+        queryParts.push('rare sample vinyl rip');
+
+        // 2. Reklamlı/Monetize kanalları ve klibi olan videoları hariç tutan eksi parametreleri
+        const excludeParams = '-official -vevo -mv -video -lyrics -remastered -hd -tutorial -rehber -ders -yapımı -reaction';
+
+        const finalQuery = `${queryParts.join(' ')} ${excludeParams}`;
+
+        const response = await youtube.search.list({
+            part: 'snippet',
+            q: finalQuery,
+            type: 'video',
+            videoCategoryId: '10', // Sadece "Müzik" kategorisi
+            maxResults: 50,       // Rastgele seçim yapabilmek için geniş havuz
         });
 
         res.json(response.data);
     } catch (error) {
-        console.error("YouTube API Hatası:", error.response?.data || error.message);
-        res.status(500).json({ error: 'YouTube araması sırasında bir hata oluştu.' });
+        console.error('YouTube API Hatası:', error);
+        res.status(500).json({ error: 'Arama sırasında bir hata oluştu.' });
     }
-});
-
-app.listen(PORT, () => {
-    console.log(`Güvenli sunucu http://localhost:${PORT} adresinde çalışıyor.`);
-    console.log("API Anahtarı Durumu:", process.env.YOUTUBE_API_KEY ? "Yüklendi (Başarılı)" : "TANIMSIZ (Okunamadı!)");
 });
