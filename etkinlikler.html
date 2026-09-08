@@ -15,7 +15,7 @@
                 background-image: none !important;
             }
 
-            /* Massively şablonunun zorla eklediği div'i görünmez yapar ve boyutunu sıfırlar */
+            /* Massively şablonunun zorla eklediği div'i görünmez yapıp boyutunu sıfırlama */
             #bg, div#bg, body > #bg {
                 display: none !important;
                 opacity: 0 !important;
@@ -32,7 +32,7 @@
                 left: 0 !important;
                 width: 100vw !important;
                 height: 100vh !important;
-                z-index: 1 !important; /* Sayfanın zemininden üstte */
+                z-index: 1 !important;
                 pointer-events: none !important;
                 overflow: hidden !important;
             }
@@ -41,17 +41,17 @@
                 width: 100% !important;
                 height: 100% !important;
                 object-fit: cover !important;
-                filter: brightness(0.35) contrast(1.1); /* Okunabilirlik için videoyu karart */
+                filter: brightness(0.35) contrast(1.1);
             }
 
-            /* 3. ANA İÇERİK KUTUSU (Z-INDEX 2 - VİDEONUN ÜSTÜNDE) */
+            /* 3. ANA İÇERİK KUTUSU (Z-INDEX 2) */
             #wrapper {
                 position: relative !important;
-                z-index: 2 !important; /* Videonun kesinlikle üstünde */
-                background: transparent !important; /* Arkadan videonun görünmesi için şeffaf */
+                z-index: 2 !important;
+                background: transparent !important;
             }
 
-            /* 4. FOOTER (İLETİŞİM) KISMINI KARANLIK TEMAYA SABİTLEME */
+            /* 4. FOOTER KISMINI KARANLIK TEMAYA SABİTLEME */
             #footer {
                 background-color: #121212 !important;
                 border-top: 1px solid #333333 !important;
@@ -209,96 +209,99 @@
 
         <div id="wrapper" class="fade-in">
 
-                <div id="intro">
-                    <h1 style="color: #ffffff;">Mısrap Schooll<br />Etkinlikler</h1>
-                    <p style="color: #cccccc;">Türkiye'nin Oldschool Rap'inin Sesi | Gramamüzik Resmi Web Sitesi</p>
-                    <ul class="actions">
-                        <li><a href="#header" class="button icon solid solo fa-arrow-down scrolly" style="border-color: #ffffff; color: #ffffff;">Devam Et</a></li>
-                    </ul>
-                </div>
+            <div id="intro">
+                <h1 style="color: #ffffff;">Mısrap Schooll<br />Etkinlikler</h1>
+                <p style="color: #cccccc;">Türkiye'nin Oldschool Rap'inin Sesi | Gramamüzik Resmi Web Sitesi</p>
+                <ul class="actions">
+                    <li><a href="#header" class="button icon solid solo fa-arrow-down scrolly" style="border-color: #ffffff; color: #ffffff;">Devam Et</a></li>
+                </ul>
+            </div>
 
-                <header id="header">
-                    <a href="index.html" class="logo">GRAMAMÜZİK</a>
+            <header id="header">
+                <a href="index.html" class="logo">GRAMAMÜZİK</a>
+            </header>
+
+            <nav id="nav">
+                <ul class="links">
+                    <li><a href="index.html">Ana Sayfa</a></li>
+                    <li><a href="generic.html">Sanatçılar</a></li>
+                    <li class="active"><a href="etkinlikler.html">Yaklaşan Etkinlikler</a></li>
+                    <li><a href="gramasamplets.html">GramaSamplets</a></li>
+                    <li><a href="elements.html">Biz Kimiz?</a></li>
+                </ul>
+                <ul class="icons">
+                    <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                    <li><a href="https://instagram.com/misrapschooll59" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
+                    <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
+                    <li><a href="https://youtube.com/@misrapschooll59" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
+                    <li><a href="https://www.tiktok.com/@misrap_schooll59" class="icon brands fa-tiktok" target="_blank"><span class="label">TikTok</span></a></li>
+                </ul>
+            </nav>
+
+            <div id="main" style="background: rgba(20, 20, 20, 0.75) !important; backdrop-filter: blur(8px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); padding: 40px 25px; margin-bottom: 50px;">
+
+                <header class="major" style="text-align: center; margin-bottom: 50px;">
+                    <img src="images/mslogo.png" alt="Mısrap Schooll Logo" style="max-width: 140px; height: auto; margin-bottom: 15px; display: inline-block;" />
+                    <h1 style="font-size: clamp(32px, 5vw, 55px); line-height: 1.1; color: #ffffff; text-shadow: 3px 3px 0 #000, -2px -2px 0 #000; margin-bottom: 12px; font-family: 'Arial Black', Impact, sans-serif;">
+                        MISRAP SCHOOLL
+                    </h1>
+                    <h2 style="font-size: 20px; color: #dddddd; letter-spacing: 3px; font-weight: 300;">— Sanatçılarımızdan —</h2>
                 </header>
 
-                <nav id="nav">
-                    <ul class="links">
-                        <li><a href="index.html">Ana Sayfa</a></li>
-                        <li><a href="generic.html">Sanatçılar</a></li>
-                        <li class="active"><a href="etkinlikler.html">Yaklaşan Etkinlikler</a></li>
-                        <li><a href="elements.html">Biz Kimiz?</a></li>
-                    </ul>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 35px; justify-items: center;">
+
+                    <div style="background: #fff8b3; color: #222; width: 100%; max-width: 310px; padding: 22px; border-radius: 3px; box-shadow: 0 12px 25px rgba(0,0,0,0.6); transform: rotate(-2deg); font-family: 'Courier New', Courier, monospace;">
+                        <div style="background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 13px; padding: 5px; margin-bottom: 12px; border-radius: 3px;">🗓️ TARİH BELİRTİLMEMİŞ</div>
+                        <img src="images/pic01.jpg" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 12px; border-radius: 8px;">
+                        <h3 style="color: #b71c1c; font-weight: bold; font-size: 17px; margin-bottom: 8px; border-bottom: 2px dashed #dcd088; padding-bottom: 4px;">[ CANLI PERFORMANS ]</h3>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>📍 Yer:</strong> Gramactross'un Stüdyosu</p>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>🎤 Sanatçı:</strong> Mısrap Schooll Üyeleri</p>
+                        <p style="margin-bottom: 0; font-size: 12px; font-style: italic; color: #444;">Tiktok Canlı Yayınında beat yapımı ve söz yazımı, vokal kayıt etkinliği</p>
+                    </div>
+
+                    <div style="background: #ffb3b3; color: #222; width: 100%; max-width: 310px; padding: 22px; border-radius: 3px; box-shadow: 0 12px 25px rgba(0,0,0,0.6); transform: rotate(2.5deg); font-family: 'Courier New', Courier, monospace;">
+                        <div style="background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 13px; padding: 5px; margin-bottom: 12px; border-radius: 3px;">🗓️ TARİH BELİRTİLMEMİŞ</div>
+                        <img src="images/acapella.png" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 12px; border-radius: 8px;">
+                        <h3 style="color: #1d6fa5; font-weight: bold; font-size: 17px; margin-bottom: 8px; border-bottom: 2px dashed #d9a0a0; padding-bottom: 4px;">Mix-tape & acapella </h3>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>📍 Yer:</strong> Gramactross'un Stüdyosu</p>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>🎤 Katılım:</strong> Alastor, Trafo, Jess D. Exill, Gramactross</p>
+                        <p style="margin-bottom: 0; font-size: 12px; font-style: italic; color: #444;">Mısrap Schooll Ekibinin doğaçlama mixtape projeleri ve acapella etkinliği</p>
+                    </div>
+
+                    <div style="background: #b3ffb3; color: #222; width: 100%; max-width: 310px; padding: 22px; border-radius: 3px; box-shadow: 0 12px 25px rgba(0,0,0,0.6); transform: rotate(-1.5deg); font-family: 'Courier New', Courier, monospace;">
+                        <div style="background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 13px; padding: 5px; margin-bottom: 12px; border-radius: 3px;">🗓️ TARİH BELİRTİLMEMİŞ</div>
+                        <img src="images/alastoretk.png" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 12px; border-radius: 8px;">
+                        <h3 style="color: #1e8449; font-weight: bold; font-size: 17px; margin-bottom: 8px; border-bottom: 2px dashed #a0d9a0; padding-bottom: 4px;">[ ALASTOR'UN STÜDYOSU ]</h3>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>📍 Yer:</strong> Çerkezköy / Kumlugeçit</p>
+                        <p style="margin-bottom: 5px; font-size: 13px;"><strong>🎤 Yardımcı Prodüktör ve Editör:</strong> Gramactross</p>
+                        <p style="margin-bottom: 0; font-size: 12px; font-style: italic; color: #444;">Beat Projeleri</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FOOTER BAŞLANGICI (Düzeltildi) -->
+            <footer id="footer">
+                <section>
+                    <h3>E-posta</h3>
+                    <p><a href="mailto:gramamuzikiletisim@gmail.com" style="color: #e74c3c;">gramamuzikiletisim@gmail.com</a></p>
+                </section>
+                <section>
+                    <h3>Sosyal Medya</h3>
                     <ul class="icons">
                         <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
                         <li><a href="https://instagram.com/misrapschooll59" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
                         <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
-                        <li><a href="https://youtube.com/@misrapschooll59" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
-                        <li><a href="https://www.tiktok.com/@misrap_schooll59" class="icon brands fa-tiktok" target="_blank"><span class="label">TikTok</span></a></li>
                     </ul>
-                </nav>
+                </section>
+            </footer>
 
-                <div id="main" style="background: rgba(20, 20, 20, 0.75) !important; backdrop-filter: blur(8px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); padding: 40px 25px; margin-bottom: 50px;">
-
-                    <header class="major" style="text-align: center; margin-bottom: 50px;">
-                        <img src="images/mslogo.png" alt="Mısrap Schooll Logo" style="max-width: 140px; height: auto; margin-bottom: 15px; display: inline-block;" />
-                        <h1 style="font-size: clamp(32px, 5vw, 55px); line-height: 1.1; color: #ffffff; text-shadow: 3px 3px 0 #000, -2px -2px 0 #000; margin-bottom: 12px; font-family: 'Arial Black', Impact, sans-serif;">
-                            MISRAP SCHOOLL
-                        </h1>
-                        <h2 style="font-size: 20px; color: #dddddd; letter-spacing: 3px; font-weight: 300;">— Sanatçılarımızdan —</h2>
-                    </header>
-
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 35px; justify-items: center;">
-
-                        <div style="background: #fff8b3; color: #222; width: 100%; max-width: 310px; padding: 22px; border-radius: 3px; box-shadow: 0 12px 25px rgba(0,0,0,0.6); transform: rotate(-2deg); font-family: 'Courier New', Courier, monospace;">
-                            <div style="background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 13px; padding: 5px; margin-bottom: 12px; border-radius: 3px;">🗓️ TARİH BELİRTİLMEMİŞ</div>
-                            <img src="images/pic01.jpg" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 12px; border-radius: 8px;">
-                            <h3 style="color: #b71c1c; font-weight: bold; font-size: 17px; margin-bottom: 8px; border-bottom: 2px dashed #dcd088; padding-bottom: 4px;">[ CANLI PERFORMANS ]</h3>
-                            <p style="margin-bottom: 5px; font-size: 13px;"><strong>📍 Yer:</strong> Gramactross'un Stüdyosu</p>
-                            <p style="margin-bottom: 5px; font-size: 13px;"><strong>🎤 Sanatçı:</strong> Mısrap Schooll Üyeleri</p>
-                            <p style="margin-bottom: 0; font-size: 12px; font-style: italic; color: #444;">Tiktok Canlı Yayınında beat yapımı ve söz yazımı, vokal kayıt etkinliği</p>
-                        </div>
-
-                        <div style="background: #ffb3b3; color: #222; width: 100%; max-width: 310px; padding: 22px; border-radius: 3px; box-shadow: 0 12px 25px rgba(0,0,0,0.6); transform: rotate(2.5deg); font-family: 'Courier New', Courier, monospace;">
-                            <div style="background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 13px; padding: 5px; margin-bottom: 12px; border-radius: 3px;">🗓️ TARİH BELİRTİLMEMİŞ</div>
-                            <img src="images/acapella.png" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 12px; border-radius: 8px;">
-                            <h3 style="color: #1d6fa5; font-weight: bold; font-size: 17px; margin-bottom: 8px; border-bottom: 2px dashed #d9a0a0; padding-bottom: 4px;">Mix-tape & acapella </h3>
-                            <p style="margin-bottom: 5px; font-size: 13px;"><strong>📍 Yer:</strong> Gramactross'un Stüdyosu</p>
-                            <p style="margin-bottom: 5px; font-size: 13px;"><strong>🎤 Katılım:</strong> Alastor, Trafo, Jess D. Exill, Gramactross</p>
-                            <p style="margin-bottom: 0; font-size: 12px; font-style: italic; color: #444;">Mısrap Schooll Ekibinin doğaçlama mixtape projeleri ve acapella etkinliği</p>
-                        </div>
-
-                        <div style="background: #b3ffb3; color: #222; width: 100%; max-width: 310px; padding: 22px; border-radius: 3px; box-shadow: 0 12px 25px rgba(0,0,0,0.6); transform: rotate(-1.5deg); font-family: 'Courier New', Courier, monospace;">
-                            <div style="background: #111; color: #fff; text-align: center; font-weight: bold; font-size: 13px; padding: 5px; margin-bottom: 12px; border-radius: 3px;">🗓️ TARİH BELİRTİLMEMİŞ</div>
-                            <img src="images/alastoretk.png" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 12px; border-radius: 8px;">
-                            <h3 style="color: #1e8449; font-weight: bold; font-size: 17px; margin-bottom: 8px; border-bottom: 2px dashed #a0d9a0; padding-bottom: 4px;">[ ALASTOR'UN STÜDYOSU ]</h3>
-                            <p style="margin-bottom: 5px; font-size: 13px;"><strong>📍 Yer:</strong> Çerkezköy / Kumlugeçit</p>
-                            <p style="margin-bottom: 5px; font-size: 13px;"><strong>🎤 Yardımcı Prodüktör ve Editör:</strong> Gramactross</p>
-                            <p style="margin-bottom: 0; font-size: 12px; font-style: italic; color: #444;">Beat Projeleri</p>
-                        </div>
-
-                    </div>
-
-                </div>
-                  
-                            <h3>E-posta</h3>
-                            <p><a href="mailto:gramamuzikiletisim@gmail.com" style="color: #e74c3c;">gramamuzikiletisim@gmail.com</a></p>
-                        </section>
-                        <section>
-                            <h3>Sosyal Medya</h3>
-                            <ul class="icons">
-                                <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-                                <li><a href="https://instagram.com/misrapschooll59" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-                                <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
-                            </ul>
-                        </section>
-                    </section>
-                </footer>
-
-                <div id="copyright">
-                    <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li></ul>
-                </div>
-
+            <div id="copyright">
+                <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li></ul>
             </div>
+
+        </div>
 
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jquery.scrollex.min.js"></script>
@@ -306,11 +309,6 @@
         <script src="assets/js/browser.min.js"></script>
         <script src="assets/js/breakpoints.min.js"></script>
         <script src="assets/js/util.js"></script>
-        
-        <script>
-            // Massively main.js'nin arka plan yaratmasını durdurmak için
-            // body'ye id ataması yapacağız ki script "bg" id'sini bulamasın.
-        </script>
         <script src="assets/js/main.js"></script>
 
         <script>
