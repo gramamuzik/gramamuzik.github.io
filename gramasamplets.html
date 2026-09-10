@@ -56,14 +56,35 @@
                 color: #ffffff !important;
             }
 
+            /* NAV DÜZELTMESİ (YAZILARIN KAYMASINI ÖNLEYEN ESNEK YAPI) */
             #nav {
                 background-color: rgba(20, 20, 20, 0.95) !important;
                 border-bottom: 1px solid #333333 !important;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 12px 25px !important;
             }
-            #nav ul.links li a { color: #cccccc !important; }
+            #nav ul.links {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 5px !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            #nav ul.links li a { color: #cccccc !important; padding: 6px 12px !important; }
             #nav ul.links li.active a {
                 color: #ffffff !important;
                 background-color: rgba(40, 40, 40, 0.9) !important;
+                border-radius: 6px;
+            }
+            #nav ul.icons {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 10px !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
             /* SAMPLE FINDER PANELİ */
@@ -208,6 +229,123 @@
                 background-color: #ff3e3e !important;
                 transform: scale(1.03);
             }
+
+            /* MÜZİK KÜTÜPHANENİZ OVAL BUTON VURGUSU */
+            .btn-library {
+                background: rgba(231, 76, 60, 0.15) !important;
+                border: 2px solid #e74c3c !important;
+                color: #ff6b6b !important;
+                padding: 12px 24px !important;
+                font-size: 0.95rem !important;
+                font-weight: bold !important;
+                border-radius: 30px !important;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                transition: all 0.2s ease;
+                backdrop-filter: blur(4px);
+            }
+
+            .btn-library:hover {
+                background: #e74c3c !important;
+                color: #ffffff !important;
+                transform: scale(1.03);
+            }
+
+            /* KÜTÜPHANE MODAL / PANELİ */
+            #library-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 9999;
+                justify-content: center;
+                align-items: center;
+                backdrop-filter: blur(5px);
+            }
+
+            .library-content {
+                background: #151515;
+                border: 1px solid rgba(231, 76, 60, 0.4);
+                border-radius: 16px;
+                width: 90%;
+                max-width: 600px;
+                max-height: 80vh;
+                padding: 30px;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            }
+
+            .library-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid #333;
+                padding-bottom: 15px;
+                margin-bottom: 20px;
+            }
+
+            .library-header h2 {
+                color: #e74c3c;
+                margin: 0;
+                font-size: 1.4rem;
+            }
+
+            .close-library {
+                background: transparent;
+                border: none;
+                color: #aaa;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            .close-library:hover { color: #fff; }
+
+            .library-list {
+                overflow-y: auto;
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .library-item {
+                background: #1e1e1e;
+                padding: 12px 16px;
+                border-radius: 10px;
+                border-left: 4px solid #e74c3c;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .library-item-info {
+                flex-grow: 1;
+                font-size: 0.9rem;
+                color: #ddd;
+            }
+
+            .library-item-actions {
+                display: flex;
+                gap: 8px;
+            }
+
+            .btn-sm-action {
+                background: rgba(231, 76, 60, 0.2);
+                border: 1px solid #e74c3c;
+                color: #ff6b6b;
+                padding: 5px 10px;
+                border-radius: 6px;
+                font-size: 0.75rem;
+                cursor: pointer;
+                text-decoration: none;
+            }
+            .btn-sm-action:hover { background: #e74c3c; color: #fff; }
 
             /* FOOTER DÜZELTMESİ */
             #footer {
@@ -407,7 +545,6 @@
                             <label for="year">Çıkış Yılı</label>
                             <select id="year">
                                 <option value="all">Tüm Yıllar</option>
-                                <!-- JS ile doldurulacak -->
                             </select>
                         </div>
                     </aside>
@@ -422,16 +559,31 @@
                         <div class="controls-bar">
                             <div style="flex: 1; min-width: 250px;">
                                 <h3 id="track-title" style="margin: 0 0 6px 0; color: #fff; font-size: 1.1rem;">Kriterleri Seç ve Keşfet</h3>
-                                <!-- Oval etiketlerin basılacağı alan -->
                                 <div id="track-details-container">
                                     <span class="meta-badge">🎵 Veritabanı Bekleniyor</span>
                                 </div>
                             </div>
-                            <button class="btn-generate" id="find-btn">Sample Bul 🎲</button>
+                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                <button class="btn-library" id="open-library-btn">📂 Müzik Kütüphaneniz</button>
+                                <button class="btn-generate" id="find-btn">Sample Bul 🎲</button>
+                            </div>
                         </div>
                     </main>
                 </div>
 
+            </div>
+
+            <!-- MÜZİK KÜTÜPHANENİZ MODAL YAPISI -->
+            <div id="library-modal">
+                <div class="library-content">
+                    <div class="library-header">
+                        <h2>Müzik Kütüphaneniz</h2>
+                        <button class="close-library" id="close-library-btn">&times;</button>
+                    </div>
+                    <div class="library-list" id="library-list-container">
+                        <!-- Kayıtlı parçalar JS ile buraya gelecek -->
+                    </div>
+                </div>
             </div>
 
             <!-- Ortalanmış Footer -->
@@ -477,8 +629,8 @@
         <script>
             let player;
             let isPlayerReady = false;
+            let currentTrackData = null;
 
-            // YouTube SDK Hazır Olduğunda Çağrılan Fonksiyon
             function onYouTubeIframeAPIReady() {
                 player = new YT.Player('yt-player', {
                     height: '100%',
@@ -538,7 +690,14 @@
                         const videoTitle = selectedVideo.snippet.title;
                         const info = selectedVideo.analyzedInfo;
 
-                        // YouTube JS SDK ile Oynatma
+                        currentTrackData = {
+                            title: videoTitle,
+                            videoId: videoId,
+                            genre: info.genre,
+                            key: info.key,
+                            bpm: info.bpm
+                        };
+
                         if (isPlayerReady && player && player.loadVideoById) {
                             player.loadVideoById(videoId);
                         } else {
@@ -548,7 +707,6 @@
 
                         titleEl.innerText = videoTitle;
 
-                        // Oval kırmızı etiketlerle bilgileri dolduruyoruz
                         detailsContainer.innerHTML = `
                             <span class="meta-badge">🎸 Tür: ${info.genre}</span>
                             <span class="meta-badge">🎹 Ton: ${info.key}</span>
@@ -557,20 +715,95 @@
                             <span class="meta-badge">📅 Yıl: ${info.year}</span>
                             <span class="meta-badge">🌍 Ülke: ${info.country}</span>
                             <span class="meta-badge">🎭 Tema: ${info.mood}</span>
+                            <span class="meta-badge" id="save-track-btn" style="cursor: pointer; background: rgba(231, 76, 60, 0.3); border-color: #e74c3c;">⭐ Kütüphaneye Ekle</span>
                         `;
+
+                        document.getElementById('save-track-btn').addEventListener('click', saveCurrentTrackToLibrary);
                     } else {
+                        currentTrackData = null;
                         titleEl.innerText = "Bu kriterlere uygun video bulunamadı.";
                         detailsContainer.innerHTML = `<span class="meta-badge">⚠️ Filtreleri daha genel seçerek tekrar deneyin.</span>`;
                     }
                 } catch (error) {
                     console.error("Sunucu Bağlantı Hatası:", error);
+                    currentTrackData = null;
                     titleEl.innerText = "Sunucu Hatası!";
                     detailsContainer.innerHTML = `<span class="meta-badge">❌ Sunucuya bağlanılamadı.</span>`;
                 }
             }
 
+            // KİŞİYE ÖZEL HAFIZA (LOCALSTORAGE) YÖNETİMİ
+            function saveCurrentTrackToLibrary() {
+                if (!currentTrackData) return;
+                let library = JSON.parse(localStorage.getItem('grama_user_library')) || [];
+                
+                // Aynı şarkı zaten eklenmiş mi kontrol et
+                const exists = library.some(item => item.videoId === currentTrackData.videoId);
+                if (!exists) {
+                    library.push(currentTrackData);
+                    localStorage.setItem('grama_user_library', JSON.stringify(library));
+                    alert("Parça 'Müzik Kütüphaneniz' alanına başarıyla kaydedildi!");
+                } else {
+                    alert("Bu parça zaten kütüphanenizde mevcut.");
+                }
+            }
+
+            function renderLibraryModal() {
+                const listContainer = document.getElementById('library-list-container');
+                let library = JSON.parse(localStorage.getItem('grama_user_library')) || [];
+                
+                listContainer.innerHTML = '';
+
+                if (library.length === 0) {
+                    listContainer.innerHTML = `<p style="text-align: center; color: #888; margin-top: 30px;">Kütüphanenizde henüz kayıtlı bir parça yok. Beğendiğiniz sample'ları '⭐ Kütüphaneye Ekle' butonuna basarak buraya ekleyebilirsiniz.</p>`;
+                    return;
+                }
+
+                library.forEach((track, index) => {
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'library-item';
+                    itemEl.innerHTML = `
+                        <div class="library-item-info">
+                            <strong>${track.title}</strong><br>
+                            <span style="font-size: 0.75rem; color: #aaa;">Ton: ${track.key} | BPM: ${track.bpm} | Tür: ${track.genre}</span>
+                        </div>
+                        <div class="library-item-actions">
+                            <a href="https://www.youtube.com/watch?v=${track.videoId}" target="_blank" class="btn-sm-action">Dinle</a>
+                            <button class="btn-sm-action" onclick="removeTrackFromLibrary(${index})" style="background: rgba(255,0,0,0.2); border-color: red; color: #ff9999;">Sil</button>
+                        </div>
+                    `;
+                    listContainer.appendChild(itemEl);
+                });
+            }
+
+            window.removeTrackFromLibrary = function(index) {
+                let library = JSON.parse(localStorage.getItem('grama_user_library')) || [];
+                library.splice(index, 1);
+                localStorage.setItem('grama_user_library', JSON.stringify(library));
+                renderLibraryModal();
+            }
+
             document.addEventListener('DOMContentLoaded', function() {
                 populateYearSelect();
+
+                const modal = document.getElementById('library-modal');
+                const openBtn = document.getElementById('open-library-btn');
+                const closeBtn = document.getElementById('close-library-btn');
+
+                openBtn.addEventListener('click', function() {
+                    renderLibraryModal();
+                    modal.style.display = 'flex';
+                });
+
+                closeBtn.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+
+                window.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
             });
 
             document.getElementById('find-btn').addEventListener('click', searchAndPlaySample);
