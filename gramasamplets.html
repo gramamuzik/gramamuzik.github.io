@@ -56,7 +56,7 @@
                 color: #ffffff !important;
             }
 
-            /* NAV DÜZELTMESİ (Ana sayfa renk ve düzenine birebir uyumlu) */
+            /* NAV DÜZELTMESİ (Boşluksuz, kenarsız ve tam uyumlu yapı) */
             #nav {
                 background-color: #181818 !important;
                 border-bottom: 1px solid #2a2a2a !important;
@@ -64,23 +64,34 @@
                 flex-wrap: wrap !important;
                 justify-content: space-between !important;
                 align-items: center !important;
-                padding: 12px 25px !important;
+                padding: 0 !important;
             }
             #nav ul.links {
                 display: flex !important;
                 flex-wrap: wrap !important;
-                gap: 5px !important;
+                gap: 0 !important;
                 margin: 0 !important;
                 padding: 0 !important;
+                width: 100% !important;
+            }
+            #nav ul.links li {
+                flex: 1 !important;
+                border: none !important;
+                border-left: none !important;
+                border-right: none !important;
+                text-align: center !important;
             }
             #nav ul.links li a { 
                 color: #cccccc !important; 
-                padding: 6px 12px !important; 
+                padding: 15px 10px !important;
+                display: block !important;
+                border: none !important;
+                background: transparent !important;
             }
             #nav ul.links li.active a {
                 color: #ffffff !important;
                 background-color: #252525 !important;
-                border-radius: 6px;
+                border-radius: 0 !important;
             }
             #nav ul.icons {
                 display: flex !important;
