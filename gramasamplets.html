@@ -24,7 +24,6 @@
                 z-index: -99999 !important;
             }
 
-            /* VİDEO İÇİN ÖZEL KATMAN (Z-INDEX 1) */
             #video-wrap {
                 position: fixed !important;
                 top: 0 !important;
@@ -56,7 +55,6 @@
                 color: #ffffff !important;
             }
 
-            /* NAV DÜZELTMESİ */
             #nav {
                 background-color: #181818 !important;
                 border-bottom: 1px solid #2a2a2a !important;
@@ -77,8 +75,6 @@
             #nav ul.links li {
                 flex: 1 !important;
                 border: none !important;
-                border-left: none !important;
-                border-right: none !important;
                 text-align: center !important;
             }
             #nav ul.links li a { 
@@ -94,7 +90,7 @@
                 border-radius: 0 !important;
             }
 
-            /* SAMPLE FINDER PANELİ & MODERN KIRMIZI KUTU TASARIMI */
+            /* SAMPLE FINDER PANELİ & SABİT KÜÇÜLTÜLMÜŞ FİLTRELER */
             .samplets-container {
                 display: flex;
                 flex-wrap: wrap;
@@ -104,39 +100,30 @@
 
             .samplets-sidebar {
                 flex: 1;
-                min-width: 300px;
+                min-width: 280px;
+                max-width: 320px;
                 background: rgba(15, 15, 15, 0.85);
                 backdrop-filter: blur(8px);
-                padding: 25px;
+                padding: 20px;
                 border-radius: 16px;
                 border: 1px solid rgba(231, 76, 60, 0.2);
-                max-height: 80vh;
-                overflow-y: auto;
-            }
-
-            .samplets-sidebar::-webkit-scrollbar {
-                width: 6px;
-            }
-            .samplets-sidebar::-webkit-scrollbar-thumb {
-                background: #e74c3c;
-                border-radius: 4px;
+                height: fit-content; /* Sayfa kaydırmasını kaldırdık, içeriğe göre sabitlendi */
             }
 
             .samplets-sidebar h3 {
                 color: #e74c3c;
                 border-bottom: 1px solid rgba(231, 76, 60, 0.3);
-                padding-bottom: 10px;
-                margin-bottom: 20px;
-                font-size: 1.2rem;
+                padding-bottom: 8px;
+                margin-bottom: 15px;
+                font-size: 1.1rem;
             }
 
-            /* Filtre Kutularını Bilgi Paneli Gibi Modern Kırmızı Badge Temasına Çevirdik */
             .filter-box {
-                margin-bottom: 18px;
+                margin-bottom: 12px;
                 background: rgba(231, 76, 60, 0.05);
                 border: 1px solid rgba(231, 76, 60, 0.25);
-                padding: 12px;
-                border-radius: 12px;
+                padding: 10px;
+                border-radius: 10px;
                 transition: all 0.3s ease;
             }
 
@@ -147,25 +134,26 @@
 
             .filter-box label {
                 display: block;
-                font-size: 0.85rem;
+                font-size: 0.8rem;
                 color: #ff8b8b;
-                margin-bottom: 6px;
+                margin-bottom: 4px;
                 font-weight: 500;
             }
 
             .filter-box select, .filter-box input {
                 width: 100%;
-                padding: 9px;
-                border-radius: 8px;
+                padding: 7px;
+                border-radius: 6px;
                 background: #111111 !important;
                 color: #ffffff !important;
                 border: 1px solid #444 !important;
                 outline: none;
+                font-size: 0.85rem;
             }
 
             .range-group {
                 display: flex;
-                gap: 8px;
+                gap: 6px;
                 align-items: center;
             }
 
@@ -209,7 +197,6 @@
                 gap: 15px;
             }
 
-            /* METADATA ETİKETLERİ */
             #track-details-container {
                 display: flex;
                 flex-wrap: wrap;
@@ -275,7 +262,6 @@
                 color: #ffffff !important;
             }
 
-            /* MODAL ORTAK YAPISI */
             .custom-modal {
                 display: none;
                 position: fixed;
@@ -349,7 +335,12 @@
             .list-item-info {
                 flex-grow: 1;
                 font-size: 0.9rem;
-                color: #ddd;
+                color: #ffffff !important; /* Vurgulu beyaz renk yapıldı */
+            }
+
+            .list-item-info strong {
+                color: #ffffff !important;
+                font-size: 1rem;
             }
 
             .btn-sm-action {
@@ -364,7 +355,6 @@
             }
             .btn-sm-action:hover { background: #e74c3c; color: #fff; }
 
-            /* FOOTER */
             #footer {
                 background-color: #121212 !important;
                 border-top: 1px solid #333333 !important;
@@ -425,7 +415,7 @@
                 </header>
 
                 <div class="samplets-container">
-                    <!-- Filtreler Sidebar -->
+                    <!-- Sabit ve Kompakt Filtreler Sidebar -->
                     <aside class="samplets-sidebar">
                         <h3>Detaylı Filtreler</h3>
 
@@ -456,7 +446,7 @@
                             <label for="key">Ton (Key)</label>
                             <select id="key">
                                 <option value="all">Tüm Tonlar</option>
-                                <optgroup label="--- MAJÖR (MAJOR) ---">
+                                <optgroup label="--- MAJÖR ---">
                                     <option value="C Major">C Majör</option>
                                     <option value="C# Major">C# / Db Majör</option>
                                     <option value="D Major">D Majör</option>
@@ -470,7 +460,7 @@
                                     <option value="A# Major">A# / Bb Majör</option>
                                     <option value="B Major">B Majör</option>
                                 </optgroup>
-                                <optgroup label="--- MİNÖR (MINOR) ---">
+                                <optgroup label="--- MİNÖR ---">
                                     <option value="C Minor">C Minör</option>
                                     <option value="C# Minor">C# / Db Minör</option>
                                     <option value="D Minor">D Minör</option>
@@ -487,7 +477,7 @@
                             </select>
                         </div>
 
-                        <!-- BPM Min-Max Kutuları -->
+                        <!-- BPM Min-Max -->
                         <div class="filter-box">
                             <label>BPM Aralığı (Tempo)</label>
                             <div class="range-group">
@@ -497,20 +487,35 @@
                             </div>
                         </div>
 
-                        <!-- Yıl Min-Max Kutuları -->
+                        <!-- Çıkış Yılı Min-Max -->
                         <div class="filter-box">
                             <label>Çıkış Yılı Aralığı</label>
                             <div class="range-group">
-                                <input type="number" id="year-min" placeholder="Min Yıl" min="1950" max="2026" />
+                                <input type="number" id="year-min" placeholder="Min" min="1950" max="2026" />
                                 <span style="color:#aaa;">-</span>
-                                <input type="number" id="year-max" placeholder="Max Yıl" min="1950" max="2026" />
+                                <input type="number" id="year-max" placeholder="Max" min="1950" max="2026" />
                             </div>
+                        </div>
+
+                        <!-- İZLENME ARALIĞI (0 - 5M Arası 5'er Kat Kademeli) -->
+                        <div class="filter-box">
+                            <label for="views-range">İzlenme Aralığı</label>
+                            <select id="views-range">
+                                <option value="all">Tüm İzlenmeler</option>
+                                <option value="0-500">0 - 500</option>
+                                <option value="500-5000">500 - 5.000 (5K)</option>
+                                <option value="5000-25000">5.000 - 25.000 (25K)</option>
+                                <option value="25000-125000">25.000 - 125.000 (125K)</option>
+                                <option value="125000-625000">125.000 - 625.000 (625K)</option>
+                                <option value="625000-3125000">625.000 - 3.125.000 (3.1M)</option>
+                                <option value="3125000-5000000">3.125.000 - 5.000.000 (5M+)</option>
+                            </select>
                         </div>
 
                         <div class="filter-box">
                             <label for="mood">Tema / Duygu</label>
                             <select id="mood">
-                                <option value="all">Tüm Duygular / Temalar</option>
+                                <option value="all">Tüm Duygular</option>
                                 <option value="Melancholic Sad">Melankolik / Hüzünlü</option>
                                 <option value="Dark Aggressive">Karanlık / Agresif</option>
                                 <option value="Energetic Hype">Enerjik / Coşkulu</option>
@@ -520,21 +525,6 @@
                                 <option value="Peaceful Chill Relaxing">Huzurlu / Sakin / Chill</option>
                                 <option value="Mysterious Cinematic">Gizemli / Sinematik</option>
                                 <option value="Epic Dramatic">Epik / Dramatik</option>
-                                <option value="Angry Hard">Öfkeli / Sert</option>
-                                <option value="Dreamy Atmospheric">Rüya Gibi / Atmosferik</option>
-                            </select>
-                        </div>
-
-                        <div class="filter-box">
-                            <label for="country">Bölge / Ülke</label>
-                            <select id="country">
-                                <option value="all">Tüm Bölgeler (Global)</option>
-                                <option value="Turkish">Türkiye</option>
-                                <option value="American">ABD / Amerika</option>
-                                <option value="European">Avrupa</option>
-                                <option value="Latin">Latin / Brezilya</option>
-                                <option value="African">Afrika</option>
-                                <option value="Asian">Asya / Doğu</option>
                             </select>
                         </div>
                     </aside>
@@ -574,11 +564,11 @@
                 </div>
             </div>
 
-            <!-- GEÇMİŞ / İZLENEN VİDEOLAR MODALI -->
+            <!-- GEÇMİŞ MODALI -->
             <div id="history-modal" class="custom-modal">
                 <div class="modal-content-box" style="border-color: rgba(52, 152, 219, 0.4);">
                     <div class="modal-header" style="border-color: #2980b9;">
-                        <h2 style="color: #3498db;">Geçmiş (Daha Önce Geçilenler)</h2>
+                        <h2 style="color: #3498db;">Geçmiş (Daha Önce Çıkanlar)</h2>
                         <button class="close-modal-btn" id="close-history-btn">&times;</button>
                     </div>
                     <div class="modal-list" id="history-list-container"></div>
@@ -636,7 +626,6 @@
                     .replace(/'/g, '&#039;');
             }
 
-            // Hafıza Kontrolü: Daha önce sunulan veya izlenen video ID'lerini getir
             function getExcludedIds() {
                 let history = JSON.parse(localStorage.getItem('grama_history_tracks')) || [];
                 let library = JSON.parse(localStorage.getItem('grama_user_library')) || [];
@@ -650,8 +639,17 @@
                 const bpmMax = document.getElementById('bpm-max').value;
                 const yearMin = document.getElementById('year-min').value;
                 const yearMax = document.getElementById('year-max').value;
+                const viewsRange = document.getElementById('views-range').value;
                 const mood = document.getElementById('mood').value;
-                const country = document.getElementById('country').value;
+
+                let minViews = "";
+                let maxViews = "10000"; // Varsayılan düşük izlenme hedefi
+
+                if (viewsRange !== "all") {
+                    const parts = viewsRange.split("-");
+                    minViews = parts[0];
+                    maxViews = parts[1];
+                }
 
                 const titleEl = document.getElementById('track-title');
                 const detailsContainer = document.getElementById('track-details-container');
@@ -660,13 +658,12 @@
                 detailsContainer.innerHTML = '';
                 const loadingBadge = document.createElement('span');
                 loadingBadge.className = 'meta-badge';
-                loadingBadge.textContent = '⏳ Topic kanalları ve düşük izlenmeliler taranıyor...';
+                loadingBadge.textContent = '⏳ Topic kanalları taranıyor...';
                 detailsContainer.appendChild(loadingBadge);
 
                 try {
-                    // Min-Max filtreleri, maks 10k izlenme, kategori 10, min 60sn ve daha önce sunulanları hariç tutma parametresi
                     const excluded = getExcludedIds().join(',');
-                    const queryString = `genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpmMin=${encodeURIComponent(bpmMin)}&bpmMax=${encodeURIComponent(bpmMax)}&yearMin=${encodeURIComponent(yearMin)}&yearMax=${encodeURIComponent(yearMax)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&categoryId=10&minDuration=60&maxViews=10000&topicFocus=true&excludeIds=${encodeURIComponent(excluded)}`;
+                    const queryString = `genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpmMin=${encodeURIComponent(bpmMin)}&bpmMax=${encodeURIComponent(bpmMax)}&yearMin=${encodeURIComponent(yearMin)}&yearMax=${encodeURIComponent(yearMax)}&minViews=${encodeURIComponent(minViews)}&maxViews=${encodeURIComponent(maxViews)}&mood=${encodeURIComponent(mood)}&categoryId=10&minDuration=60&topicFocus=true&excludeIds=${encodeURIComponent(excluded)}`;
                     const url = `https://grama-backend.onrender.com/api/search-sample?${queryString}`;
                     
                     const response = await fetch(url, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
@@ -689,7 +686,6 @@
                             year: info.year
                         };
 
-                        // Geçmiş listesine otomatik kaydet (Bir daha asla tekrar sunulmaması için)
                         saveToHistory(currentTrackData);
 
                         if (isPlayerReady && player && player.loadVideoById) {
@@ -713,7 +709,6 @@
                             `⚡ BPM: ${escapeHtml(info.bpm)}`,
                             `👁️ İzlenme: ${escapeHtml(info.views)}`,
                             `📅 Yıl: ${escapeHtml(info.year)}`,
-                            `🌍 Ülke: ${escapeHtml(info.country)}`,
                             `🎭 Tema: ${escapeHtml(info.mood)}`
                         ];
 
@@ -751,8 +746,8 @@
             function saveToHistory(track) {
                 let history = JSON.parse(localStorage.getItem('grama_history_tracks')) || [];
                 if (!history.some(item => item.videoId === track.videoId)) {
-                    history.unshift(track); // En başa ekle
-                    if (history.length > 100) history.pop(); // Maks 100 kayıt
+                    history.unshift(track);
+                    if (history.length > 100) history.pop();
                     localStorage.setItem('grama_history_tracks', JSON.stringify(history));
                 }
             }
@@ -775,7 +770,7 @@
                 container.innerHTML = '';
 
                 if (items.length === 0) {
-                    container.innerHTML = '<p style="text-align: center; color: #888; margin-top: 20px;">Henüz kayıt bulunmuyor.</p>';
+                    container.innerHTML = '<p style="text-align: center; color: #aaa; margin-top: 20px;">Henüz kayıt bulunmuyor.</p>';
                     return;
                 }
 
@@ -785,7 +780,7 @@
 
                     const infoDiv = document.createElement('div');
                     infoDiv.className = 'list-item-info';
-                    infoDiv.innerHTML = `<strong>${escapeHtml(track.title)}</strong><br><span style="font-size: 0.75rem; color: #aaa;">Ton: ${track.key} | BPM: ${track.bpm} | İzlenme: ${track.views}</span>`;
+                    infoDiv.innerHTML = `<strong>${escapeHtml(track.title)}</strong><br><span style="font-size: 0.75rem; color: #ffcccc;">Ton: ${track.key} | BPM: ${track.bpm} | İzlenme: ${track.views}</span>`;
 
                     const actionsDiv = document.createElement('div');
                     actionsDiv.style.cssText = 'display: flex; gap: 6px;';
