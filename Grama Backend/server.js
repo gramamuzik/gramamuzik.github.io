@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 // Kritik ortam değişkenlerinin varlığını başlangıçta doğrula
-const requiredEnv = ['YOUTUBE_API_KEY'];
+const requiredEnv = ['YOUTUBE_API_KEY', 'APP_SECRET_TOKEN'];
 for (const env of requiredEnv) {
     if (!process.env[env]) {
         console.error(`[KRİTİK HATA] ${env} ortam değişkeni .env veya Render panelinde tanımlanmamış!`);
@@ -36,7 +36,7 @@ const apiLimiter = rateLimit({
 
 app.use('/api/', apiLimiter);
 
-// 🛡️ Aşama 2: Sıkılaştırılmış Content Security Policy (CSP) ve Helmet Yapılandırması
+// 🛡️ Sıkılaştırılmış Content Security Policy (CSP) ve Helmet Yapılandırması
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -56,7 +56,7 @@ app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-// 🛡️ Aşama 1: HTTP Parameter Pollution koruması
+// 🛡️ HTTP Parameter Pollution koruması
 app.use(hpp()); 
 
 const allowedOrigins = [
@@ -71,9 +71,20 @@ app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-client-verification-token');
     next();
 });
+
+// 🛡️ İstek Doğrulama (Secret Token) Ara Katmanı
+const verifyAppRequest = (req, res, next) => {
+    const clientToken = req.headers['x-client-verification-token'];
+    const expectedToken = process.env.APP_SECRET_TOKEN;
+
+    if (!expectedToken || clientToken !== expectedToken) {
+        return res.status(403).json({ error: 'Yetkisiz erişim engellendi.' });
+    }
+    next();
+};
 
 // Sağlık kontrolü (Health Check) rotası
 app.get('/health', (req, res) => {
@@ -90,7 +101,7 @@ function sanitizeInput(input) {
     return String(input).replace(/[^\w\s\-+.]/gi, '').trim().substring(0, 50);
 }
 
-// 🛡️ Aşama 1: Zod ile katı veri doğrulama şeması
+// Zod ile katı veri doğrulama şeması
 const searchSchema = z.object({
     genre: z.string().max(50).optional().default('all'),
     key: z.string().max(20).optional().default('all'),
@@ -206,9 +217,8 @@ function parseSampleMetadata(title, description, tags = [], fallbackKey, fallbac
     return { bpm, key, mood };
 }
 
-app.get('/api/search-sample', async (req, res) => {
+app.get('/api/search-sample', verifyAppRequest, async (req, res) => {
     try {
-        // Zod ile sorgu parametrelerini doğrula
         const validationResult = searchSchema.safeParse(req.query);
         if (!validationResult.success) {
             return res.status(400).json({ 
