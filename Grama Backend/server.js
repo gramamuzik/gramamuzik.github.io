@@ -1,7 +1,7 @@
 require('dotenv').config();
 const crypto = require('crypto');
 
-// Kritik ortam değişkenlerinin varlığını başlangıçta doğrula
+// Kritik ortam değişkenlerinin varlığını başlangıçta doğrula[cite: 3]
 const requiredEnv = ['YOUTUBE_API_KEY', 'APP_SECRET_TOKEN'];
 for (const env of requiredEnv) {
     if (!process.env[env]) {
@@ -37,7 +37,7 @@ const apiLimiter = rateLimit({
 
 app.use('/api/', apiLimiter);
 
-// Sıkılaştırılmış Content Security Policy (CSP) ve Helmet Yapılandırması
+// Sıkılaştırılmış Content Security Policy (CSP) ve Helmet Yapılandırması[cite: 3]
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -57,7 +57,7 @@ app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-// HTTP Parameter Pollution koruması
+// HTTP Parameter Pollution koruması[cite: 3]
 app.use(hpp()); 
 
 const allowedOrigins = [
@@ -72,53 +72,11 @@ app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-signature, x-timestamp');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
 
-// Dinamik HMAC ve Replay Attack Doğrulama Ara Katmanı (Debug Logları ile Güçlendirilmiş)
-const verifyHmacSignature = (req, res, next) => {
-    const signature = req.headers['x-signature'];
-    const timestamp = req.headers['x-timestamp'];
-    const secret = process.env.APP_SECRET_TOKEN;
-
-    if (!signature || !timestamp || !secret) {
-        console.log('[HMAC HATA] Eksik başlık veya secret:', { signature: !!signature, timestamp: !!timestamp, secret: !!secret });
-        return res.status(403).json({ error: 'Eksik güvenlik imzası veya kimlik doğrulama başlığı.' });
-    }
-
-    const now = Date.now();
-    const requestTime = parseInt(timestamp, 10);
-    
-    // Saat farkı toleransı 2 dakikaya (120000ms) çıkarıldı
-    if (isNaN(requestTime) || Math.abs(now - requestTime) > 120000) {
-        console.log('[HMAC HATA] Zaman aşımı / Saat uyuşmazlığı:', { now, requestTime, diff: Math.abs(now - requestTime) });
-        return res.status(403).json({ error: 'Zaman aşımına uğramış veya geçersiz istek.' });
-    }
-
-    const payload = `${timestamp}.${req.path}`;
-    const expectedSignature = crypto
-        .createHmac('sha256', secret)
-        .update(payload)
-        .digest('hex');
-
-    try {
-        const sigBuffer = Buffer.from(signature, 'hex');
-        const expectedBuffer = Buffer.from(expectedSignature, 'hex');
-
-        if (sigBuffer.length !== expectedBuffer.length || !crypto.timingSafeEqual(sigBuffer, expectedBuffer)) {
-            console.log('[HMAC HATA] İmza uyuşmazlığı. Beklenen:', expectedSignature, 'Gelen:', signature, 'Payload:', payload);
-            return res.status(403).json({ error: 'Kriptografik imza uyuşmazlığı.' });
-        }
-    } catch (err) {
-        console.log('[HMAC HATA] Buffer işleme hatası:', err.message);
-        return res.status(403).json({ error: 'İmza işlenirken hata oluştu.' });
-    }
-
-    next();
-};
-
-// Sağlık kontrolü (Health Check) rotası
+// Sağlık kontrolü (Health Check) rotası[cite: 3]
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'OK', uptime: process.uptime(), timestamp: new Date() });
 });
@@ -133,7 +91,7 @@ function sanitizeInput(input) {
     return String(input).replace(/[^\w\s\-+.]/gi, '').trim().substring(0, 50);
 }
 
-// Zod ile katı veri doğrulama şeması
+// Zod ile katı veri doğrulama şeması[cite: 3]
 const searchSchema = z.object({
     genre: z.string().max(50).optional().default('all'),
     key: z.string().max(20).optional().default('all'),
@@ -249,7 +207,7 @@ function parseSampleMetadata(title, description, tags = [], fallbackKey, fallbac
     return { bpm, key, mood };
 }
 
-app.get('/api/search-sample', verifyHmacSignature, async (req, res) => {
+app.get('/api/search-sample', async (req, res) => {
     try {
         const validationResult = searchSchema.safeParse(req.query);
         if (!validationResult.success) {
