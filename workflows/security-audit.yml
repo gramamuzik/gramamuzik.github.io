@@ -1,0 +1,29 @@
+name: Security Audit
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 0 * * 1' # Her pazartesi düzenli güvenlik taraması
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodları Depodan Çek
+        uses: actions/checkout@v4
+
+      - name: Node.js Ortamını Kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Bağımlılıkları Yükle
+        run: npm ci
+
+      - name: NPM Güvenlik Denetimi Yap
+        run: npm audit --audit-level=high
