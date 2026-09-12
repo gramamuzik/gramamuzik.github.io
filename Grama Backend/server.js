@@ -194,7 +194,7 @@ app.get('/api/search-sample', async (req, res) => {
                         genre: genre && genre !== 'all' ? genre : 'Karışık',
                         bpm: getsongbpm.bpm || fallbackMeta.bpm,
                         key: getsongbpm.key || fallbackMeta.key,
-                        views: viewCount.toLocaleString('tr-TR'),
+                        views: viewNum.toLocaleString('tr-TR'),
                         year: discogs.year !== 'Bilinmiyor' ? discogs.year : (year && year !== 'all' ? year : 'Bilinmiyor'),
                         country: discogs.country !== 'Global' ? discogs.country : (country && country !== 'all' ? country : 'Global'),
                         mood: fallbackMeta.mood
