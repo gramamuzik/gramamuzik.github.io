@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const { google } = require('googleapis');
 const axios = require('axios');
@@ -124,14 +125,12 @@ app.get('/api/search-sample', async (req, res) => {
     try {
         const { genre, key, bpm, mood, viewCount, country, year } = req.query;
 
-        // Arama sorgusunu YouTube'u kilitlenmeyecek şekilde optimize ediyoruz
         let mainQueryParts = [];
 
         if (genre && genre !== 'all') mainQueryParts.push(genre);
         if (country && country !== 'all') mainQueryParts.push(country);
         if (year && year !== 'all') mainQueryParts.push(year);
 
-        // Ana arama terimleri yoksa genel terimler kullanılır
         if (mainQueryParts.length === 0) {
             mainQueryParts.push('rare sample vinyl');
         } else {
@@ -143,7 +142,6 @@ app.get('/api/search-sample', async (req, res) => {
 
         console.log(`[LOG] YouTube Arama Sorgusu: "${searchQuery}"`);
 
-        // 1. YouTube Havuzunu Geniş Tutuyoruz (50 Video)
         const searchResponse = await youtube.search.list({
             part: 'snippet',
             q: `${searchQuery} ${excludeParams}`,
@@ -158,25 +156,21 @@ app.get('/api/search-sample', async (req, res) => {
 
         const videoIds = searchResponse.data.items.map(item => item.id.videoId).join(',');
 
-        // 2. Videoların İstatistiklerini Çekme
         const videoDetailsResponse = await youtube.videos.list({
             part: 'snippet,statistics',
             id: videoIds
         });
 
-        // 3. İzlenme Filtrelemesi
         let matchedItems = videoDetailsResponse.data.items.filter(item => {
             const views = item.statistics ? item.statistics.viewCount : 0;
             return isWithinViewCountRange(views, viewCount);
         });
 
-        // Seçilen izlenme aralığına uygun video çıkmazsa havuzdan rastgele devam et (Sistem kilitlenmesin)
         if (matchedItems.length === 0) {
             console.log('[LOG] İzlenme filtresine uyan sonuç bulunamadı, genel havuz kullanılıyor.');
             matchedItems = videoDetailsResponse.data.items;
         }
 
-        // 4. Verileri Zenginleştirme
         const processedItems = await Promise.all(
             matchedItems.map(async (item) => {
                 const title = item.snippet.title;
@@ -200,7 +194,7 @@ app.get('/api/search-sample', async (req, res) => {
                         genre: genre && genre !== 'all' ? genre : 'Karışık',
                         bpm: getsongbpm.bpm || fallbackMeta.bpm,
                         key: getsongbpm.key || fallbackMeta.key,
-                        views: viewNum.toLocaleString('tr-TR'),
+                        views: viewCount.toLocaleString('tr-TR'),
                         year: discogs.year !== 'Bilinmiyor' ? discogs.year : (year && year !== 'all' ? year : 'Bilinmiyor'),
                         country: discogs.country !== 'Global' ? discogs.country : (country && country !== 'all' ? country : 'Global'),
                         mood: fallbackMeta.mood
