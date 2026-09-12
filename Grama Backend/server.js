@@ -339,3 +339,14 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
     console.log(`Grama Backend ${PORT} portunda tam donanımlı ve doğrulanmış olarak başlatıldı.`);
 });
+// Tüm rotaların ve middleware'lerin en sonuna eklenmelidir
+app.use((err, req, res, next) => {
+    // Sunucu konsoluna tam hatayı bas (geliştirici takibi için)
+    console.error('[GÜVENLİK/SİSTEM HATASI]:', err.stack || err.message);
+
+    // Kullanıcıya asla hassas sistem detaylarını gösterme
+    const statusCode = err.status || 500;
+    res.status(statusCode).json({
+        error: statusCode === 500 ? 'Sunucu tarafında beklenmeyen bir hata oluştu.' : err.message
+    });
+});
