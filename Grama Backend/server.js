@@ -1,8 +1,7 @@
 require('dotenv').config();
-const crypto = require('crypto');
 
-// Kritik ortam değişkenlerinin varlığını başlangıçta doğrula[cite: 3]
-const requiredEnv = ['YOUTUBE_API_KEY', 'APP_SECRET_TOKEN'];
+// Kritik ortam değişkenlerinin varlığını başlangıçta doğrula[cite: 3, 6]
+const requiredEnv = ['YOUTUBE_API_KEY'];
 for (const env of requiredEnv) {
     if (!process.env[env]) {
         console.error(`[KRİTİK HATA] ${env} ortam değişkeni .env veya Render panelinde tanımlanmamış!`);
@@ -37,7 +36,7 @@ const apiLimiter = rateLimit({
 
 app.use('/api/', apiLimiter);
 
-// Sıkılaştırılmış Content Security Policy (CSP) ve Helmet Yapılandırması[cite: 3]
+// Sıkılaştırılmış Content Security Policy (CSP) ve Helmet Yapılandırması[cite: 3, 6]
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -57,7 +56,7 @@ app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-// HTTP Parameter Pollution koruması[cite: 3]
+// HTTP Parameter Pollution koruması[cite: 3, 6]
 app.use(hpp()); 
 
 const allowedOrigins = [
@@ -76,7 +75,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Sağlık kontrolü (Health Check) rotası[cite: 3]
+// Sağlık kontrolü (Health Check) rotası[cite: 3, 6]
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'OK', uptime: process.uptime(), timestamp: new Date() });
 });
@@ -91,7 +90,7 @@ function sanitizeInput(input) {
     return String(input).replace(/[^\w\s\-+.]/gi, '').trim().substring(0, 50);
 }
 
-// Zod ile katı veri doğrulama şeması[cite: 3]
+// Zod ile katı veri doğrulama şeması[cite: 3, 6]
 const searchSchema = z.object({
     genre: z.string().max(50).optional().default('all'),
     key: z.string().max(20).optional().default('all'),
