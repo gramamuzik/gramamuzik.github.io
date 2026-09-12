@@ -3,14 +3,17 @@ const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const NodeCache = require('node-cache');
+const morgan = require('morgan'); // Loglama için morgan
 const { google } = require('googleapis');
 const axios = require('axios');
 const app = express();
 
-// Bellek önbelleği: Yanıtları 10 dakika (600 saniye) boyunca bellekte saklar
 const searchCache = new NodeCache({ stdTTL: 600 });
 
 app.set('trust proxy', 1);
+
+// Morgan ile gelen istekleri geliştirici formatında konsola logla
+app.use(morgan('dev'));
 
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, 
@@ -164,7 +167,6 @@ app.get('/api/search-sample', async (req, res) => {
         const country = sanitizeInput(req.query.country);
         const year = sanitizeInput(req.query.year);
 
-        // İstek parametrelerini önbellek anahtarı (cache key) olarak kullanıyoruz
         const cacheKey = JSON.stringify({ genre, key, bpm, mood, viewCount, country, year });
         const cachedResponse = searchCache.get(cacheKey);
 
@@ -254,8 +256,6 @@ app.get('/api/search-sample', async (req, res) => {
         );
 
         const finalResponse = { items: processedItems };
-        
-        // Başarılı sonucu sonraki benzer istekler için önbelleğe kaydet
         searchCache.set(cacheKey, finalResponse);
 
         res.json(finalResponse);
@@ -268,5 +268,5 @@ app.get('/api/search-sample', async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-    console.log(`Grama Backend ${PORT} portunda güvenli ve önbellekli şekilde başlatıldı.`);
+    console.log(`Grama Backend ${PORT} portunda loglama özellikli şekilde başlatıldı.`);
 });
