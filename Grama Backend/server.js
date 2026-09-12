@@ -16,6 +16,8 @@ const NodeCache = require('node-cache');
 const morgan = require('morgan');
 const { google } = require('googleapis');
 const axios = require('axios');
+const hpp = require('hpp');
+const { z } = require('zod');
 const app = express();
 
 const searchCache = new NodeCache({ stdTTL: 600 });
@@ -34,6 +36,7 @@ const apiLimiter = rateLimit({
 
 app.use('/api/', apiLimiter);
 app.use(helmet());
+app.use(hpp()); // HTTP Parameter Pollution koruması
 
 const allowedOrigins = [
     'https://gramamuzik.github.io',
@@ -65,6 +68,17 @@ function sanitizeInput(input) {
     if (!input) return 'all';
     return String(input).replace(/[^\w\s\-+.]/gi, '').trim().substring(0, 50);
 }
+
+// Zod ile katı veri doğrulama şeması
+const searchSchema = z.object({
+    genre: z.string().max(50).optional().default('all'),
+    key: z.string().max(20).optional().default('all'),
+    bpm: z.string().max(20).optional().default('all'),
+    mood: z.string().max(50).optional().default('all'),
+    viewCount: z.string().max(20).optional().default('all'),
+    country: z.string().max(50).optional().default('all'),
+    year: z.string().max(20).optional().default('all')
+});
 
 function cleanTitle(title) {
     return title
@@ -173,13 +187,23 @@ function parseSampleMetadata(title, description, tags = [], fallbackKey, fallbac
 
 app.get('/api/search-sample', async (req, res) => {
     try {
-        const genre = sanitizeInput(req.query.genre);
-        const key = sanitizeInput(req.query.key);
-        const bpm = sanitizeInput(req.query.bpm);
-        const mood = sanitizeInput(req.query.mood);
-        const viewCount = sanitizeInput(req.query.viewCount);
-        const country = sanitizeInput(req.query.country);
-        const year = sanitizeInput(req.query.year);
+        // Zod ile sorgu parametrelerini doğrula
+        const validationResult = searchSchema.safeParse(req.query);
+        if (!validationResult.success) {
+            return res.status(400).json({ 
+                error: "Geçersiz parametre formatı", 
+                details: validationResult.error.format() 
+            });
+        }
+
+        const cleanQuery = validationResult.data;
+        const genre = sanitizeInput(cleanQuery.genre);
+        const key = sanitizeInput(cleanQuery.key);
+        const bpm = sanitizeInput(cleanQuery.bpm);
+        const mood = sanitizeInput(cleanQuery.mood);
+        const viewCount = sanitizeInput(cleanQuery.viewCount);
+        const country = sanitizeInput(cleanQuery.country);
+        const year = sanitizeInput(cleanQuery.year);
 
         const cacheKey = JSON.stringify({ genre, key, bpm, mood, viewCount, country, year });
         const cachedResponse = searchCache.get(cacheKey);
