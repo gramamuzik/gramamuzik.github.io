@@ -76,19 +76,23 @@ app.use((req, res, next) => {
     next();
 });
 
-// Dinamik HMAC ve Replay Attack Doğrulama Ara Katmanı
+// Dinamik HMAC ve Replay Attack Doğrulama Ara Katmanı (Debug Logları ile Güçlendirilmiş)
 const verifyHmacSignature = (req, res, next) => {
     const signature = req.headers['x-signature'];
     const timestamp = req.headers['x-timestamp'];
     const secret = process.env.APP_SECRET_TOKEN;
 
     if (!signature || !timestamp || !secret) {
+        console.log('[HMAC HATA] Eksik başlık veya secret:', { signature: !!signature, timestamp: !!timestamp, secret: !!secret });
         return res.status(403).json({ error: 'Eksik güvenlik imzası veya kimlik doğrulama başlığı.' });
     }
 
     const now = Date.now();
     const requestTime = parseInt(timestamp, 10);
-    if (isNaN(requestTime) || Math.abs(now - requestTime) > 30000) {
+    
+    // Saat farkı toleransı 2 dakikaya (120000ms) çıkarıldı
+    if (isNaN(requestTime) || Math.abs(now - requestTime) > 120000) {
+        console.log('[HMAC HATA] Zaman aşımı / Saat uyuşmazlığı:', { now, requestTime, diff: Math.abs(now - requestTime) });
         return res.status(403).json({ error: 'Zaman aşımına uğramış veya geçersiz istek.' });
     }
 
@@ -103,9 +107,11 @@ const verifyHmacSignature = (req, res, next) => {
         const expectedBuffer = Buffer.from(expectedSignature, 'hex');
 
         if (sigBuffer.length !== expectedBuffer.length || !crypto.timingSafeEqual(sigBuffer, expectedBuffer)) {
+            console.log('[HMAC HATA] İmza uyuşmazlığı. Beklenen:', expectedSignature, 'Gelen:', signature, 'Payload:', payload);
             return res.status(403).json({ error: 'Kriptografik imza uyuşmazlığı.' });
         }
     } catch (err) {
+        console.log('[HMAC HATA] Buffer işleme hatası:', err.message);
         return res.status(403).json({ error: 'İmza işlenirken hata oluştu.' });
     }
 
