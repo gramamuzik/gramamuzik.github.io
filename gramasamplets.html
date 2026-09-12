@@ -670,7 +670,15 @@
                 }
             }
 
-            // HMAC imza fonksiyonu istemci güvenliği riski yarattığı için tamamen kaldırıldı.
+            // Güvenli escape fonksiyonu
+            function escapeHtml(str) {
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
 
             async function searchAndPlaySample() {
                 const genre = document.getElementById('genre').value;
@@ -683,8 +691,12 @@
                 const titleEl = document.getElementById('track-title');
                 const detailsContainer = document.getElementById('track-details-container');
 
-                titleEl.innerText = "Aranıyor...";
-                detailsContainer.innerHTML = `<span class="meta-badge">⏳ Veritabanları taranıyor...</span>`;
+                titleEl.textContent = "Aranıyor...";
+                detailsContainer.innerHTML = '';
+                const loadingBadge = document.createElement('span');
+                loadingBadge.className = 'meta-badge';
+                loadingBadge.textContent = '⏳ Veritabanları taranıyor...';
+                detailsContainer.appendChild(loadingBadge);
 
                 try {
                     const queryString = `genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&year=${encodeURIComponent(year)}`;
@@ -718,33 +730,60 @@
                             player.loadVideoById(videoId);
                         } else {
                             const ytDiv = document.getElementById('yt-player');
-                            ytDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
+                            ytDiv.innerHTML = '';
+                            const iframe = document.createElement('iframe');
+                            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+                            iframe.allowFullscreen = true;
+                            iframe.style.cssText = 'width:100%;height:100%;border:0;';
+                            ytDiv.appendChild(iframe);
                         }
 
-                        titleEl.innerText = videoTitle;
+                        titleEl.textContent = videoTitle;
 
-                        detailsContainer.innerHTML = `
-                            <span class="meta-badge">🎸 Tür: ${info.genre}</span>
-                            <span class="meta-badge">🎹 Ton: ${info.key}</span>
-                            <span class="meta-badge">⚡ BPM: ${info.bpm}</span>
-                            <span class="meta-badge">👁️ İzlenme: ${info.views}</span>
-                            <span class="meta-badge">📅 Yıl: ${info.year}</span>
-                            <span class="meta-badge">🌍 Ülke: ${info.country}</span>
-                            <span class="meta-badge">🎭 Tema: ${info.mood}</span>
-                            <span class="meta-badge" id="save-track-btn" style="cursor: pointer; background: rgba(231, 76, 60, 0.3); border-color: #e74c3c;">⭐ Kütüphaneye Ekle</span>
-                        `;
+                        detailsContainer.innerHTML = '';
+                        const badgeTexts = [
+                            `🎸 Tür: ${escapeHtml(info.genre)}`,
+                            `🎹 Ton: ${escapeHtml(info.key)}`,
+                            `⚡ BPM: ${escapeHtml(info.bpm)}`,
+                            `👁️ İzlenme: ${escapeHtml(info.views)}`,
+                            `📅 Yıl: ${escapeHtml(info.year)}`,
+                            `🌍 Ülke: ${escapeHtml(info.country)}`,
+                            `🎭 Tema: ${escapeHtml(info.mood)}`
+                        ];
 
-                        document.getElementById('save-track-btn').addEventListener('click', saveCurrentTrackToLibrary);
+                        badgeTexts.forEach(txt => {
+                            const badge = document.createElement('span');
+                            badge.className = 'meta-badge';
+                            badge.textContent = txt;
+                            detailsContainer.appendChild(badge);
+                        });
+
+                        const saveBtn = document.createElement('span');
+                        saveBtn.className = 'meta-badge';
+                        saveBtn.id = 'save-track-btn';
+                        saveBtn.style.cssText = 'cursor: pointer; background: rgba(231, 76, 60, 0.3); border-color: #e74c3c;';
+                        saveBtn.textContent = '⭐ Kütüphaneye Ekle';
+                        saveBtn.addEventListener('click', saveCurrentTrackToLibrary);
+                        detailsContainer.appendChild(saveBtn);
+
                     } else {
                         currentTrackData = null;
-                        titleEl.innerText = "Bu kriterlere uygun video bulunamadı.";
-                        detailsContainer.innerHTML = `<span class="meta-badge">⚠️ ${data.error || 'Filtreleri gözden geçirin.'}</span>`;
+                        titleEl.textContent = "Bu kriterlere uygun video bulunamadı.";
+                        detailsContainer.innerHTML = '';
+                        const errBadge = document.createElement('span');
+                        errBadge.className = 'meta-badge';
+                        errBadge.textContent = `⚠️ ${data.error || 'Filtreleri gözden geçirin.'}`;
+                        detailsContainer.appendChild(errBadge);
                     }
                 } catch (error) {
                     console.error("Sunucu Bağlantı Hatası:", error);
                     currentTrackData = null;
-                    titleEl.innerText = "Sunucu Hatası!";
-                    detailsContainer.innerHTML = `<span class="meta-badge">❌ Sunucuya bağlanılamadı.</span>`;
+                    titleEl.textContent = "Sunucu Hatası!";
+                    detailsContainer.innerHTML = '';
+                    const errBadge = document.createElement('span');
+                    errBadge.className = 'meta-badge';
+                    errBadge.textContent = '❌ Sunucuya bağlanılamadı.';
+                    detailsContainer.appendChild(errBadge);
                 }
             }
 
@@ -770,23 +809,53 @@
                 listContainer.innerHTML = '';
 
                 if (library.length === 0) {
-                    listContainer.innerHTML = `<p style="text-align: center; color: #888; margin-top: 30px;">Kütüphanenizde henüz kayıtlı bir parça yok. Beğendiğiniz sample'ları '⭐ Kütüphaneye Ekle' butonuna basarak buraya ekleyebilirsiniz.</p>`;
+                    const p = document.createElement('p');
+                    p.style.cssText = 'text-align: center; color: #888; margin-top: 30px;';
+                    p.textContent = "Kütüphanenizde henüz kayıtlı bir parça yok. Beğendiğiniz sample'ları '⭐ Kütüphaneye Ekle' butonuna basarak buraya ekleyebilirsiniz.";
+                    listContainer.appendChild(p);
                     return;
                 }
 
                 library.forEach((track, index) => {
                     const itemEl = document.createElement('div');
                     itemEl.className = 'library-item';
-                    itemEl.innerHTML = `
-                        <div class="library-item-info">
-                            <strong>${track.title}</strong><br>
-                            <span style="font-size: 0.75rem; color: #aaa;">Ton: ${track.key} | BPM: ${track.bpm} | Tür: ${track.genre}</span>
-                        </div>
-                        <div class="library-item-actions">
-                            <a href="https://www.youtube.com/watch?v=${track.videoId}" target="_blank" class="btn-sm-action">Dinle</a>
-                            <button class="btn-sm-action" onclick="removeTrackFromLibrary(${index})" style="background: rgba(255,0,0,0.2); border-color: red; color: #ff9999;">Sil</button>
-                        </div>
-                    `;
+
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'library-item-info';
+
+                    const strong = document.createElement('strong');
+                    strong.textContent = track.title;
+
+                    const br = document.createElement('br');
+
+                    const metaSpan = document.createElement('span');
+                    metaSpan.style.cssText = 'font-size: 0.75rem; color: #aaa;';
+                    metaSpan.textContent = `Ton: ${track.key} | BPM: ${track.bpm} | Tür: ${track.genre}`;
+
+                    infoDiv.appendChild(strong);
+                    infoDiv.appendChild(br);
+                    infoDiv.appendChild(metaSpan);
+
+                    const actionsDiv = document.createElement('div');
+                    actionsDiv.className = 'library-item-actions';
+
+                    const listenLink = document.createElement('a');
+                    listenLink.href = `https://www.youtube.com/watch?v=${track.videoId}`;
+                    listenLink.target = '_blank';
+                    listenLink.className = 'btn-sm-action';
+                    listenLink.textContent = 'Dinle';
+
+                    const delBtn = document.createElement('button');
+                    delBtn.className = 'btn-sm-action';
+                    delBtn.style.cssText = 'background: rgba(255,0,0,0.2); border-color: red; color: #ff9999;';
+                    delBtn.textContent = 'Sil';
+                    delBtn.onclick = function() { removeTrackFromLibrary(index); };
+
+                    actionsDiv.appendChild(listenLink);
+                    actionsDiv.appendChild(delBtn);
+
+                    itemEl.appendChild(infoDiv);
+                    itemEl.appendChild(actionsDiv);
                     listContainer.appendChild(itemEl);
                 });
             }
@@ -825,4 +894,3 @@
         </script>
     </body>
 </html>
-```[cite: 2]
