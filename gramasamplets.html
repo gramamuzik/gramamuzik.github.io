@@ -56,7 +56,7 @@
                 color: #ffffff !important;
             }
 
-            /* NAV DÜZELTMESİ (Boşluksuz, kenarsız ve tam uyumlu yapı) */
+            /* NAV DÜZELTMESİ */
             #nav {
                 background-color: #181818 !important;
                 border-bottom: 1px solid #2a2a2a !important;
@@ -93,15 +93,8 @@
                 background-color: #252525 !important;
                 border-radius: 0 !important;
             }
-            #nav ul.icons {
-                display: flex !important;
-                flex-wrap: wrap !important;
-                gap: 10px !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
 
-            /* SAMPLE FINDER PANELİ */
+            /* SAMPLE FINDER PANELİ & MODERN KIRMIZI KUTU TASARIMI */
             .samplets-container {
                 display: flex;
                 flex-wrap: wrap;
@@ -116,7 +109,7 @@
                 backdrop-filter: blur(8px);
                 padding: 25px;
                 border-radius: 16px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(231, 76, 60, 0.2);
                 max-height: 80vh;
                 overflow-y: auto;
             }
@@ -125,37 +118,55 @@
                 width: 6px;
             }
             .samplets-sidebar::-webkit-scrollbar-thumb {
-                background: #444;
+                background: #e74c3c;
                 border-radius: 4px;
             }
 
             .samplets-sidebar h3 {
                 color: #e74c3c;
-                border-bottom: 1px solid #333;
+                border-bottom: 1px solid rgba(231, 76, 60, 0.3);
                 padding-bottom: 10px;
                 margin-bottom: 20px;
                 font-size: 1.2rem;
             }
 
+            /* Filtre Kutularını Bilgi Paneli Gibi Modern Kırmızı Badge Temasına Çevirdik */
             .filter-box {
                 margin-bottom: 18px;
+                background: rgba(231, 76, 60, 0.05);
+                border: 1px solid rgba(231, 76, 60, 0.25);
+                padding: 12px;
+                border-radius: 12px;
+                transition: all 0.3s ease;
+            }
+
+            .filter-box:hover {
+                border-color: #e74c3c;
+                background: rgba(231, 76, 60, 0.1);
             }
 
             .filter-box label {
                 display: block;
                 font-size: 0.85rem;
-                color: #aaaaaa;
+                color: #ff8b8b;
                 margin-bottom: 6px;
+                font-weight: 500;
             }
 
             .filter-box select, .filter-box input {
                 width: 100%;
-                padding: 10px;
+                padding: 9px;
                 border-radius: 8px;
-                background: #1e1e1e !important;
+                background: #111111 !important;
                 color: #ffffff !important;
                 border: 1px solid #444 !important;
                 outline: none;
+            }
+
+            .range-group {
+                display: flex;
+                gap: 8px;
+                align-items: center;
             }
 
             .samplets-main {
@@ -198,7 +209,7 @@
                 gap: 15px;
             }
 
-            /* METADATA ETİKETLERİ TASARIMI */
+            /* METADATA ETİKETLERİ */
             #track-details-container {
                 display: flex;
                 flex-wrap: wrap;
@@ -244,31 +255,28 @@
                 transform: scale(1.03);
             }
 
-            /* MÜZİK KÜTÜPHANENİZ OVAL BUTON VURGUSU */
             .btn-library {
                 background: rgba(231, 76, 60, 0.15) !important;
                 border: 2px solid #e74c3c !important;
                 color: #ff6b6b !important;
-                padding: 12px 24px !important;
-                font-size: 0.95rem !important;
+                padding: 10px 18px !important;
+                font-size: 0.85rem !important;
                 font-weight: bold !important;
                 border-radius: 30px !important;
                 cursor: pointer;
                 display: inline-flex;
                 align-items: center;
-                gap: 8px;
+                gap: 6px;
                 transition: all 0.2s ease;
-                backdrop-filter: blur(4px);
             }
 
             .btn-library:hover {
                 background: #e74c3c !important;
                 color: #ffffff !important;
-                transform: scale(1.03);
             }
 
-            /* KÜTÜPHANE MODAL / PANELİ */
-            #library-modal {
+            /* MODAL ORTAK YAPISI */
+            .custom-modal {
                 display: none;
                 position: fixed;
                 top: 0;
@@ -282,7 +290,7 @@
                 backdrop-filter: blur(5px);
             }
 
-            .library-content {
+            .modal-content-box {
                 background: #151515;
                 border: 1px solid rgba(231, 76, 60, 0.4);
                 border-radius: 16px;
@@ -295,7 +303,7 @@
                 box-shadow: 0 10px 30px rgba(0,0,0,0.7);
             }
 
-            .library-header {
+            .modal-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -304,22 +312,22 @@
                 margin-bottom: 20px;
             }
 
-            .library-header h2 {
+            .modal-header h2 {
                 color: #e74c3c;
                 margin: 0;
                 font-size: 1.4rem;
             }
 
-            .close-library {
+            .close-modal-btn {
                 background: transparent;
                 border: none;
                 color: #aaa;
                 font-size: 1.5rem;
                 cursor: pointer;
             }
-            .close-library:hover { color: #fff; }
+            .close-modal-btn:hover { color: #fff; }
 
-            .library-list {
+            .modal-list {
                 overflow-y: auto;
                 flex-grow: 1;
                 display: flex;
@@ -327,7 +335,7 @@
                 gap: 12px;
             }
 
-            .library-item {
+            .list-item {
                 background: #1e1e1e;
                 padding: 12px 16px;
                 border-radius: 10px;
@@ -338,15 +346,10 @@
                 gap: 10px;
             }
 
-            .library-item-info {
+            .list-item-info {
                 flex-grow: 1;
                 font-size: 0.9rem;
                 color: #ddd;
-            }
-
-            .library-item-actions {
-                display: flex;
-                gap: 8px;
             }
 
             .btn-sm-action {
@@ -361,7 +364,7 @@
             }
             .btn-sm-action:hover { background: #e74c3c; color: #fff; }
 
-            /* FOOTER DÜZELTMESİ */
+            /* FOOTER */
             #footer {
                 background-color: #121212 !important;
                 border-top: 1px solid #333333 !important;
@@ -377,22 +380,6 @@
                 width: 100% !important;
                 box-sizing: border-box !important;
             }
-
-            #footer section {
-                width: 100% !important;
-                max-width: 600px !important;
-                margin: 0 auto 20px auto !important;
-                padding: 0 !important;
-                float: none !important;
-            }
-
-            #footer .icons {
-                justify-content: center !important;
-                display: flex !important;
-                padding: 0 !important;
-                margin-top: 10px !important;
-            }
-
             #copyright {
                 background-color: #0a0a0a !important;
                 color: #777777 !important;
@@ -401,7 +388,6 @@
             }
         </style>
         
-        <!-- YouTube Iframe API SDK -->
         <script src="https://www.youtube.com/iframe_api"></script>
     </head>
     <body class="is-preload">
@@ -413,14 +399,6 @@
         </div>
 
         <div id="wrapper" class="fade-in">
-
-            <div id="intro">
-                <h1 style="color: #ffffff; font-size: clamp(28px, 4vw, 52px); line-height: 1.2;">GramaSamplets,<br />Türkiye'nin ilk sample keşif motoru</h1>
-                <p style="color: #cccccc; letter-spacing: 2px; margin-top: 15px;">Keşfe başla, sende sanat icra et</p>
-                <ul class="actions" style="margin-top: 30px;">
-                    <li><a href="#header" class="scrolly"><img src="images/label.png" alt="GramaSamplets Label" style="width: 230px; height: auto; display: inline-block; transition: transform 0.2s;" /></a></li>
-                </ul>
-            </div>
 
             <header id="header">
                 <a href="index.html" class="logo">GRAMAMÜZİK</a>
@@ -474,7 +452,6 @@
                             </select>
                         </div>
 
-                        <!-- Akor/Key -->
                         <div class="filter-box">
                             <label for="key">Ton (Key)</label>
                             <select id="key">
@@ -510,13 +487,26 @@
                             </select>
                         </div>
 
-                        <!-- BPM -->
+                        <!-- BPM Min-Max Kutuları -->
                         <div class="filter-box">
-                            <label for="bpm">BPM (Tempo: 30 - 250)</label>
-                            <input type="number" id="bpm" min="30" max="250" placeholder="Örn: 90, 140 vb." value="" />
+                            <label>BPM Aralığı (Tempo)</label>
+                            <div class="range-group">
+                                <input type="number" id="bpm-min" placeholder="Min" min="30" max="250" />
+                                <span style="color:#aaa;">-</span>
+                                <input type="number" id="bpm-max" placeholder="Max" min="30" max="250" />
+                            </div>
                         </div>
 
-                        <!-- TEMA / DUYGU KATEGORİLERİ -->
+                        <!-- Yıl Min-Max Kutuları -->
+                        <div class="filter-box">
+                            <label>Çıkış Yılı Aralığı</label>
+                            <div class="range-group">
+                                <input type="number" id="year-min" placeholder="Min Yıl" min="1950" max="2026" />
+                                <span style="color:#aaa;">-</span>
+                                <input type="number" id="year-max" placeholder="Max Yıl" min="1950" max="2026" />
+                            </div>
+                        </div>
+
                         <div class="filter-box">
                             <label for="mood">Tema / Duygu</label>
                             <select id="mood">
@@ -547,19 +537,11 @@
                                 <option value="Asian">Asya / Doğu</option>
                             </select>
                         </div>
-
-                        <div class="filter-box">
-                            <label for="year">Çıkış Yılı</label>
-                            <select id="year">
-                                <option value="all">Tüm Yıllar</option>
-                            </select>
-                        </div>
                     </aside>
 
                     <!-- İçerik Alanı -->
                     <main class="samplets-main">
                         <div class="video-player-box">
-                            <!-- JS SDK Oynatıcı Konteyneri -->
                             <div id="yt-player"></div>
                         </div>
 
@@ -570,8 +552,9 @@
                                     <span class="meta-badge">🎵 Veritabanı Bekleniyor</span>
                                 </div>
                             </div>
-                            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                                <button class="btn-library" id="open-library-btn">📂 Müzik Kütüphaneniz</button>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <button class="btn-library" id="open-library-btn">📂 Favoriler</button>
+                                <button class="btn-library" id="open-history-btn" style="border-color: #3498db; color: #5dade2;">📜 Geçmiş</button>
                                 <button class="btn-generate" id="find-btn">Sample Bul 🎲</button>
                             </div>
                         </div>
@@ -580,39 +563,37 @@
 
             </div>
 
-            <!-- MÜZİK KÜTÜPHANENİZ MODAL YAPISI -->
-            <div id="library-modal">
-                <div class="library-content">
-                    <div class="library-header">
-                        <h2>Müzik Kütüphaneniz</h2>
-                        <button class="close-library" id="close-library-btn">&times;</button>
+            <!-- FAVORİLER MODALI -->
+            <div id="library-modal" class="custom-modal">
+                <div class="modal-content-box">
+                    <div class="modal-header">
+                        <h2>Müzik Kütüphaneniz (Favoriler)</h2>
+                        <button class="close-modal-btn" id="close-library-btn">&times;</button>
                     </div>
-                    <div class="library-list" id="library-list-container">
-                        <!-- Kayıtlı parçalar JS ile buraya gelecek -->
-                    </div>
+                    <div class="modal-list" id="library-list-container"></div>
                 </div>
             </div>
 
-            <!-- Ortalanmış Footer -->
+            <!-- GEÇMİŞ / İZLENEN VİDEOLAR MODALI -->
+            <div id="history-modal" class="custom-modal">
+                <div class="modal-content-box" style="border-color: rgba(52, 152, 219, 0.4);">
+                    <div class="modal-header" style="border-color: #2980b9;">
+                        <h2 style="color: #3498db;">Geçmiş (Daha Önce Geçilenler)</h2>
+                        <button class="close-modal-btn" id="close-history-btn">&times;</button>
+                    </div>
+                    <div class="modal-list" id="history-list-container"></div>
+                </div>
+            </div>
+
             <footer id="footer">
                 <section>
                     <h3>E-posta</h3>
                     <p><a href="mailto:gramamuzikiletisim@gmail.com" style="color: #e74c3c;">gramamuzikiletisim@gmail.com</a></p>
                 </section>
-                <section>
-                    <h3>Sosyal Medya</h3>
-                    <ul class="icons">
-                        <li><a href="https://instagram.com/gramactross" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-                        <li><a href="https://instagram.com/misrapschooll59" class="icon brands fa-instagram" target="_blank"><span class="label">Instagram</span></a></li>
-                        <li><a href="https://youtube.com/@gramactrossrap" class="icon brands fa-youtube" target="_blank"><span class="label">YouTube</span></a></li>
-                    </ul>
-                </section>
             </footer>
-
             <div id="copyright">
                 <ul><li>&copy; 2026 Gramamüzik Label. Tüm hakları saklıdır.</li></ul>
             </div>
-
         </div>
 
         <script src="assets/js/jquery.min.js"></script>
@@ -622,16 +603,6 @@
         <script src="assets/js/breakpoints.min.js"></script>
         <script src="assets/js/util.js"></script>
         <script src="assets/js/main.js"></script>
-
-        <script>
-            setInterval(function(){
-                var bgEski = document.getElementById('bg');
-                if(bgEski) {
-                    bgEski.style.display = 'none';
-                    bgEski.style.opacity = '0';
-                }
-            }, 500);
-        </script>
 
         <script>
             let player;
@@ -651,27 +622,11 @@
                         'playsinline': 1
                     },
                     events: {
-                        'onReady': function() {
-                            isPlayerReady = true;
-                        }
+                        'onReady': function() { isPlayerReady = true; }
                     }
                 });
             }
 
-            function populateYearSelect() {
-                const yearSelect = document.getElementById('year');
-                const currentYear = new Date().getFullYear();
-                const startYear = 1950;
-
-                for (let yr = currentYear; yr >= startYear; yr--) {
-                    const option = document.createElement('option');
-                    option.value = yr;
-                    option.text = yr;
-                    yearSelect.appendChild(option);
-                }
-            }
-
-            // Güvenli escape fonksiyonu
             function escapeHtml(str) {
                 return String(str)
                     .replace(/&/g, '&amp;')
@@ -681,36 +636,40 @@
                     .replace(/'/g, '&#039;');
             }
 
+            // Hafıza Kontrolü: Daha önce sunulan veya izlenen video ID'lerini getir
+            function getExcludedIds() {
+                let history = JSON.parse(localStorage.getItem('grama_history_tracks')) || [];
+                let library = JSON.parse(localStorage.getItem('grama_user_library')) || [];
+                return [...new Set([...history.map(item => item.videoId), ...library.map(item => item.videoId)])];
+            }
+
             async function searchAndPlaySample() {
                 const genre = document.getElementById('genre').value;
                 const key = document.getElementById('key').value;
-                const bpm = document.getElementById('bpm').value;
+                const bpmMin = document.getElementById('bpm-min').value;
+                const bpmMax = document.getElementById('bpm-max').value;
+                const yearMin = document.getElementById('year-min').value;
+                const yearMax = document.getElementById('year-max').value;
                 const mood = document.getElementById('mood').value;
                 const country = document.getElementById('country').value;
-                const year = document.getElementById('year').value;
 
                 const titleEl = document.getElementById('track-title');
                 const detailsContainer = document.getElementById('track-details-container');
 
-                titleEl.textContent = "Aranıyor...";
+                titleEl.textContent = "Yeni ve Benzersiz Sample Aranıyor...";
                 detailsContainer.innerHTML = '';
                 const loadingBadge = document.createElement('span');
                 loadingBadge.className = 'meta-badge';
-                loadingBadge.textContent = '⏳ Veritabanları taranıyor...';
+                loadingBadge.textContent = '⏳ Topic kanalları ve düşük izlenmeliler taranıyor...';
                 detailsContainer.appendChild(loadingBadge);
 
                 try {
-                    // categoryId=10 (Müzik) ve minDuration=60 (Shorts ve kısa klipleri elemek için süre filtresi) eklendi
-                    const queryString = `genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&year=${encodeURIComponent(year)}&categoryId=10&minDuration=60`;
+                    // Min-Max filtreleri, maks 10k izlenme, kategori 10, min 60sn ve daha önce sunulanları hariç tutma parametresi
+                    const excluded = getExcludedIds().join(',');
+                    const queryString = `genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpmMin=${encodeURIComponent(bpmMin)}&bpmMax=${encodeURIComponent(bpmMax)}&yearMin=${encodeURIComponent(yearMin)}&yearMax=${encodeURIComponent(yearMax)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&categoryId=10&minDuration=60&maxViews=10000&topicFocus=true&excludeIds=${encodeURIComponent(excluded)}`;
                     const url = `https://grama-backend.onrender.com/api/search-sample?${queryString}`;
                     
-                    const response = await fetch(url, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    });
-
+                    const response = await fetch(url, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
                     const data = await response.json();
 
                     if (response.ok && data.items && data.items.length > 0) {
@@ -725,26 +684,29 @@
                             videoId: videoId,
                             genre: info.genre,
                             key: info.key,
-                            bpm: info.bpm
+                            bpm: info.bpm,
+                            views: info.views,
+                            year: info.year
                         };
 
-                        // YouTube IFrame API üzerinden oynatıcıyı güncelliyoruz
+                        // Geçmiş listesine otomatik kaydet (Bir daha asla tekrar sunulmaması için)
+                        saveToHistory(currentTrackData);
+
                         if (isPlayerReady && player && player.loadVideoById) {
                             player.loadVideoById(videoId);
                         } else {
-                            // API henüz hazır değilse güvenli fallback
                             const ytDiv = document.getElementById('yt-player');
                             ytDiv.innerHTML = '';
                             const iframe = document.createElement('iframe');
-                            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&categoryId=10`;
+                            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
                             iframe.allowFullscreen = true;
                             iframe.style.cssText = 'width:100%;height:100%;border:0;';
                             ytDiv.appendChild(iframe);
                         }
 
                         titleEl.textContent = videoTitle;
-
                         detailsContainer.innerHTML = '';
+                        
                         const badgeTexts = [
                             `🎸 Tür: ${escapeHtml(info.genre)}`,
                             `🎹 Ton: ${escapeHtml(info.key)}`,
@@ -764,84 +726,69 @@
 
                         const saveBtn = document.createElement('span');
                         saveBtn.className = 'meta-badge';
-                        saveBtn.id = 'save-track-btn';
                         saveBtn.style.cssText = 'cursor: pointer; background: rgba(231, 76, 60, 0.3); border-color: #e74c3c;';
-                        saveBtn.textContent = '⭐ Kütüphaneye Ekle';
+                        saveBtn.textContent = '⭐ Favorilere Ekle';
                         saveBtn.addEventListener('click', saveCurrentTrackToLibrary);
                         detailsContainer.appendChild(saveBtn);
 
                     } else {
                         currentTrackData = null;
-                        titleEl.textContent = "Bu kriterlere uygun video bulunamadı.";
+                        titleEl.textContent = "Bu kriterlere uygun taranmamış yeni içerik kalmadı.";
                         detailsContainer.innerHTML = '';
                         const errBadge = document.createElement('span');
                         errBadge.className = 'meta-badge';
-                        errBadge.textContent = `⚠️ ${data.error || 'Filtreleri gözden geçirin.'}`;
+                        errBadge.textContent = '⚠️ Lütfen filtre aralığını genişletin.';
                         detailsContainer.appendChild(errBadge);
                     }
                 } catch (error) {
-                    console.error("Sunucu Bağlantı Hatası:", error);
+                    console.error("Hata:", error);
                     currentTrackData = null;
-                    titleEl.textContent = "Sunucu Hatası!";
+                    titleEl.textContent = "Sunucu Bağlantı Hatası!";
                     detailsContainer.innerHTML = '';
-                    const errBadge = document.createElement('span');
-                    errBadge.className = 'meta-badge';
-                    errBadge.textContent = '❌ Sunucuya bağlanılamadı.';
-                    detailsContainer.appendChild(errBadge);
                 }
             }
 
-            // KİŞİYE ÖZEL HAFIZA (LOCALSTORAGE) YÖNETİMİ
+            function saveToHistory(track) {
+                let history = JSON.parse(localStorage.getItem('grama_history_tracks')) || [];
+                if (!history.some(item => item.videoId === track.videoId)) {
+                    history.unshift(track); // En başa ekle
+                    if (history.length > 100) history.pop(); // Maks 100 kayıt
+                    localStorage.setItem('grama_history_tracks', JSON.stringify(history));
+                }
+            }
+
             function saveCurrentTrackToLibrary() {
                 if (!currentTrackData) return;
                 let library = JSON.parse(localStorage.getItem('grama_user_library')) || [];
-                
-                const exists = library.some(item => item.videoId === currentTrackData.videoId);
-                if (!exists) {
+                if (!library.some(item => item.videoId === currentTrackData.videoId)) {
                     library.push(currentTrackData);
                     localStorage.setItem('grama_user_library', JSON.stringify(library));
-                    alert("Parça 'Müzik Kütüphaneniz' alanına başarıyla kaydedildi!");
+                    alert("Parça favorilere eklendi!");
                 } else {
-                    alert("Bu parça zaten kütüphanenizde mevcut.");
+                    alert("Bu parça zaten favorilerinizde.");
                 }
             }
 
-            function renderLibraryModal() {
-                const listContainer = document.getElementById('library-list-container');
-                let library = JSON.parse(localStorage.getItem('grama_user_library')) || [];
-                
-                listContainer.innerHTML = '';
+            function renderModalList(storageKey, containerId) {
+                const container = document.getElementById(containerId);
+                let items = JSON.parse(localStorage.getItem(storageKey)) || [];
+                container.innerHTML = '';
 
-                if (library.length === 0) {
-                    const p = document.createElement('p');
-                    p.style.cssText = 'text-align: center; color: #888; margin-top: 30px;';
-                    p.textContent = "Kütüphanenizde henüz kayıtlı bir parça yok. Beğendiğiniz sample'ları '⭐ Kütüphaneye Ekle' butonuna basarak buraya ekleyebilirsiniz.";
-                    listContainer.appendChild(p);
+                if (items.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: #888; margin-top: 20px;">Henüz kayıt bulunmuyor.</p>';
                     return;
                 }
 
-                library.forEach((track, index) => {
+                items.forEach((track, index) => {
                     const itemEl = document.createElement('div');
-                    itemEl.className = 'library-item';
+                    itemEl.className = 'list-item';
 
                     const infoDiv = document.createElement('div');
-                    infoDiv.className = 'library-item-info';
-
-                    const strong = document.createElement('strong');
-                    strong.textContent = track.title;
-
-                    const br = document.createElement('br');
-
-                    const metaSpan = document.createElement('span');
-                    metaSpan.style.cssText = 'font-size: 0.75rem; color: #aaa;';
-                    metaSpan.textContent = `Ton: ${track.key} | BPM: ${track.bpm} | Tür: ${track.genre}`;
-
-                    infoDiv.appendChild(strong);
-                    infoDiv.appendChild(br);
-                    infoDiv.appendChild(metaSpan);
+                    infoDiv.className = 'list-item-info';
+                    infoDiv.innerHTML = `<strong>${escapeHtml(track.title)}</strong><br><span style="font-size: 0.75rem; color: #aaa;">Ton: ${track.key} | BPM: ${track.bpm} | İzlenme: ${track.views}</span>`;
 
                     const actionsDiv = document.createElement('div');
-                    actionsDiv.className = 'library-item-actions';
+                    actionsDiv.style.cssText = 'display: flex; gap: 6px;';
 
                     const listenLink = document.createElement('a');
                     listenLink.href = `https://www.youtube.com/watch?v=${track.videoId}`;
@@ -849,49 +796,27 @@
                     listenLink.className = 'btn-sm-action';
                     listenLink.textContent = 'Dinle';
 
-                    const delBtn = document.createElement('button');
-                    delBtn.className = 'btn-sm-action';
-                    delBtn.style.cssText = 'background: rgba(255,0,0,0.2); border-color: red; color: #ff9999;';
-                    delBtn.textContent = 'Sil';
-                    delBtn.onclick = function() { removeTrackFromLibrary(index); };
-
                     actionsDiv.appendChild(listenLink);
-                    actionsDiv.appendChild(delBtn);
-
                     itemEl.appendChild(infoDiv);
                     itemEl.appendChild(actionsDiv);
-                    listContainer.appendChild(itemEl);
+                    container.appendChild(itemEl);
                 });
-            }
-
-            window.removeTrackFromLibrary = function(index) {
-                let library = JSON.parse(localStorage.getItem('grama_user_library')) || [];
-                library.splice(index, 1);
-                localStorage.setItem('grama_user_library', JSON.stringify(library));
-                renderLibraryModal();
             }
 
             document.addEventListener('DOMContentLoaded', function() {
-                populateYearSelect();
+                const libModal = document.getElementById('library-modal');
+                const histModal = document.getElementById('history-modal');
 
-                const modal = document.getElementById('library-modal');
-                const openBtn = document.getElementById('open-library-btn');
-                const closeBtn = document.getElementById('close-library-btn');
+                document.getElementById('open-library-btn').onclick = () => { renderModalList('grama_user_library', 'library-list-container'); libModal.style.display = 'flex'; };
+                document.getElementById('close-library-btn').onclick = () => libModal.style.display = 'none';
 
-                openBtn.addEventListener('click', function() {
-                    renderLibraryModal();
-                modal.style.display = 'flex';
-                });
+                document.getElementById('open-history-btn').onclick = () => { renderModalList('grama_history_tracks', 'history-list-container'); histModal.style.display = 'flex'; };
+                document.getElementById('close-history-btn').onclick = () => histModal.style.display = 'none';
 
-                closeBtn.addEventListener('click', function() {
-                    modal.style.display = 'none';
-                });
-
-                window.addEventListener('click', function(e) {
-                    if (e.target === modal) {
-                        modal.style.display = 'none';
-                    }
-                });
+                window.onclick = (e) => {
+                    if (e.target === libModal) libModal.style.display = 'none';
+                    if (e.target === histModal) histModal.style.display = 'none';
+                };
             });
 
             document.getElementById('find-btn').addEventListener('click', searchAndPlaySample);
