@@ -3,7 +3,7 @@ const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const NodeCache = require('node-cache');
-const morgan = require('morgan'); // Loglama için morgan
+const morgan = require('morgan');
 const { google } = require('googleapis');
 const axios = require('axios');
 const app = express();
@@ -12,7 +12,6 @@ const searchCache = new NodeCache({ stdTTL: 600 });
 
 app.set('trust proxy', 1);
 
-// Morgan ile gelen istekleri geliştirici formatında konsola logla
 app.use(morgan('dev'));
 
 const apiLimiter = rateLimit({
@@ -40,6 +39,11 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
+});
+
+// Sağlık kontrolü (Health Check) rotası
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'OK', uptime: process.uptime(), timestamp: new Date() });
 });
 
 const youtube = google.youtube({
@@ -268,5 +272,5 @@ app.get('/api/search-sample', async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-    console.log(`Grama Backend ${PORT} portunda loglama özellikli şekilde başlatıldı.`);
+    console.log(`Grama Backend ${PORT} portunda tam donanımlı olarak başlatıldı.`);
 });
