@@ -2,14 +2,16 @@ require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const NodeCache = require('node-cache');
 const { google } = require('googleapis');
 const axios = require('axios');
 const app = express();
 
-// Render gibi proxy arkasında çalıştığımız için bu ayar zorunludur
+// Bellek önbelleği: Yanıtları 10 dakika (600 saniye) boyunca bellekte saklar
+const searchCache = new NodeCache({ stdTTL: 600 });
+
 app.set('trust proxy', 1);
 
-// Rate Limiting: Aynı IP'den 15 dakikada maksimum 100 isteğe izin ver
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, 
     max: 100, 
@@ -18,13 +20,9 @@ const apiLimiter = rateLimit({
     message: { error: 'Çok fazla istek gönderildi, lütfen bir süre sonra tekrar deneyin.' }
 });
 
-// Sadece API rotalarına bu sınırı uyguluyoruz
 app.use('/api/', apiLimiter);
-
-// Helmet Güvenlik Başlıkları
 app.use(helmet());
 
-// Güvenli CORS Kısıtlaması
 const allowedOrigins = [
     'https://gramamuzik.github.io',
     'http://localhost:3000',
@@ -166,6 +164,15 @@ app.get('/api/search-sample', async (req, res) => {
         const country = sanitizeInput(req.query.country);
         const year = sanitizeInput(req.query.year);
 
+        // İstek parametrelerini önbellek anahtarı (cache key) olarak kullanıyoruz
+        const cacheKey = JSON.stringify({ genre, key, bpm, mood, viewCount, country, year });
+        const cachedResponse = searchCache.get(cacheKey);
+
+        if (cachedResponse) {
+            console.log('[LOG] Sonuçlar önbellekten (cache) servis edildi.');
+            return res.json(cachedResponse);
+        }
+
         let mainQueryParts = [];
 
         if (genre && genre !== 'all') mainQueryParts.push(genre);
@@ -192,7 +199,9 @@ app.get('/api/search-sample', async (req, res) => {
         });
 
         if (!searchResponse.data.items || searchResponse.data.items.length === 0) {
-            return res.json({ items: [] });
+            const emptyResult = { items: [] };
+            searchCache.set(cacheKey, emptyResult);
+            return res.json(emptyResult);
         }
 
         const videoIds = searchResponse.data.items.map(item => item.id.videoId).join(',');
@@ -244,7 +253,12 @@ app.get('/api/search-sample', async (req, res) => {
             })
         );
 
-        res.json({ items: processedItems });
+        const finalResponse = { items: processedItems };
+        
+        // Başarılı sonucu sonraki benzer istekler için önbelleğe kaydet
+        searchCache.set(cacheKey, finalResponse);
+
+        res.json(finalResponse);
 
     } catch (error) {
         console.error('API Kritik Hata Detayı:', error.message || error);
@@ -254,5 +268,5 @@ app.get('/api/search-sample', async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-    console.log(`Grama Backend ${PORT} portunda güvenli şekilde başlatıldı.`);
+    console.log(`Grama Backend ${PORT} portunda güvenli ve önbellekli şekilde başlatıldı.`);
 });
