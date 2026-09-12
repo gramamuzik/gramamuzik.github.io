@@ -1,11 +1,25 @@
 require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet'); // HTTP başlık güvenliği için
 const { google } = require('googleapis');
 const axios = require('axios');
 const app = express();
 
+// 1. Helmet Güvenlik Başlıklarını Aktif Et
+app.use(helmet());
+
+// 2. Güvenli CORS Kısıtlaması (Sadece kendi sitene ve lokal teste izin verilir)
+const allowedOrigins = [
+    'https://gramamuzik.github.io',
+    'http://localhost:3000',
+    'http://localhost:10000'
+];
+
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
@@ -15,6 +29,13 @@ const youtube = google.youtube({
     version: 'v3',
     auth: process.env.YOUTUBE_API_KEY
 });
+
+// Girdi Doğrulama ve Temizleme (Input Sanitization) Fonksiyonu
+function sanitizeInput(input) {
+    if (!input) return 'all';
+    // Sadece harf, rakam, boşluk, tire ve artı işaretlerine izin ver, maksimum 50 karakter al
+    return String(input).replace(/[^\w\s\-+.]/gi, '').trim().substring(0, 50);
+}
 
 function cleanTitle(title) {
     return title
@@ -123,7 +144,14 @@ function parseSampleMetadata(title, description, tags = [], fallbackKey, fallbac
 
 app.get('/api/search-sample', async (req, res) => {
     try {
-        const { genre, key, bpm, mood, viewCount, country, year } = req.query;
+        // 3. Girdi Doğrulama: Tüm parametreler filtreleniyor
+        const genre = sanitizeInput(req.query.genre);
+        const key = sanitizeInput(req.query.key);
+        const bpm = sanitizeInput(req.query.bpm);
+        const mood = sanitizeInput(req.query.mood);
+        const viewCount = sanitizeInput(req.query.viewCount);
+        const country = sanitizeInput(req.query.country);
+        const year = sanitizeInput(req.query.year);
 
         let mainQueryParts = [];
 
@@ -206,12 +234,13 @@ app.get('/api/search-sample', async (req, res) => {
         res.json({ items: processedItems });
 
     } catch (error) {
-        console.error('API Ana Hatası:', error.message || error);
-        res.status(500).json({ error: 'Arama sırasında bir hata oluştu.', details: error.message });
+        // 4. Hata Mesajlarını Gizleme: Detaylar gizlenir, sadece konsola yazılır
+        console.error('API Kritik Hata Detayı:', error.message || error);
+        res.status(500).json({ error: 'Arama sırasında beklenmeyen bir hata oluştu.' });
     }
 });
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-    console.log(`Grama Backend ${PORT} portunda başlatıldı.`);
+    console.log(`Grama Backend ${PORT} portunda güvenli şekilde başlatıldı.`);
 });
