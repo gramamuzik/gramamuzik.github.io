@@ -1,4 +1,14 @@
 require('dotenv').config();
+
+// Kritik ortam değişkenlerinin varlığını başlangıçta doğrula
+const requiredEnv = ['YOUTUBE_API_KEY'];
+for (const env of requiredEnv) {
+    if (!process.env[env]) {
+        console.error(`[KRİTİK HATA] ${env} ortam değişkeni .env veya Render panelinde tanımlanmamış!`);
+        process.exit(1);
+    }
+}
+
 const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -272,5 +282,5 @@ app.get('/api/search-sample', async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-    console.log(`Grama Backend ${PORT} portunda tam donanımlı olarak başlatıldı.`);
+    console.log(`Grama Backend ${PORT} portunda tam donanımlı ve doğrulanmış olarak başlatıldı.`);
 });
