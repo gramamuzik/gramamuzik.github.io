@@ -621,6 +621,7 @@
                 });
             }
 
+<<<<<<< HEAD
             function escapeHtml(str) {
                 return String(str)
                     .replace(/&/g, '&amp;')
@@ -629,6 +630,22 @@
                     .replace(/"/g, '&quot;')
                     .replace(/'/g, '&#039;');
             }
+=======
+            function populateYearSelect() {
+                const yearSelect = document.getElementById('year');
+                const currentYear = new Date().getFullYear();
+                const startYear = 1950;
+
+                for (let yr = currentYear; yr >= startYear; yr--) {
+                    const option = document.createElement('option');
+                    option.value = yr;
+                    option.text = yr;
+                    yearSelect.appendChild(option);
+                }
+            }
+
+            // HMAC imza fonksiyonu istemci güvenliği riski yarattığı için tamamen kaldırıldı.
+>>>>>>> parent of 212f4c2 (Update gramasamplets.html)
 
             function getExcludedIds() {
                 let history = JSON.parse(localStorage.getItem('grama_history_tracks')) || [];
@@ -658,12 +675,17 @@
                 const titleEl = document.getElementById('track-title');
                 const detailsContainer = document.getElementById('track-details-container');
 
+<<<<<<< HEAD
                 titleEl.textContent = "Yeni ve Benzersiz Sample Aranıyor...";
                 detailsContainer.innerHTML = '';
                 const loadingBadge = document.createElement('span');
                 loadingBadge.className = 'meta-badge';
                 loadingBadge.textContent = '⏳ Topic kanalları taranıyor...';
                 detailsContainer.appendChild(loadingBadge);
+=======
+                titleEl.innerText = "Aranıyor...";
+                detailsContainer.innerHTML = `<span class="meta-badge">⏳ Veritabanları taranıyor...</span>`;
+>>>>>>> parent of 212f4c2 (Update gramasamplets.html)
 
                 try {
                     const excluded = getExcludedIds().join(',');
@@ -696,14 +718,10 @@
                             player.loadVideoById(videoId);
                         } else {
                             const ytDiv = document.getElementById('yt-player');
-                            ytDiv.innerHTML = '';
-                            const iframe = document.createElement('iframe');
-                            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
-                            iframe.allowFullscreen = true;
-                            iframe.style.cssText = 'width:100%;height:100%;border:0;';
-                            ytDiv.appendChild(iframe);
+                            ytDiv.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
                         }
 
+<<<<<<< HEAD
                         titleEl.textContent = videoTitle;
                         detailsContainer.innerHTML = '';
                         
@@ -729,21 +747,46 @@
                         saveBtn.textContent = '⭐ Favorilere Ekle';
                         saveBtn.addEventListener('click', saveCurrentTrackToLibrary);
                         detailsContainer.appendChild(saveBtn);
+=======
+                        titleEl.innerText = videoTitle;
 
+                        detailsContainer.innerHTML = `
+                            <span class="meta-badge">🎸 Tür: ${info.genre}</span>
+                            <span class="meta-badge">🎹 Ton: ${info.key}</span>
+                            <span class="meta-badge">⚡ BPM: ${info.bpm}</span>
+                            <span class="meta-badge">👁️ İzlenme: ${info.views}</span>
+                            <span class="meta-badge">📅 Yıl: ${info.year}</span>
+                            <span class="meta-badge">🌍 Ülke: ${info.country}</span>
+                            <span class="meta-badge">🎭 Tema: ${info.mood}</span>
+                            <span class="meta-badge" id="save-track-btn" style="cursor: pointer; background: rgba(231, 76, 60, 0.3); border-color: #e74c3c;">⭐ Kütüphaneye Ekle</span>
+                        `;
+>>>>>>> parent of 212f4c2 (Update gramasamplets.html)
+
+                        document.getElementById('save-track-btn').addEventListener('click', saveCurrentTrackToLibrary);
                     } else {
                         currentTrackData = null;
+<<<<<<< HEAD
                         titleEl.textContent = "Bu kriterlere uygun taranmamış yeni içerik kalmadı.";
                         detailsContainer.innerHTML = '';
                         const errBadge = document.createElement('span');
                         errBadge.className = 'meta-badge';
                         errBadge.textContent = '⚠️ Lütfen filtre aralığını genişletin.';
                         detailsContainer.appendChild(errBadge);
+=======
+                        titleEl.innerText = "Bu kriterlere uygun video bulunamadı.";
+                        detailsContainer.innerHTML = `<span class="meta-badge">⚠️ ${data.error || 'Filtreleri gözden geçirin.'}</span>`;
+>>>>>>> parent of 212f4c2 (Update gramasamplets.html)
                     }
                 } catch (error) {
                     console.error("Hata:", error);
                     currentTrackData = null;
+<<<<<<< HEAD
                     titleEl.textContent = "Sunucu Bağlantı Hatası!";
                     detailsContainer.innerHTML = '';
+=======
+                    titleEl.innerText = "Sunucu Hatası!";
+                    detailsContainer.innerHTML = `<span class="meta-badge">❌ Sunucuya bağlanılamadı.</span>`;
+>>>>>>> parent of 212f4c2 (Update gramasamplets.html)
                 }
             }
 
@@ -773,13 +816,19 @@
                 let items = JSON.parse(localStorage.getItem(storageKey)) || [];
                 container.innerHTML = '';
 
+<<<<<<< HEAD
                 if (items.length === 0) {
                     container.innerHTML = '<p style="text-align: center; color: #aaa; margin-top: 20px;">Henüz kayıt bulunmuyor.</p>';
+=======
+                if (library.length === 0) {
+                    listContainer.innerHTML = `<p style="text-align: center; color: #888; margin-top: 30px;">Kütüphanenizde henüz kayıtlı bir parça yok. Beğendiğiniz sample'ları '⭐ Kütüphaneye Ekle' butonuna basarak buraya ekleyebilirsiniz.</p>`;
+>>>>>>> parent of 212f4c2 (Update gramasamplets.html)
                     return;
                 }
 
                 items.forEach((track, index) => {
                     const itemEl = document.createElement('div');
+<<<<<<< HEAD
                     itemEl.className = 'list-item';
 
                     const infoDiv = document.createElement('div');
@@ -799,6 +848,20 @@
                     itemEl.appendChild(infoDiv);
                     itemEl.appendChild(actionsDiv);
                     container.appendChild(itemEl);
+=======
+                    itemEl.className = 'library-item';
+                    itemEl.innerHTML = `
+                        <div class="library-item-info">
+                            <strong>${track.title}</strong><br>
+                            <span style="font-size: 0.75rem; color: #aaa;">Ton: ${track.key} | BPM: ${track.bpm} | Tür: ${track.genre}</span>
+                        </div>
+                        <div class="library-item-actions">
+                            <a href="https://www.youtube.com/watch?v=${track.videoId}" target="_blank" class="btn-sm-action">Dinle</a>
+                            <button class="btn-sm-action" onclick="removeTrackFromLibrary(${index})" style="background: rgba(255,0,0,0.2); border-color: red; color: #ff9999;">Sil</button>
+                        </div>
+                    `;
+                    listContainer.appendChild(itemEl);
+>>>>>>> parent of 212f4c2 (Update gramasamplets.html)
                 });
             }
 
@@ -822,3 +885,4 @@
         </script>
     </body>
 </html>
+```[cite: 2]
