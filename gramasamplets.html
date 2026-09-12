@@ -647,7 +647,8 @@
                         'controls': 1,
                         'modestbranding': 1,
                         'rel': 0,
-                        'fs': 1
+                        'fs': 1,
+                        'playsinline': 1
                     },
                     events: {
                         'onReady': function() {
@@ -699,7 +700,8 @@
                 detailsContainer.appendChild(loadingBadge);
 
                 try {
-                    const queryString = `genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&year=${encodeURIComponent(year)}`;
+                    // categoryId=10 (Müzik) ve minDuration=60 (Shorts ve kısa klipleri elemek için süre filtresi) eklendi
+                    const queryString = `genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&year=${encodeURIComponent(year)}&categoryId=10&minDuration=60`;
                     const url = `https://grama-backend.onrender.com/api/search-sample?${queryString}`;
                     
                     const response = await fetch(url, {
@@ -726,13 +728,15 @@
                             bpm: info.bpm
                         };
 
+                        // YouTube IFrame API üzerinden oynatıcıyı güncelliyoruz
                         if (isPlayerReady && player && player.loadVideoById) {
                             player.loadVideoById(videoId);
                         } else {
+                            // API henüz hazır değilse güvenli fallback
                             const ytDiv = document.getElementById('yt-player');
                             ytDiv.innerHTML = '';
                             const iframe = document.createElement('iframe');
-                            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+                            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&categoryId=10`;
                             iframe.allowFullscreen = true;
                             iframe.style.cssText = 'width:100%;height:100%;border:0;';
                             ytDiv.appendChild(iframe);
@@ -876,7 +880,7 @@
 
                 openBtn.addEventListener('click', function() {
                     renderLibraryModal();
-                    modal.style.display = 'flex';
+                modal.style.display = 'flex';
                 });
 
                 closeBtn.addEventListener('click', function() {
