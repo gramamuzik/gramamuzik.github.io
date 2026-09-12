@@ -107,7 +107,7 @@
                 padding: 20px;
                 border-radius: 16px;
                 border: 1px solid rgba(231, 76, 60, 0.2);
-                height: fit-content; /* Sayfa kaydırmasını kaldırdık, içeriğe göre sabitlendi */
+                height: fit-content;
             }
 
             .samplets-sidebar h3 {
@@ -335,7 +335,7 @@
             .list-item-info {
                 flex-grow: 1;
                 font-size: 0.9rem;
-                color: #ffffff !important; /* Vurgulu beyaz renk yapıldı */
+                color: #ffffff !important;
             }
 
             .list-item-info strong {
@@ -411,11 +411,10 @@
                     <h1 style="font-size: clamp(32px, 5vw, 50px); color: #ffffff; text-shadow: 2px 2px 0 #000;">
                         GRAMASAMPLETS
                     </h1>
-                    <p style="color: #cccccc; letter-spacing: 2px;">— GramaSamplets Sample Keşif Motoru —</p>
+                    <p style="color: #cccccc; letter-spacing: 2px;">— Türkiye’nin İlk Sample Arama Motoru —</p>
                 </header>
 
                 <div class="samplets-container">
-                    <!-- Sabit ve Kompakt Filtreler Sidebar -->
                     <aside class="samplets-sidebar">
                         <h3>Detaylı Filtreler</h3>
 
@@ -477,7 +476,6 @@
                             </select>
                         </div>
 
-                        <!-- BPM Min-Max -->
                         <div class="filter-box">
                             <label>BPM Aralığı (Tempo)</label>
                             <div class="range-group">
@@ -487,7 +485,6 @@
                             </div>
                         </div>
 
-                        <!-- Çıkış Yılı Min-Max -->
                         <div class="filter-box">
                             <label>Çıkış Yılı Aralığı</label>
                             <div class="range-group">
@@ -497,7 +494,6 @@
                             </div>
                         </div>
 
-                        <!-- İZLENME ARALIĞI (0 - 5M Arası 5'er Kat Kademeli) -->
                         <div class="filter-box">
                             <label for="views-range">İzlenme Aralığı</label>
                             <select id="views-range">
@@ -529,7 +525,6 @@
                         </div>
                     </aside>
 
-                    <!-- İçerik Alanı -->
                     <main class="samplets-main">
                         <div class="video-player-box">
                             <div id="yt-player"></div>
@@ -553,7 +548,6 @@
 
             </div>
 
-            <!-- FAVORİLER MODALI -->
             <div id="library-modal" class="custom-modal">
                 <div class="modal-content-box">
                     <div class="modal-header">
@@ -564,7 +558,6 @@
                 </div>
             </div>
 
-            <!-- GEÇMİŞ MODALI -->
             <div id="history-modal" class="custom-modal">
                 <div class="modal-content-box" style="border-color: rgba(52, 152, 219, 0.4);">
                     <div class="modal-header" style="border-color: #2980b9;">
@@ -643,7 +636,7 @@
                 const mood = document.getElementById('mood').value;
 
                 let minViews = "";
-                let maxViews = "10000"; // Varsayılan düşük izlenme hedefi
+                let maxViews = "10000";
 
                 if (viewsRange !== "all") {
                     const parts = viewsRange.split("-");
