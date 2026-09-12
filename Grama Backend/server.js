@@ -35,8 +35,29 @@ const apiLimiter = rateLimit({
 });
 
 app.use('/api/', apiLimiter);
-app.use(helmet());
-app.use(hpp()); // HTTP Parameter Pollution koruması
+
+// 🛡️ Aşama 2: Sıkılaştırılmış Content Security Policy (CSP) ve Helmet Yapılandırması
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: [
+                "'self'", 
+                "https://api.discogs.com", 
+                "https://getsongbpm.com"
+            ],
+            objectSrc: ["'none'"],
+            upgradeInsecureRequests: [],
+        },
+    },
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+
+// 🛡️ Aşama 1: HTTP Parameter Pollution koruması
+app.use(hpp()); 
 
 const allowedOrigins = [
     'https://gramamuzik.github.io',
@@ -69,7 +90,7 @@ function sanitizeInput(input) {
     return String(input).replace(/[^\w\s\-+.]/gi, '').trim().substring(0, 50);
 }
 
-// Zod ile katı veri doğrulama şeması
+// 🛡️ Aşama 1: Zod ile katı veri doğrulama şeması
 const searchSchema = z.object({
     genre: z.string().max(50).optional().default('all'),
     key: z.string().max(20).optional().default('all'),
