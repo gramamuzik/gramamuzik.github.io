@@ -1,4 +1,5 @@
 require('dotenv').config();
+const crypto = require('crypto');
 
 // Kritik ortam değişkenlerinin varlığını başlangıçta doğrula
 const requiredEnv = ['YOUTUBE_API_KEY', 'APP_SECRET_TOKEN'];
@@ -36,7 +37,7 @@ const apiLimiter = rateLimit({
 
 app.use('/api/', apiLimiter);
 
-// 🛡️ Sıkılaştırılmış Content Security Policy (CSP) ve Helmet Yapılandırması
+// Sıkılaştırılmış Content Security Policy (CSP) ve Helmet Yapılandırması
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -56,7 +57,7 @@ app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
-// 🛡️ HTTP Parameter Pollution koruması
+// HTTP Parameter Pollution koruması
 app.use(hpp()); 
 
 const allowedOrigins = [
@@ -71,18 +72,43 @@ app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-client-verification-token');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-signature, x-timestamp');
     next();
 });
 
-// 🛡️ İstek Doğrulama (Secret Token) Ara Katmanı
-const verifyAppRequest = (req, res, next) => {
-    const clientToken = req.headers['x-client-verification-token'];
-    const expectedToken = process.env.APP_SECRET_TOKEN;
+// Dinamik HMAC ve Replay Attack Doğrulama Ara Katmanı
+const verifyHmacSignature = (req, res, next) => {
+    const signature = req.headers['x-signature'];
+    const timestamp = req.headers['x-timestamp'];
+    const secret = process.env.APP_SECRET_TOKEN;
 
-    if (!expectedToken || clientToken !== expectedToken) {
-        return res.status(403).json({ error: 'Yetkisiz erişim engellendi.' });
+    if (!signature || !timestamp || !secret) {
+        return res.status(403).json({ error: 'Eksik güvenlik imzası veya kimlik doğrulama başlığı.' });
     }
+
+    const now = Date.now();
+    const requestTime = parseInt(timestamp, 10);
+    if (isNaN(requestTime) || Math.abs(now - requestTime) > 30000) {
+        return res.status(403).json({ error: 'Zaman aşımına uğramış veya geçersiz istek.' });
+    }
+
+    const payload = `${timestamp}.${req.path}`;
+    const expectedSignature = crypto
+        .createHmac('sha256', secret)
+        .update(payload)
+        .digest('hex');
+
+    try {
+        const sigBuffer = Buffer.from(signature, 'hex');
+        const expectedBuffer = Buffer.from(expectedSignature, 'hex');
+
+        if (sigBuffer.length !== expectedBuffer.length || !crypto.timingSafeEqual(sigBuffer, expectedBuffer)) {
+            return res.status(403).json({ error: 'Kriptografik imza uyuşmazlığı.' });
+        }
+    } catch (err) {
+        return res.status(403).json({ error: 'İmza işlenirken hata oluştu.' });
+    }
+
     next();
 };
 
@@ -217,7 +243,7 @@ function parseSampleMetadata(title, description, tags = [], fallbackKey, fallbac
     return { bpm, key, mood };
 }
 
-app.get('/api/search-sample', verifyAppRequest, async (req, res) => {
+app.get('/api/search-sample', verifyHmacSignature, async (req, res) => {
     try {
         const validationResult = searchSchema.safeParse(req.query);
         if (!validationResult.success) {
@@ -335,18 +361,16 @@ app.get('/api/search-sample', verifyAppRequest, async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-    console.log(`Grama Backend ${PORT} portunda tam donanımlı ve doğrulanmış olarak başlatıldı.`);
-});
-// Tüm rotaların ve middleware'lerin en sonuna eklenmelidir
+// Merkezi Hata Yönetimi
 app.use((err, req, res, next) => {
-    // Sunucu konsoluna tam hatayı bas (geliştirici takibi için)
     console.error('[GÜVENLİK/SİSTEM HATASI]:', err.stack || err.message);
-
-    // Kullanıcıya asla hassas sistem detaylarını gösterme
     const statusCode = err.status || 500;
     res.status(statusCode).json({
         error: statusCode === 500 ? 'Sunucu tarafında beklenmeyen bir hata oluştu.' : err.message
     });
+});
+
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+    console.log(`Grama Backend ${PORT} portunda tam donanımlı ve doğrulanmış olarak başlatıldı.`);
 });
