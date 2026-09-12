@@ -670,6 +670,31 @@
                 }
             }
 
+            // Render panelindeki token koda entegre edildi
+            async function generateHmacHeaders(path) {
+                const secret = "grama_secure_987654321_key"; 
+                const timestamp = Date.now().toString();
+                const payload = `${timestamp}.${path}`;
+
+                const encoder = new TextEncoder();
+                const keyData = encoder.encode(secret);
+                const messageData = encoder.encode(payload);
+
+                const cryptoKey = await window.crypto.subtle.importKey(
+                    "raw", keyData, { name: "HMAC", hash: { name: "SHA-256" } }, false, ["sign"]
+                );
+
+                const signatureBuffer = await window.crypto.subtle.sign("HMAC", cryptoKey, messageData);
+                const signature = Array.from(new Uint8Array(signatureBuffer))
+                    .map(b => b.toString(16).padStart(2, '0'))
+                    .join('');
+
+                return {
+                    'x-signature': signature,
+                    'x-timestamp': timestamp
+                };
+            }
+
             async function searchAndPlaySample() {
                 const genre = document.getElementById('genre').value;
                 const key = document.getElementById('key').value;
@@ -685,12 +710,24 @@
                 detailsContainer.innerHTML = `<span class="meta-badge">⏳ Veritabanları taranıyor...</span>`;
 
                 try {
-                    const url = `https://grama-backend.onrender.com/api/search-sample?genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&year=${encodeURIComponent(year)}`;
+                    const apiPath = '/api/search-sample';
+                    const queryString = `genre=${encodeURIComponent(genre)}&key=${encodeURIComponent(key)}&bpm=${encodeURIComponent(bpm)}&mood=${encodeURIComponent(mood)}&country=${encodeURIComponent(country)}&year=${encodeURIComponent(year)}`;
+                    const url = `https://grama-backend.onrender.com${apiPath}?${queryString}`;
                     
-                    const response = await fetch(url);
+                    const hmacHeaders = await generateHmacHeaders(apiPath);
+
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-signature': hmacHeaders['x-signature'],
+                            'x-timestamp': hmacHeaders['x-timestamp']
+                        }
+                    });
+
                     const data = await response.json();
 
-                    if (data.items && data.items.length > 0) {
+                    if (response.ok && data.items && data.items.length > 0) {
                         const randomIndex = Math.floor(Math.random() * data.items.length);
                         const selectedVideo = data.items[randomIndex];
                         const videoId = selectedVideo.id.videoId;
@@ -729,7 +766,7 @@
                     } else {
                         currentTrackData = null;
                         titleEl.innerText = "Bu kriterlere uygun video bulunamadı.";
-                        detailsContainer.innerHTML = `<span class="meta-badge">⚠️ Filtreleri daha genel seçerek tekrar deneyin.</span>`;
+                        detailsContainer.innerHTML = `<span class="meta-badge">⚠️ ${data.error || 'Filtreleri gözden geçirin.'}</span>`;
                     }
                 } catch (error) {
                     console.error("Sunucu Bağlantı Hatası:", error);
@@ -744,7 +781,6 @@
                 if (!currentTrackData) return;
                 let library = JSON.parse(localStorage.getItem('grama_user_library')) || [];
                 
-                // Aynı şarkı zaten eklenmiş mi kontrol et
                 const exists = library.some(item => item.videoId === currentTrackData.videoId);
                 if (!exists) {
                     library.push(currentTrackData);
