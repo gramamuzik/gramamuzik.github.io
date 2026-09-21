@@ -76,24 +76,59 @@
                 border-color: #2a2a2a !important;
             }
 
+            /* --- YENİ SANATÇILAR GRID DÜZENİ (2 Sütun, Küçük Fotoğraflar) --- */
+            #main .posts {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 25px !important;
+            }
+
+            #main .posts article {
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                margin: 0 !important;
+                padding: 20px !important;
+                box-sizing: border-box !important;
+            }
+
+            #main .posts article header {
+                margin-bottom: 15px !important;
+            }
+
+            /* Fotoğrafların Boyutunu Küçültme ve Düzenleme */
+            #main .posts article .image.fit {
+                width: 100% !important;
+                margin: 0 0 15px 0 !important;
+            }
+
+            #main .posts article img {
+                width: 100% !important;
+                height: 220px !important; /* Fotoğraf yüksekliği sabitlenerek küçültüldü */
+                object-fit: cover !important; /* Görselin bozulmasını önler */
+                border-radius: 10px !important;
+                border: 1px solid #333333 !important;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+                transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            }
+
+            #main .posts article a.image:hover img {
+                transform: scale(1.02);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
+            }
+
+            #main .posts article p {
+                margin-top: auto !important; /* Biyografinin fotoğrafın altında düzgün durması için */
+                font-size: 14px !important;
+                line-height: 1.5 !important;
+            }
+
             /* Telif / Alt Alan */
             #copyright {
                 color: #888888 !important;
             }
             #copyright a {
                 color: #aaaaaa !important;
-            }
-
-            /* Fotoğrafların Kenarlarını Yumuşatma & Çerçeve Stili */
-            article img, .image.fit img, .image.main img {
-                border-radius: 14px !important;
-                border: 1px solid #333333 !important;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
-                transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-            }
-            article a.image:hover img {
-                transform: scale(1.02);
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
             }
 
             /* --- MÜZİK ÇALAR & SAYAÇ WIDGET'I --- */
@@ -181,6 +216,9 @@
 
             /* Mobil Uyumlu Konumlandırma */
             @media screen and (max-width: 736px) {
+                #main .posts {
+                    grid-template-columns: 1fr !important; /* Mobilde tek sütuna düşer */
+                }
                 #grama-player-widget {
                     top: auto !important;
                     bottom: 15px !important;
@@ -303,7 +341,6 @@
                             <li><a href="https://www.tiktok.com/@misrap_schooll59" class="icon brands fa-tiktok" target="_blank" rel="noopener noreferrer"><span class="label">TikTok - </span></a></li>
                             <li><a href="https://genius.com/artists/Gramactross" class="icon solid fa-headphones" target="_blank" rel="noopener noreferrer"><span class="label">Genius</span></a></li>
                             <li><a href="https://genius.com/artists/Jess-d-exill" class="icon solid fa-headphones" target="_blank" rel="noopener noreferrer"><span class="label">Genius</span></a></li>
-                            <li><a href="https://genius.com/artists/Traforap" class="icon solid fa-headphones" target="_blank" rel="noopener noreferrer"><span class="label">Genius</span></a></li>
                             <li><a href="https://genius.com/artists/Alastorap" class="icon solid fa-headphones" target="_blank" rel="noopener noreferrer"><span class="label">Genius</span></a></li>
                             <li><a href="https://on.soundcloud.com/O4RtLVe7lzGZXSaTtJ" class="icon brands fa-soundcloud" target="_blank" rel="noopener noreferrer"><span class="label">SoundCloud</span></a></li>
                         </ul>
