@@ -84,6 +84,59 @@
                 box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7) !important;
             }
 
+            /* Platform Logoları ve İkon Buton Stilleri */
+            .artist-social-links {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 10px !important;
+                justify-content: center !important;
+                align-items: center !important;
+                margin-top: 15px !important;
+                padding: 0 !important;
+                list-style: none !important;
+            }
+            .artist-social-links li {
+                padding-left: 0 !important;
+            }
+            .artist-btn {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 42px !important;
+                height: 42px !important;
+                border-radius: 50% !important;
+                background-color: #181818 !important;
+                border: 1px solid #333333 !important;
+                color: #e0e0e0 !important;
+                font-size: 18px !important;
+                text-decoration: none !important;
+                transition: all 0.3s ease !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important;
+            }
+            .artist-btn:hover {
+                transform: translateY(-3px) scale(1.08) !important;
+                border-color: #ffffff !important;
+                box-shadow: 0 5px 15px rgba(255,255,255,0.2) !important;
+            }
+
+            /* Platform Renkleri Hover Etkisi */
+            .artist-btn.youtube:hover { background-color: #FF0000 !important; color: #ffffff !important; }
+            .artist-btn.spotify:hover { background-color: #1DB954 !important; color: #ffffff !important; }
+            .artist-btn.apple:hover { background-color: #FA243C !important; color: #ffffff !important; }
+            .artist-btn.soundcloud:hover { background-color: #FF5500 !important; color: #ffffff !important; }
+            .artist-btn.genius:hover { background-color: #FFFF64 !important; color: #000000 !important; }
+            .artist-btn.genius:hover svg { fill: #000000 !important; }
+            .artist-btn.tiktok:hover { background-color: #000000 !important; color: #00f2fe !important; border-color: #fe2c55 !important; }
+            .artist-btn.instagram:hover { background-color: #E1306C !important; color: #ffffff !important; }
+
+            /* Genius SVG İkon Hizalaması */
+            .artist-btn.genius svg {
+                width: 18px;
+                height: 18px;
+                fill: #e0e0e0;
+                transition: fill 0.3s ease;
+            }
+
             /* --- MÜZİK ÇALAR & SAYAÇ WIDGET'I --- */
             #grama-player-widget {
                 position: fixed;
@@ -259,8 +312,12 @@
                                     <img id="misrap-thumb" src="images/misrapyoutube.jpg" alt="Mısrap Schooll" />
                                 </a>
                                 <p>Mısrap Schooll bünyesindeki en güncel Türkçe Rap & Oldschool parçalar burada.</p>
-                                <ul class="actions special">
-                                    <li><a id="misrap-btn" href="https://youtube.com/@misrapschooll59" class="button" target="_blank">Dinle</a></li>
+                                <ul class="artist-social-links">
+                                    <li><a id="misrap-btn" href="https://youtube.com/@misrapschooll59" class="artist-btn youtube" target="_blank" title="YouTube"><i class="icon brands fa-youtube"></i></a></li>
+                                    <li><a href="https://open.spotify.com/intl-tr/artist/2tFkNdg0sdkO9vDhWh2aah?si=jLQjY4wJRqWBCdCTQOtDQQ" class="artist-btn spotify" target="_blank" title="Spotify"><i class="icon brands fa-spotify"></i></a></li>
+                                    <li><a href="https://music.apple.com/tr/artist/m%C4%B1srap-schooll/6803473618" class="artist-btn apple" target="_blank" title="Apple Music"><i class="icon brands fa-apple"></i></a></li>
+                                    <li><a href="https://www.tiktok.com/@misrap_schooll59" class="artist-btn tiktok" target="_blank" title="TikTok"><i class="icon brands fa-tiktok"></i></a></li>
+                                    <li><a href="https://www.instagram.com/misrapschooll59" class="artist-btn instagram" target="_blank" title="Instagram"><i class="icon brands fa-instagram"></i></a></li>
                                 </ul>
                             </article>
 
@@ -273,8 +330,14 @@
                                     <img id="gramactross-thumb" src="images/gramactrossyoutube.jpg" alt="Gramactross" />
                                 </a>
                                 <p>Gramactross'un Rap projeleri ve en yeni solo parçalar burada.</p>
-                                <ul class="actions special">
-                                    <li><a id="gramactross-btn" href="https://youtube.com/@gramactrossrap" class="button" target="_blank">Dinle</a></li>
+                                <ul class="artist-social-links">
+                                    <li><a id="gramactross-btn" href="https://youtube.com/@gramactrossrap" class="artist-btn youtube" target="_blank" title="YouTube"><i class="icon brands fa-youtube"></i></a></li>
+                                    <li><a href="https://open.spotify.com/intl-tr/artist/65BpHZ0RE2XHF4NOm75NXE?si=T9uzpOxBRc6RByeKmZhWVw" class="artist-btn spotify" target="_blank" title="Spotify"><i class="icon brands fa-spotify"></i></a></li>
+                                    <li><a href="https://music.apple.com/tr/artist/gramactross/6798167538" class="artist-btn apple" target="_blank" title="Apple Music"><i class="icon brands fa-apple"></i></a></li>
+                                    <li><a href="https://on.soundcloud.com/sDjXbw8FuHrJBaLCYr" class="artist-btn soundcloud" target="_blank" title="SoundCloud"><i class="icon brands fa-soundcloud"></i></a></li>
+                                    <li><a href="https://genius.com/artists/Gramactross" class="artist-btn genius" target="_blank" title="Genius"><svg viewBox="0 0 24 24"><path d="M23.999 0h-24v24h24V0zM17.476 17.652h-2.181v-1.722h2.181v1.722zm0-2.868h-2.181V7.935h2.181v6.849zm-3.636 2.868h-2.182v-1.722h2.182v1.722zm0-2.868h-2.182V7.935h2.182v6.849zm-3.636 2.868H7.986v-1.722h2.219v1.722zm0-2.868H7.986V7.935h2.219v6.849z"/></svg></a></li>
+                                    <li><a href="https://www.tiktok.com/@gramactross" class="artist-btn tiktok" target="_blank" title="TikTok"><i class="icon brands fa-tiktok"></i></a></li>
+                                    <li><a href="https://www.instagram.com/gramactross" class="artist-btn instagram" target="_blank" title="Instagram"><i class="icon brands fa-instagram"></i></a></li>
                                 </ul>
                             </article>
 
@@ -287,8 +350,14 @@
                                     <img id="trafo-thumb" src="images/trafoyoutube.jpg" alt="Trafo" />
                                 </a>
                                 <p>Trafo kanalından çıkan en yeni parçalar ve projeler burada.</p>
-                                <ul class="actions special">
-                                    <li><a id="trafo-btn" href="https://youtube.com/@traforap55" class="button" target="_blank">Dinle</a></li>
+                                <ul class="artist-social-links">
+                                    <li><a id="trafo-btn" href="https://youtube.com/@traforap55" class="artist-btn youtube" target="_blank" title="YouTube"><i class="icon brands fa-youtube"></i></a></li>
+                                    <li><a href="https://open.spotify.com/intl-tr/artist/5B4LxyJaHevs6xaXzvDzmC?si=MP_nq7atSaCz3DxAIM6tYw" class="artist-btn spotify" target="_blank" title="Spotify"><i class="icon brands fa-spotify"></i></a></li>
+                                    <li><a href="https://music.apple.com/tr/artist/trafo/444736368" class="artist-btn apple" target="_blank" title="Apple Music"><i class="icon brands fa-apple"></i></a></li>
+                                    <li><a href="https://soundcloud.com/traforap55" class="artist-btn soundcloud" target="_blank" title="SoundCloud"><i class="icon brands fa-soundcloud"></i></a></li>
+                                    <li><a href="https://genius.com/artists/Trafo" class="artist-btn genius" target="_blank" title="Genius"><svg viewBox="0 0 24 24"><path d="M23.999 0h-24v24h24V0zM17.476 17.652h-2.181v-1.722h2.181v1.722zm0-2.868h-2.181V7.935h2.181v6.849zm-3.636 2.868h-2.182v-1.722h2.182v1.722zm0-2.868h-2.182V7.935h2.182v6.849zm-3.636 2.868H7.986v-1.722h2.219v1.722zm0-2.868H7.986V7.935h2.219v6.849z"/></svg></a></li>
+                                    <li><a href="https://www.tiktok.com/@trafo_rap" class="artist-btn tiktok" target="_blank" title="TikTok"><i class="icon brands fa-tiktok"></i></a></li>
+                                    <li><a href="https://www.instagram.com/trafo_rap" class="artist-btn instagram" target="_blank" title="Instagram"><i class="icon brands fa-instagram"></i></a></li>
                                 </ul>
                             </article>
 
@@ -301,8 +370,14 @@
                                     <img id="alastor-thumb" src="images/alastoryoutube.jpg" alt="Alastor" />
                                 </a>
                                 <p>Alastor kanalında yayınlanan en son parçalar ve projeler burada.</p>
-                                <ul class="actions special">
-                                    <li><a id="alastor-btn" href="https://youtube.com/@alastorrap55" class="button" target="_blank">Dinle</a></li>
+                                <ul class="artist-social-links">
+                                    <li><a id="alastor-btn" href="https://youtube.com/@alastorrap55" class="artist-btn youtube" target="_blank" title="YouTube"><i class="icon brands fa-youtube"></i></a></li>
+                                    <li><a href="https://open.spotify.com/intl-tr/artist/2OKI82qE3LFXMai5h8rDg9?si=oXGkfy41REmBbAekFhOxEA" class="artist-btn spotify" target="_blank" title="Spotify"><i class="icon brands fa-spotify"></i></a></li>
+                                    <li><a href="https://music.apple.com/tr/artist/alastor/6798764709" class="artist-btn apple" target="_blank" title="Apple Music"><i class="icon brands fa-apple"></i></a></li>
+                                    <li><a href="https://soundcloud.com/alastorap55" class="artist-btn soundcloud" target="_blank" title="SoundCloud"><i class="icon brands fa-soundcloud"></i></a></li>
+                                    <li><a href="https://genius.com/artists/Alastorap" class="artist-btn genius" target="_blank" title="Genius"><svg viewBox="0 0 24 24"><path d="M23.999 0h-24v24h24V0zM17.476 17.652h-2.181v-1.722h2.181v1.722zm0-2.868h-2.181V7.935h2.181v6.849zm-3.636 2.868h-2.182v-1.722h2.182v1.722zm0-2.868h-2.182V7.935h2.182v6.849zm-3.636 2.868H7.986v-1.722h2.219v1.722zm0-2.868H7.986V7.935h2.219v6.849z"/></svg></a></li>
+                                    <li><a href="https://www.tiktok.com/@alastorrap" class="artist-btn tiktok" target="_blank" title="TikTok"><i class="icon brands fa-tiktok"></i></a></li>
+                                    <li><a href="https://www.instagram.com/alastorrap/" class="artist-btn instagram" target="_blank" title="Instagram"><i class="icon brands fa-instagram"></i></a></li>
                                 </ul>
                             </article>
 
