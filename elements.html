@@ -354,7 +354,7 @@
                         <input type="date" id="nl-dob" required style="width: 100%; padding: 6px 10px; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; font-size: 12px;">
                     </div>
                     
-                    <!-- VİDEODAKİ KUTUCUKLA BİREBİR UYUMLU, VİBRAN VE GÖZ ALICI DESTEKÇİ SEÇENEĞİ -->
+                    <!-- Vurgulu ve Göz Alıcı Destekçi Seçeneği -->
                     <div style="background: rgba(29, 185, 84, 0.12); border: 1px solid #1DB954; padding: 10px; border-radius: 6px; display: flex; align-items: center; gap: 10px; margin-top: 4px;">
                         <input type="checkbox" id="nl-supporter" style="width: 20px; height: 20px; accent-color: #1DB954; cursor: pointer;">
                         <label for="nl-supporter" style="font-size: 12px; color: #ffffff !important; font-weight: bold; cursor: pointer; line-height: 1.3;">Gramamüzik Destekçisi Olmak İstiyorum</label>
@@ -621,7 +621,7 @@
                 window.open(gmailUrl, '_blank');
             }
 
-            // E-Bülten Hafıza ve Firebase Firestore Entegrasyonu
+            // E-Bülten Hafıza ve Canlı Firebase Firestore Kontrol Mekanizması
             document.addEventListener("DOMContentLoaded", function() {
                 const widget = document.getElementById("newsletter-widget");
                 const questionDiv = document.getElementById("newsletter-question");
@@ -629,12 +629,36 @@
                 const successDiv = document.getElementById("newsletter-success-msg");
                 
                 const userPref = localStorage.getItem("newsletter_preference");
+                const savedEmail = localStorage.getItem("grama_user_email");
                 const isBultenPage = window.location.pathname.includes("bulten.html");
 
-                if (userPref === "subscribed") {
-                    questionDiv.style.display = "none";
-                    formDiv.style.display = "none";
-                    successDiv.style.display = "block";
+                // Canlı Kontrol: Eğer kullanıcı daha önce abone olmuşsa, e-postası Firebase'de duruyor mu diye kontrol et
+                if (userPref === "subscribed" && savedEmail) {
+                    db.collection("aboneler").where("e-posta", "==", savedEmail).get()
+                    .then((querySnapshot) => {
+                        if (querySnapshot.empty) {
+                            // Firebase'den silinmiş! Tarayıcı hafızasını sıfırla ve soruyu tekrar göster
+                            localStorage.removeItem("newsletter_preference");
+                            localStorage.removeItem("grama_user_name");
+                            localStorage.removeItem("grama_user_email");
+                            localStorage.removeItem("grama_user_dob");
+
+                            questionDiv.style.display = "block";
+                            formDiv.style.display = "none";
+                            successDiv.style.display = "none";
+                        } else {
+                            // Hâlâ veritabanında var, başarı mesajını göster
+                            questionDiv.style.display = "none";
+                            formDiv.style.display = "none";
+                            successDiv.style.display = "block";
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Abone kontrol hatası:", error);
+                        questionDiv.style.display = "none";
+                        formDiv.style.display = "none";
+                        successDiv.style.display = "block";
+                    });
                 } else if (userPref === "declined") {
                     if (isBultenPage) {
                         widget.style.display = "block";
@@ -661,7 +685,6 @@
                     const dob = document.getElementById("nl-dob").value;
                     const isSupporter = document.getElementById("nl-supporter").checked;
 
-                    // Destekçi tikliyse durum "Onay Bekliyor", değilse "Aktif" olarak kaydedilir
                     const durum = isSupporter ? "Onay Bekliyor" : "Aktif";
 
                     // Verileri doğrudan Firebase Firestore'daki "aboneler" koleksiyonuna kaydet
