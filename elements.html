@@ -583,7 +583,26 @@
         <script src="assets/js/util.js"></script>
         <script src="assets/js/main.js"></script>
 
+        <!-- Firebase SDK (Compat Kütüphaneleri - Statik HTML için) -->
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
         <script>
+            // Firebase Bağlantı Ayarları
+            const firebaseConfig = {
+                apiKey: "AIzaSyAvfh07530Vor8OHzqMWscudFYEoAkHOcI",
+                authDomain: "gramamuzik-db.firebaseapp.com",
+                projectId: "gramamuzik-db",
+                storageBucket: "gramamuzik-db.firebasestorage.app",
+                messagingSenderId: "98754703577",
+                appId: "1:98754703577:web:02f2f7a81d46b366f10ec8",
+                measurementId: "G-0CDCFZ9RJJ"
+            };
+
+            // Firebase Başlatma
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
+
             function sendToGmail(event) {
                 event.preventDefault(); 
 
@@ -599,7 +618,7 @@
                 window.open(gmailUrl, '_blank');
             }
 
-            // E-Bülten Hafıza ve Etkileşim Yönetimi
+            // E-Bülten Hafıza ve Firebase Firestore Entegrasyonu
             document.addEventListener("DOMContentLoaded", function() {
                 const widget = document.getElementById("newsletter-widget");
                 const questionDiv = document.getElementById("newsletter-question");
@@ -639,24 +658,36 @@
                     const dob = document.getElementById("nl-dob").value;
                     const isSupporter = document.getElementById("nl-supporter").checked;
 
-                    localStorage.setItem("newsletter_preference", "subscribed");
-                    localStorage.setItem("grama_user_name", name);
-                    localStorage.setItem("grama_user_email", email);
-                    localStorage.setItem("grama_user_dob", dob);
+                    const status = isSupporter ? "Onay Bekliyor" : "Aktif";
 
-                    formDiv.style.display = "none";
-                    successDiv.style.display = "block";
+                    // Verileri doğrudan Firebase Firestore'daki "aboneler" koleksiyonuna kaydet
+                    db.collection("aboneler").add({
+                        name: name,
+                        email: email,
+                        dob: dob,
+                        isSupporter: isSupporter,
+                        status: status,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    })
+                    .then(() => {
+                        localStorage.setItem("newsletter_preference", "subscribed");
+                        localStorage.setItem("grama_user_name", name);
+                        localStorage.setItem("grama_user_email", email);
+                        localStorage.setItem("grama_user_dob", dob);
 
-                    if (isSupporter) {
-                        const recipient = "gramamuzikiletisim@gmail.com";
-                        const subject = encodeURIComponent("Yeni Destekçi Başvurusu: " + name);
-                        const body = encodeURIComponent("Destekçi Başvuru Talebi:\n\nAd Soyad: " + name + "\nE-posta: " + email + "\nDoğum Tarihi: " + dob + "\nDurum: Onay Bekliyor (Destekçi)");
-                        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${subject}&body=${body}`;
-                        window.open(gmailUrl, '_blank');
-                        alert("Destekçi kayıt isteğiniz alındı! Onay için e-posta talebi oluşturuldu.");
-                    } else {
-                        alert("Gramamüzik E-Bültene başarıyla kaydoldunuz! Etkinlikler ve doğum gününüzde kutlama e-postası yolda.");
-                    }
+                        formDiv.style.display = "none";
+                        successDiv.style.display = "block";
+
+                        if (isSupporter) {
+                            alert("Destekçi kayıt isteğiniz alındı! Firebase konsolu üzerinden incelenip onaylanacaktır.");
+                        } else {
+                            alert("Gramamüzik E-Bültene başarıyla kaydoldunuz! Etkinlikler ve doğum gününüzde kutlama e-postası yolda.");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Kayıt hatası: ", error);
+                        alert("Kayıt sırasında bir hata oluştu, lütfen tekrar deneyin.");
+                    });
                 });
             });
 
